@@ -1,0 +1,473 @@
+@CHARSET "UTF-8";
+
+header {
+	background-color: #4CAF50 !important;
+}
+
+header i {
+	color: #FFF !important;
+}
+
+header .mdl-section-head {
+	left: 270.67px;
+	border-left-color : #FFFFFF;
+	color: #FFFFFF;
+	border-left-color: #FFFFFF;
+}
+
+@media ( max-width : 768px) {
+	header .mdl-section-head {
+		left: 0px;
+		top: -10.5px;
+		width: 120px
+	}
+}
+
+.mdl-card-fab .mdl-card__title {
+	background-color: #4CAF50;
+}
+
+.modal .mdl-card__actions button.mdl-button, .mdl-card-fab .mdl-card__actions button.mdl-button
+	{
+	color: #4CAF50;
+}
+
+.modal .mdl-card__actions a.mdl-button--raised, .mdl-card-fab .mdl-card__actions a.mdl-button--raised,
+	.modal .mdl-card__actions button.mdl-button--raised, .mdl-card-fab .mdl-card__actions button.mdl-button--raised
+	{
+	background-color: #4CAF50;
+}
+
+/* Botones */
+.form-group .form-control ~ label:after, .form-group .form-control ~
+	.form-control-line:after {
+	background-color: #4CAF50 !important;
+}
+
+/* Search */
+.mdl-header-input-group {
+	background-color: #388E3C;
+}
+
+.mdl-header-input-group .mdl-icon i:BEFORE {
+	color: #FFFFFF
+}
+
+.mdl-header-input-group .mdl-textfield .mdl-textfield__label {
+	color: #FFFFFF;
+}
+
+/* Arbol de modulos */
+.mdl-layout .mdl-layout__drawer .mdl-layout-title img, .mdl-layout .mdl-layout__header-row .mdl-layout-title img
+	{
+	height: 37.5px;
+}
+
+.mdl-nav a.dont-three i:FIRST-CHILD {
+	top: 13.5px;
+}
+
+/* ADD MENU COLOR */
+.mdl-nav li.active a, .mdl-nav li.active a i {
+	color: #4CAF50 !important;
+}
+
+/* Tabs */
+header .mdl-layout__tab {
+	color: #388E3C !important
+}
+
+header .mdl-layout__tab.is-active {
+	color: #FFFFFF !important
+}
+
+header .mdl-layout__tab::after {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab .mdl-layout__tab-ripple-container .mdl-ripple {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab-bar {
+	background-color: #4CAF50;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+	background-color: #FFFFFF;
+}
+
+.mdl-tabs__tab .mdl-tabs__ripple-container .mdl-ripple, .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after
+	{
+	background-color: #4CAF50
+}
+
+/* Combo box */
+.bs-searchbox input.form-control, .bs-searchbox input.form-control:hover,
+	.bs-searchbox input.form-control:active, .bs-searchbox input.form-control:focus
+	{
+	border-bottom-color: #4CAF50;
+	color: #4CAF50;
+}
+
+.dropdown-menu>.active>a .text, .dropdown-menu>.active>a:focus .text, .dropdown-menu>.active>a:hover .text,
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover
+	{
+	background-color: #4CAF50;
+}
+
+/* Inputs and Label mdl */
+.mdl-textfield__label:after {
+	background-color: #4CAF50 !important;
+}
+
+/* GROUPS INPUTS */
+.mdl-button-group .mdl-btn .mdl-button.active {
+	background-color: #4CAF50;
+}
+
+/*.mdl-button-group .mdl-textfield .mdl-textfield__label:AFTER {
+	bottom: 20px
+}*/
+
+/* Checkbox and option toggle */
+.mdl-radio.is-checked .mdl-radio__outer-circle, .mdl-checkbox.is-checked .mdl-checkbox__box-outline
+	{
+	border-color: #4CAF50;
+}
+
+.mdl-radio__inner-circle, .mdl-switch.is-checked .mdl-switch__thumb,
+	.mdl-switch__ripple-container .mdl-ripple,
+	.mdl-checkbox__ripple-container .mdl-ripple, .mdl-checkbox.is-checked .mdl-checkbox__tick-outline
+	{
+	background-color: #4CAF50;
+}
+
+.mdl-radio__ripple-container .mdl-ripple, .mdl-switch.is-checked .mdl-switch__track
+	{
+	background-color: #A5D6A7;
+}
+
+/* CALENDAR */
+.cal-day-today span[data-cal-date] {
+	color: #4CAF50 !important
+}
+
+.cal-event-list, .cal-event-list:HOVER {
+	background-color: #A5D6A7 !important;
+}
+
+.event {
+	background-color: #4CAF50;
+}
+
+.event-important {
+	border: 1px solid #F44336 !important;
+	background-color: #F44336;	
+}
+
+.event-warning {
+	border: 1px solid #FFEB3B !important;
+	background-color: #FFEB3B;	
+}
+
+.event-info {
+	border: 1px solid #5BC0DE !important;
+	background-color: #5BC0DE;	
+}
+
+.event-inverse {
+	border: 1px solid #424242 !important;
+	background-color: #424242;	
+}
+
+.event-success {
+	border: 1px solid #4CAF50 !important;
+	background-color: #4CAF50;	
+}
+
+.event-special {
+	background-color: #A5D6A7 !important;
+	border: 1px solid #A5D6A7 !important
+}
+
+/* Items asignados */
+.mdl-assign {
+	background-color: #616161;
+}
+
+.mdl-assign .text {
+	color: #4CAF50;
+}
+
+.mdl-assign .option button i {
+	color: #4CAF50;
+}
+
+/* Filtros para asistencia */
+.mdl-filter ul.nav.nav-pills li {
+	border-color: #4CAF50;
+}
+
+.mdl-filter ul.nav.nav-pills li.active {
+	background-color: #4CAF50;
+}
+
+.mdl-filter ul.nav.nav-pills li a {
+	color: #4CAF50;
+}
+
+.mdl-filter ul.nav.nav-pills li a i {
+	color: #4CAF50
+}
+
+.mdl-filter ul.nav.nav-pills li a:focus, .mdl-filter ul.nav.nav-pills li a:hover
+	{
+	background-color: #4CAF50;
+}
+
+/* Fab position */
+.mfb-component--br .mfb-component__button--main {
+	background-color: #4CAF50 !important;
+}
+
+.mfb-component--br .mfb-component__button--child i.mfb-component__child-icon
+	{
+	color: #4CAF50 !important;
+}
+
+/* Modal select */
+.mobileSelect-savebtn, .mobileSelect-container .list-container .mobileSelect-control.selected
+	{
+	background-color: #4CAF50 !important;
+}
+
+/* Text field */
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+	color: #4CAF50
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label:BEFORE {
+	background-color: #4CAF50
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #4CAF50
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #A5D6A7
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #4CAF50;
+}
+
+.dtp-content line[stroke="#2196F3"] {
+	stroke: #4CAF50;
+}
+
+.dtp-content circle[fill="#2196F3"] {
+	fill: #4CAF50;
+}
+
+/* BUTTON */
+.mdl-button--raised, .mdl-button--raised:HOVER {
+	background-color: #4CAF50;
+}
+
+@
+keyframes loader { 0% {
+	border-top-color: #4CAF50;
+}
+
+50%
+{
+border-top-color
+:
+ 
+#4CAF50
+;
+	
+	    
+border-right-color
+:
+ 
+#4CAF50
+;
+	
+	
+}
+75%
+{
+border-top-color
+:
+ 
+#4CAF50
+;
+	
+	    
+border-bottom-color
+:
+ 
+#4CAF50
+;
+	
+	    
+border-right-color
+:
+ 
+#4CAF50
+;
+	
+	
+}
+100%
+{
+border-top-color
+:
+ 
+#4CAF50
+;
+	
+	    
+border-bottom-color
+:
+ 
+#4CAF50
+;
+	
+	    
+border-left-color
+:
+ 
+#4CAF50
+;
+	
+	    
+border-right-color
+:
+ 
+#4CAF50
+;
+	
+	
+}
+}
+
+/* MENU BUTTON */
+header .mdl-layout__drawer-button i:BEFORE {
+	color: #FFFFFF;
+}
+
+.mdl-color--green-500, .mdl-color--green-500 i {
+	color: #FFF
+}
+
+.label i {
+	font-size: 14px;
+	position: relative;
+	top: 1.5px;
+	margin-right: 2.5px;
+	color: #FFFFFF;
+}
+
+.mdl-textfield__input:FOCUS {
+	outline: none;
+}
+
+/* RADIOS LABEL COLORS */
+.mdl-radio.radio-danger .mdl-radio__outer-circle {
+	border-color: #F44336
+}
+
+.mdl-radio.radio-danger .mdl-radio__inner-circle {
+	background-color: #F44336
+}
+
+.mdl-radio.radio-danger .mdl-radio__ripple-container .mdl-ripple {
+	background-color: #FFCDD2
+}
+
+.mdl-radio.radio-warning .mdl-radio__outer-circle {
+	border-color: #FFC107
+}
+
+.mdl-radio.radio-warning .mdl-radio__inner-circle {
+	background-color: #FFC107
+}
+
+.mdl-radio.radio-warning .mdl-radio__ripple-container .mdl-ripple {
+	background-color: #FFE082
+}
+
+/* CALENDAR  */
+.mdl-calendar .cal-day-today {
+	background-color: #C8E6C9;
+}
+
+.mdl-calendar .mdl-card__menu button.mdl-button.active, .mdl-calendar .mdl-card__menu a.mdl-button.active
+	{
+	color: #4CAF50
+}
+
+button.mdl-button, a.mdl-button{
+	color: #4CAF50
+}
+
+/*  BADGE */
+table tbody tr td .badge{
+    float: right;
+    right: 21.5px;
+	top: 0;
+    position: relative;
+	background-color: #388E3C;
+	color: #FFFFFF
+}
+
+#modalVerMensajes .mdl-card__actions button{
+	bottom: -5px;   	
+}
+
+@media ( max-width : 550px) {
+	#modalVerMensajes .mdl-card__actions button{
+		margin-left: -15px;   	
+	}
+}
+
+/*  LOADING */
+.mdl-spinner.is-active .mdl-spinner__layer-4,
+.mdl-spinner.is-active .mdl-spinner__layer-3,
+.mdl-spinner.is-active .mdl-spinner__layer-2,
+.mdl-spinner.is-active .mdl-spinner__layer-1{
+	border-color: #4CAF50 !important;
+}
+
+a.mdl-button.mdl-save__load.mdl-save__load__loading[disabled],
+button.mdl-button.mdl-save__load.mdl-save__load__loading[disabled]{
+	background-color: #4CAF50  !important;
+}
+
+/* MODAL */
+@media (min-width: 992px){
+	#modalDocentes .modal-lg{
+		width: 1200px
+	}
+	#modalSubfactoresLow .modal-lg{
+		width: 1200px
+	}
+	#modalSubfactores .modal-lg{
+		width: 1200px
+	}
+}
+
+/* PERFIL */
+.box-header{
+	background: #4CAF50;
+}

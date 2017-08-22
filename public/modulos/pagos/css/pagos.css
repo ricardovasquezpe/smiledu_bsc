@@ -1,0 +1,71 @@
+#btn-group-dates .mdl-js-button{
+	color: #757575
+}
+
+#btn-group-dates .mdl-js-button.active{
+	color: #009688
+}
+
+.mdl-card__title img{
+	position: relative;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	margin-right: 16px;
+}
+
+.mdl-card__title h2.pago{
+    position: relative;
+    margin: 0px;
+    margin-bottom: 18px;
+	font-size: 18px;
+	font-weight: 500;
+	width: -webkit-calc(100% - 100px);
+	width: -moz-calc(100% - 100px);	
+	width: -ms-calc(100% - 100px);
+	width: -o-calc(100% - 100px);	
+	width: calc(100% - 100px);	
+	line-height: 1;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;	
+	text-align: left;	
+}
+
+.mdl-card__title h2.moroso{
+	color: #F44336
+}
+
+.mdl-card__title h2.puntual{
+	color: #009688
+}
+
+.mdl-card__title small{
+	position: absolute;
+	margin: 0px;
+	width: -webkit-calc(100% - 100px);
+	width: -moz-calc(100% - 100px);	
+	width: -ms-calc(100% - 100px);
+	width: -o-calc(100% - 100px);	
+	width: calc(100% - 100px);	
+	left: 16px;
+	top: 38px;
+	color: #757575;
+	font-size: 13px;
+	text-align: left;
+}
+
+.mdl-card__title small a{
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+	color: #009688;
+}
+
+.mdl-chip.active{
+	background-color: #009688;
+}
+
+.mdl-calendar .cal-row-head [class*="cal-cell"]:first-child, .mdl-calendar .cal-row-head [class*="cal-cell"], .mdl-calendar span[data-cal-date]{
+	pointer-events: none;
+}

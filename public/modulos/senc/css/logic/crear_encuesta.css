@@ -1,0 +1,77 @@
+@CHARSET "UTF-8";
+
+.mdl-Letters {
+	display: block;
+	position: relative;
+	width: 100%;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	outline: none;
+	color: #757575;
+	font-size: 16px;
+	font-weight: 300;
+	border: none;
+}
+
+.cuenta-letras {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 1.5px;
+	margin-bottom: 1px;
+	text-align: right;
+	line-height: 2;
+	font-size: 12px;
+	background-color: #FF9200;
+}
+
+#infoAnonima{
+    position: relative;
+    top: -6px;
+    margin: 0;
+    margin-right: 5px;
+}
+
+#infoAnonima ~ h2{
+	position: relative;
+    top: -10px;
+}	
+
+#infoAnonima i {
+    font-size: 18px;
+}
+
+#contSwitch {
+	top: 15.5px;
+    right: 25.5px;
+}
+
+.mdl-input-button-group .mdl-button{
+	width: 32px;
+	padding: 0
+}
+
+.mdl-input-button-group .mdl-textfield{
+	width: calc(100% - 50px);
+}
+
+#tb_all_preguntas thead tr th:nth-child(1) {
+	width: 80px !important;
+}
+
+#contTbAllPreguntas .searchIcon {
+    right: 0;
+    padding: 12px 40px 0 0;
+}
+
+#contTbAllPreguntas .fixed-table-toolbar .pull-left.search{
+	left: 16px
+}
+
+.inputSearch{
+	position:absolute !important;
+	top:-20px !important;      
+right:50px !important;
+	width:80% !important;
+	visibility: visible !important;
+}

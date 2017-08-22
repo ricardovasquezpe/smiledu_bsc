@@ -1,0 +1,66 @@
+.teacher-detail {
+	height: 30px;
+	background-color: #E0E0E0;
+	width: 200px;
+	border-radius: 12.5px;
+	color: #757575;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-right: 30px; 
+    display: -webkit-inline-box;
+    margin-right: 5px;
+} 
+	
+.teacher-detail img {
+	height: 25px;
+	width: 25px;
+	border-radius: 100%;
+	position: relative;
+	top: 0;
+	left: 0;
+	margin-right: 2.5px;
+	margin-left: 3px
+}
+
+.teacher-detail label {
+	width: 135px;
+	position: relative;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+}
+
+
+.teacher-detail button {
+	position: relative;
+	height: 100%;
+	width: 30px;
+	top: 0;
+	right: 5px;
+}
+
+table img.img-circle {
+    height: 25px;
+    width: 25px;
+}
+
+.radio-styled:not(ie8) input ~ span:after{
+	background-color: #00BCD4;
+}
+
+.radio-styled:not(ie8) input:checked ~ span:before{
+	border-color:  #00BCD4;
+}
+
+.mdl-menu__item i{
+    position: relative;
+    top: 5px;
+    left: 0px;
+}
+
+#modalAsignarDocente .mdl-textfield__label:AFTER {
+	bottom: 15px !important
+}

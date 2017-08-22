@@ -1,0 +1,518 @@
+@CHARSET "UTF-8";
+
+body,
+html{
+	padding: 0;
+	margin: 0;
+	overflow-x: hidden;
+	background-color: #E3E5E5;
+	overflow-y:auto !important;
+}
+
+.header-body{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 50%;
+	background-color: #2196F3;
+	width: 100%;
+	z-index: 0;
+	transition: all 0.5s ease;
+}
+
+.mdl-card{
+	width: 100%;
+}
+
+.mdl-card.mdl-formulario.admision{
+	width: 100%;
+	max-width: 1000px;
+    min-height: 650px;
+    position: absolute;
+    top: calc(50% - 360px);
+    left: calc(50% - 500px);
+	overflow: initial;
+}
+
+#formulario-confirmar.mdl-card.mdl-formulario{
+	width: 100%;
+	max-width: 1000px;
+    min-height: 650px;
+	margin: auto;
+	overflow: initial;	
+}
+
+.mdl-formulario .mdl-card__title img{
+	height: 35px	
+}
+
+.mdl-formulario .mdl-card__supporting-text{
+	text-align: center;
+	padding-top: 0
+}
+
+.mdl-formulario .mdl-card__supporting-text h2:FIRST-CHILD{
+    color: #2196F3;
+    font-size: 18px;
+    margin: auto;
+    line-height: 2;
+	vertical-align: middle;
+	font-weight: 500
+}
+
+.mdl-formulario .mdl-card__supporting-text .row{
+	margin-right: -16px !important;
+	margin-left: -16px !important
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD{
+	padding-bottom: 10px;
+	padding-top: 10px;	
+	border-bottom: 1px solid #E3E5E5
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	top: 25px;
+	height: 5px
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .nav>li>a:focus,
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .nav>li>a:hover{
+	background-color: transparent;
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .form-wizard-nav .progress .progress-bar-primary{
+	background-color: #2196F3;
+	height: 100% !important
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .form-wizard-nav .nav-justified>li{
+	float: none;
+	display: -webkit-inline-box;
+	display: inline-block;
+	width: 22.5%;
+	margin: 0;
+	margin-bottom: 0px !important;
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	width: 85%;
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.active .step, 
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li:hover .step{
+    border-color: #2196F3;
+    color: #2196F3;
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.active .title,
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li:hover .title{
+    color: #2196F3;		
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.active .step{
+	position: relative;
+	top: -5px;
+	height: 45px;
+	width: 45px;	
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.complete.active .step:AFTER,
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.active .step:AFTER{
+	position: relative;
+	top: 4px
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD ul.nav.nav-pills>li:NTH-CHILD(1)>a span.step:AFTER{
+	content: "1";
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD ul.nav.nav-pills>li:NTH-CHILD(2)>a span.step:AFTER{
+	content: "2"
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD ul.nav.nav-pills>li:NTH-CHILD(3)>a span.step:AFTER{
+	content: "3"
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD ul.nav.nav-pills>li:NTH-CHILD(4)>a span.step:AFTER{
+	content: "4"
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.complete .step{
+    border-color: #2196F3;
+    background-color: #2196F3;
+    color: #FFF;
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav li.complete .title{
+	color: #2196F3
+}
+
+.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD ul.nav.nav-pills>li.complete>a span.step:AFTER{
+    font-family: 'Material Icons' !important;
+	content: "\e9c0";
+}
+
+.mdl-formulario .mdl-card__supporting-text .tab-pane{
+	padding-top: 25px	
+}
+
+.mdl-formulario .mdl-card-supporting__title{
+	display: none;	
+}
+
+.mdl-formulario .mdl-card-supporting__checkbox{
+	text-align: left;
+	padding-left: 22.5px
+}
+
+.mdl-formulario .mdl-card-supporting__checkbox strong{
+	font-weight: lighter;
+	color: #E3E5E5
+}
+
+.mdl-formulario .mdl-card__supporting-text .tab-pane .mdl-textfield--floating-label.is-focused .mdl-textfield__label{
+	color: #2196F3;
+}
+
+.mdl-formulario .mdl-card__supporting-text .tab-pane .mdl-textfield__label:after{
+	background-color: #2196F3 !important
+}
+
+#2196F3
+
+.mdl-formulario .mdl-card__actions{
+	padding-bottom: 10px;
+	position: absolute;
+	bottom: 0
+}
+
+.mdl-formulario .mdl-card__actions .mdl-button{
+	color: #2196F3 !important
+}
+
+.mdl-formulario .mdl-card__actions .mdl-button.mdl-button--raised{
+	background-color: #2196F3 !important;
+	color: #FFF !important
+}
+
+.mdl-checkbox.is-checked .mdl-checkbox__box-outline{
+	border-color: #2196F3
+}
+
+.mdl-checkbox__ripple-container .mdl-ripple,
+.mdl-checkbox.is-checked .mdl-checkbox__tick-outline{
+	background-color: #2196F3 
+}
+
+.tab-pane .mdl-button{
+	background-color: #2196F3 ;
+	color: #FFFFFF;
+	margin: 0;
+	margin-left: 10px;
+}
+
+/* Combo box */
+.bs-searchbox input.form-control,
+.bs-searchbox input.form-control:hover,
+.bs-searchbox input.form-control:active,
+.bs-searchbox input.form-control:focus{
+    border-bottom: 1px solid #2196F3;
+	color: #2196F3;
+}
+
+.dropdown-menu>.active>a .text:hover,
+.dropdown-menu>.active>a .text,
+.dropdown-menu>.active>a, 
+.dropdown-menu>.active>a:focus, 
+.dropdown-menu>.active>a:hover{
+	background-color: #2196F3;
+}
+
+.mdl-chip{
+	height: 32px;
+	max-width: 225.5px;
+	border-radius: 50px;
+	border: 2px solid #BDBDBD;
+	background-color: transparent;
+	color: #BDBDBD;
+	text-align: left;
+    display: inline-block;	
+    margin-right: 10px;	
+	transition: background-color 1s ease;
+}
+
+.mdl-chip img{
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    float: left;
+    margin-right: 7px;
+    margin-left: -2px;
+    margin-top: -2px;
+}
+
+.mdl-chip label{	
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+    height: 100%;
+    padding-top: 9px;
+    max-width: 127px;
+    text-align: left;
+	margin-right: 10px	
+}
+
+.mdl-chip button{
+    float: right;
+    margin: 0;
+    height: 28.5px;
+    width: 37.5px;
+    margin-top: 0px;
+    padding: 0;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+}
+.mdl-chip button:FOCUS{
+	outline: none;
+}
+
+.mdl-chip button i{
+    font-size: 18px;
+    color: #BDBDBD;
+    position: absolute;
+    top: 7.5px;
+    margin-left: -1.5px;
+}
+
+.mdl-chip__button{
+    border: none;
+    border-radius: 50%;
+    height: 37.5px;
+    width: 37.5px;
+    background-color: #2196F3;
+    color: #FFF;
+    text-align: center;
+    padding: 0;
+    margin-right: 10px;
+    position: relative;
+    top: 10px;
+}
+
+.mdl-chip__button i{
+	font-size: 18px;
+	color: #FFF
+}
+
+.mdl-chip.active{
+	background-color: #2196F3;
+	color: #FFF;
+    border: 2px solid #2196F3;
+}
+
+.mdl-chip.active button{	
+	background-color: #2196F3;	
+}
+
+.mdl-chip.active button i{ 	
+	color: #FFFFFF;	
+}
+
+/* Otros */
+.mdl-input-group,
+.mdl-button-group {
+	padding-right: 16px	
+}
+
+/* Modal */
+.mdl-card-fab{
+	background-color: transparent;	
+}
+
+.mdl-card-fab .mdl-card__title {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #2196F3;
+}
+
+.modal .mdl-card__title h2.mdl-card__title-text{
+	color: #2196F3;
+}
+
+.mdl-card-fab .mdl-card__title h2.mdl-card__title-text{
+	color: #FFFFFF;
+}
+
+.mdl-input-group.active .mdl-icon i{
+	color: #2196F3 !important;
+}
+
+.mdl-card-fab .mdl-card__actions{
+	text-align: right;
+	padding-top: 16px;
+	padding-bottom: 10px
+}
+
+.modal .mdl-card__actions button.mdl-button,
+.mdl-card-fab .mdl-card__actions button.mdl-button{
+	color: #2196F3;
+}
+
+.modal .mdl-card__actions a.mdl-button--raised,
+.mdl-card-fab .mdl-card__actions a.mdl-button--raised,
+.modal .mdl-card__actions button.mdl-button--raised,
+.mdl-card-fab .mdl-card__actions button.mdl-button--raised{
+	color: #FFFFFF;
+	background-color: #2196F3;	
+}
+
+/* Inputs and Label mdl */
+.mdl-textfield__label:after{
+	background-color: #2196F3 !important;
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label{
+	color: #2196F3 !important;
+}
+
+.mdl-layout-title{
+	padding: 15px;
+    color: #fff;
+    margin-right: 700px;
+    margin-top: 3vh;
+    left: 20px;
+}
+
+
+@media ( max-width : 1082px){
+	.mdl-layout-title{
+	    margin-right: 0px;
+	}
+}
+
+@media ( max-width : 940px){
+	.mdl-card.mdl-formulario.admision{
+	    width: 80%;
+	    left: 10%;
+	}
+}
+
+@media ( max-width : 860px){
+	.mdl-card.mdl-formulario.admision{
+	    width: 85%;
+	    left: 7.5%;
+	}
+		
+	.mdl-formulario .mdl-card__supporting-text .row .col-xs-12:FIRST-CHILD .form-wizard.form-wizard-horizontal .nav .title{
+		display: none
+	}
+	
+	.mdl-formulario .mdl-card-supporting__title{
+		display: block;	
+	}	
+	
+	.mdl-formulario .mdl-card__actions{
+		position: relative;
+		bottom: inherit;
+	}
+}
+
+@media ( max-width : 640px), ( max-height : 800px){
+	
+	#formulario-confirmar.mdl-card.mdl-formulario,
+	.mdl-card.mdl-formulario.admision{
+    	top: 12%;		
+		margin-bottom: 5%
+	}
+}
+
+@media ( max-width : 950px) {
+	span.title{
+		display:none;
+	}
+}
+
+@media ( max-width : 640px) {
+	
+}
+
+.display_none{
+	display: none;	
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #2196F3;
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #FFF
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #2196F3;
+}
+
+.dtp-content line[stroke="#2196F3"] {
+	stroke: #2196F3;
+}
+
+.dtp-content circle[fill="#2196F3"] {
+	fill: #2196F3;
+}
+
+/* BUTTON */
+.dtp-buttons .mdl-button--raised, 
+.dtp-buttons .mdl-button--raised:HOVER {
+	background-color: #2196F3;
+}
+
+.dtp-buttons .mdl-button, 
+.dtp-buttons .mdl-button:HOVER {
+	color: #2196F3;
+}
+
+.mdl-icon.mdl-icon__button{
+	text-align: left;
+}
+
+.mdl-button.mdl-button--icon,
+.mdl-icon.mdl-icon__button button {
+/* 	background: transparent; */
+}
+
+.mdl-button.mdl-button--icon i{
+	vertical-align: middle;
+}
+
+.mdl-icon.mdl-icon__button button i {
+	left: 4.5px
+}
+
+.mdl-button.mdl-button--icon:HOVER,
+.mdl-icon.mdl-icon__button button:HOVER{
+/* 	background: rgba(158, 158, 158, .2); */
+}
+
+#btnGuardarEstudiante.guardar,
+.btnGuardarFamiliar.guardar{ 
+	background-color: #757575 !important;
+} 
+
+.modal.fade.in .modal-content .mdl-card .mdl-card__title{
+	background-color: #2196F3 !important;
+}
+
+.modal.fade.in .modal-content .mdl-card .mdl-card__title h2{
+	color:#FFFFFF !important;
+}
+
+.mdl-textfield--floating-label.is-upgraded .mdl-textfield__label{
+	font-size: 12px;
+}

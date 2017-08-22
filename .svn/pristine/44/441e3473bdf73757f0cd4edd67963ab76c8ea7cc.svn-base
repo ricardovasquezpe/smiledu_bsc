@@ -1,0 +1,51 @@
+@CHARSET "UTF-8";
+
+.btn_opacity {
+	opacity: 0.4;
+}
+
+#grafico5 .highcharts-axis {
+	stroke: transparent !important;
+}
+
+.separator-questions {
+	border-bottom: 1px solid #C6C6C6;
+	margin: 20px 0 0 0;
+}
+
+.tab-pane .mdl-card__menu {
+	top: 65px !important;
+	display: none;
+}
+
+.tab-pane .mdl-menu__container.is-visible, .mdl-menu__container.is-animating
+	{
+	margin-right: 10px;
+	margin-top: 0px;
+}
+
+.togle-chart {
+	background-color: #FF9200;
+	color: white;
+}
+
+.togle-chart:hover, .togle-chart:focus, .togle-chart.focus {
+	color: white;
+}
+
+.mdl-card .mdl-menu__container {
+	margin-right: 10px;
+}
+
+#cont_tabla_comentarios .fixed-table-toolbar {
+	position: absolute;
+	top: 7.5px;
+	right: 15px;
+}
+
+ul li.mdl-menu__item a,
+ul li.mdl-menu__item a:HOVER,
+ul li.mdl-menu__item a:FOCUS,
+ul li.mdl-menu__item a:ACTIVE {
+	color: #757575
+}

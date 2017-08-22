@@ -1,0 +1,48 @@
+@CHARSET "UTF-8";
+
+#rootwizard1, #rootwizard2 {
+	width: 100%
+}
+
+.chip-parientes .mdl-chip__action i.mdi-state:BEFORE, 
+.chip-postulantes .mdl-chip__action i.mdi-state:BEFORE	{
+	content: "\ea29"
+}
+
+.complete.chip-parientes .mdl-chip__action i.mdi-state:BEFORE, 
+.complete.chip-postulantes .mdl-chip__action i.mdi-state:BEFORE	{
+	content: "\e9c0"
+}
+
+#rootwizard2 .form-wizard-nav .nav-justified>li {
+	width: 16.125%;
+}
+
+#rootwizard2 .form-wizard-nav .progress {
+	width: 82.5%
+}
+
+@media ( max-width : 720px ) {
+	#rootwizard2 .form-wizard-nav .nav-justified>li {
+		width: 15%;
+	}
+}
+
+.mdl-button__matricula {
+	width: 100%;
+	margin: 0 !important;
+}
+
+.mdl-button__matricula:AFTER {
+	font-family: 'Material Icons';
+	content: "\ea29";	
+	font-size: 18px;
+	line-height: 0;
+	position: relative;
+	top: 2px;
+	margin-left: 5px
+}
+
+.mdl-button__matricula.mdl-button__matricula--check:AFTER {
+	content: "\e9c0";	
+}

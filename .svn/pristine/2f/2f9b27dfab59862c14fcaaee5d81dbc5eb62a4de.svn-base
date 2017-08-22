@@ -1,0 +1,163 @@
+/* Effects Senc */
+@-o-keyframes hvr-icon-float { 
+	0%{
+		opacity: 1;
+	}
+	
+	100%{
+		opacity: 0;
+		-o-transform: translateY(-2em) scale(1.5);
+		-moz-transform: translateY(-2em) scale(1.5);
+		-webkit-transform: translateY(-2em) scale(1.5);
+		transform: translateY(-2em) scale(1.5);
+	}
+}
+
+@-moz-keyframes hvr-icon-float { 
+	0%{
+		opacity: 1;
+	}
+	
+	100%{
+		opacity: 0;
+		-o-transform: translateY(-2em) scale(1.5);
+		-moz-transform: translateY(-2em) scale(1.5);
+		-webkit-transform: translateY(-2em) scale(1.5);
+		transform: translateY(-2em) scale(1.5);
+	}
+}
+
+@-webkit-keyframes hvr-icon-float { 
+	0%{
+		opacity: 1;
+	}
+	
+	100%{
+		opacity: 0;
+		-o-transform: translateY(-2em) scale(1.5);
+		-moz-transform: translateY(-2em) scale(1.5);
+		-webkit-transform: translateY(-2em) scale(1.5);
+		transform: translateY(-2em) scale(1.5);
+	}
+}
+
+@keyframes hvr-icon-float { 
+	0%{
+		opacity: 1;
+	}
+	
+	100%{
+		opacity: 0;
+		-o-transform: translateY(-2em) scale(1.5);
+		-moz-transform: translateY(-2em) scale(1.5);
+		-webkit-transform: translateY(-2em) scale(1.5);
+		transform: translateY(-2em) scale(1.5);
+	}
+}
+
+
+/* Icon Float Away */
+.hvr-icon-float-dont-use,
+.hvr-icon-float-very-bad,
+.hvr-icon-float-bad,
+.hvr-icon-float-normal,
+.hvr-icon-float-happy,
+.hvr-icon-float-very-happy {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  padding-right: 2.2em;
+}
+
+.hvr-icon-float-dont-use:after,
+.hvr-icon-float-dont-use:before,
+.hvr-icon-float-very-happy:after,
+.hvr-icon-float-very-happy:before,
+.hvr-icon-float-happy:after,
+.hvr-icon-float-happy:before,
+.hvr-icon-float-normal:after,
+.hvr-icon-float-normal:before,
+.hvr-icon-float-bad:after,
+.hvr-icon-float-bad:before,
+.hvr-icon-float-very-bad:after,
+.hvr-icon-float-very-bad:before{
+  content: "";
+  position: absolute;
+  right: 1em;
+  padding: 0 1px;
+  font-family: Material Design Icons;
+}
+
+.hvr-icon-float-dont-use:after,
+.hvr-icon-float-dont-use:before {
+	content: "\e900";
+}
+
+.hvr-icon-float-very-happy:after,
+.hvr-icon-float-very-happy:before {
+	content: "\e905";
+}
+
+.hvr-icon-float-happy:after,
+.hvr-icon-float-happy:before {
+	content: "\e904";
+}
+
+.hvr-icon-float-normal:after,
+.hvr-icon-float-normal:before {
+	content: "\e903";
+}
+
+.hvr-icon-float-bad:after,
+.hvr-icon-float-bad:before {
+	content: "\e902";
+}
+
+.hvr-icon-float-very-bad:after,
+.hvr-icon-float-very-bad:before {
+	content: "\e901";
+}
+
+.hvr-icon-float-dont-use:after,
+.hvr-icon-float-very-bad:after,
+.hvr-icon-float-bad:after
+.hvr-icon-float-normal:after,
+.hvr-icon-float-happy:after,
+.hvr-icon-float-very-happy:after{
+  opacity: 0;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+.hvr-icon-float-dont-use:hover:after,
+.hvr-icon-float-very-bad:hover:after,
+.hvr-icon-float-bad:hover:after
+.hvr-icon-float-normal:hover:after,
+.hvr-icon-float-happy:hover:after,
+.hvr-icon-float-very-happy:hover:after,
+.hvr-icon-float-dont-use:focus:after,
+.hvr-icon-float-very-bad:focus:after,
+.hvr-icon-float-bad:focus:after
+.hvr-icon-float-normal:focus:after,
+.hvr-icon-float-happy:focus:after,
+.hvr-icon-float-very-happy:focus:after,
+.hvr-icon-float-dont-use:active:after,
+.hvr-icon-float-very-bad:active:after,
+.hvr-icon-float-bad:active:after
+.hvr-icon-float-normal:active:after,
+.hvr-icon-float-happy:active:after,
+.hvr-icon-float-very-happy:active:after{
+  -webkit-animation-name: hvr-icon-float-away;
+  animation-name: hvr-icon-float-away;
+  -webkit-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
+}
+/* Fin Effects senc */

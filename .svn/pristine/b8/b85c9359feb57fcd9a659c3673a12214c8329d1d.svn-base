@@ -1,0 +1,592 @@
+@CHARSET "UTF-8";
+
+header {
+	background-color: #3F41B5 !important;
+}
+
+header i {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout__drawer-button i:BEFORE {
+	color: #FFFFFF;
+}
+
+header .mdl-section-head {
+	left: 150.67px;
+	border-left-color : #FFFFFF;
+	color: #FFFFFF;
+}
+
+@media ( max-width : 768px) {
+	header .mdl-section-head {
+		left: 0px;
+		top: -10.5px;
+	}
+}
+
+.mdl-tabs .mdl-tabs__tab:HOVER,
+.mdl-tabs .mdl-tabs__tab:FOCUS,
+.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active{
+	color: #3F41B5;
+}
+
+.mdl-card-fab .mdl-card__title {
+	background-color: #3F41B5;
+}
+
+.modal .mdl-card__actions button.mdl-button, .mdl-card-fab .mdl-card__actions button.mdl-button
+	{
+	color: #3F41B5;
+}
+
+.modal .mdl-card__actions a.mdl-button--raised, .mdl-card-fab .mdl-card__actions a.mdl-button--raised,
+	.modal .mdl-card__actions button.mdl-button--raised, .mdl-card-fab .mdl-card__actions button.mdl-button--raised
+	{
+	background-color: #3F41B5;
+}
+
+/* Botones */
+button.mdl-button, 
+a.mdl-button {
+	color: #3F41B5;
+}
+
+.form-group .form-control ~ label:after, .form-group .form-control ~
+	.form-control-line:after {
+	background-color: #3F41B5 !important;
+}
+
+/* Search */
+.mdl-header-input-group {
+	background-color: #283593;
+}
+
+.mdl-header-input-group .mdl-icon i:BEFORE {
+	color: #FFFFFF
+}
+
+.mdl-header-input-group .mdl-textfield .mdl-textfield__label {
+	color: #FFFFFF !important;
+}
+
+/* Arbol de modulos */
+.mdl-layout .mdl-layout__drawer .mdl-layout-title img, .mdl-layout .mdl-layout__header-row .mdl-layout-title img
+	{
+	height: 37.5px;
+}
+
+.mdl-nav a.dont-three i  {
+	top: 13.5px;
+}
+
+/* ADD MENU COLOR */
+.mdl-nav li.active a, .mdl-nav li.active a i {
+	color: #3F41B5 !important;
+}
+
+/* Tabs */
+header .mdl-layout__tab {
+	color: #9FA8DA !important
+}
+
+header .mdl-layout__tab.is-active {
+	color: #FFFFFF !important
+}
+
+header .mdl-layout__tab::after {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab .mdl-layout__tab-ripple-container .mdl-ripple {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab-bar {
+	background-color: #3F41B5;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+	background-color: #FFFFFF;
+}
+
+.mdl-tabs__tab .mdl-tabs__ripple-container .mdl-ripple, .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after
+	{
+	background-color: #3F41B5
+}
+
+/* Combo box */
+.bs-searchbox input.form-control, .bs-searchbox input.form-control:hover,
+	.bs-searchbox input.form-control:active, .bs-searchbox input.form-control:focus
+	{
+	border-bottom-color: #3F41B5;
+	color: #3F41B5;
+}
+
+.dropdown-menu>.active>a .text, .dropdown-menu>.active>a:focus .text, .dropdown-menu>.active>a:hover .text,
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover
+	{
+	background-color: #3F41B5;
+}
+
+/* Inputs and Label mdl */
+.mdl-textfield__label:after {
+	background-color: #3F41B5 !important;
+}
+
+/* GROUPS INPUTS */
+.mdl-button-group .mdl-btn .mdl-button.active {
+	background-color: #3F41B5;
+}
+
+.mdl-button-group .mdl-textfield .mdl-textfield__label:AFTER {
+	bottom: 20px
+}
+
+/* Checkbox and option toggle */
+.mdl-radio.is-checked .mdl-radio__outer-circle, .mdl-checkbox.is-checked .mdl-checkbox__box-outline
+	{
+	border-color: #3F41B5;
+}
+
+.mdl-radio__inner-circle, .mdl-switch.is-checked .mdl-switch__thumb,
+	.mdl-switch__ripple-container .mdl-ripple,
+	.mdl-checkbox__ripple-container .mdl-ripple, .mdl-checkbox.is-checked .mdl-checkbox__tick-outline
+	{
+	background-color: #3F41B5;
+}
+
+.mdl-radio__ripple-container .mdl-ripple, .mdl-switch.is-checked .mdl-switch__track
+{
+	background-color: #9FA8DA;
+}
+
+/* Items asignados */
+.mdl-assign {
+	background-color: #9FA8DA;
+}
+
+.mdl-assign .text {
+	color: #3F41B5;
+}
+
+.mdl-assign .option button i {
+	color: #3F41B5;
+}
+
+/* Fab position */
+.mfb-component--br .mfb-component__button--main {
+	background-color: #3F41B5 !important;
+}
+
+.mfb-component--br .mfb-component__button--child i.mfb-component__child-icon
+	{
+	color: #3F41B5 !important;
+}
+
+/* Modal select */
+.mobileSelect-savebtn, .mobileSelect-container .list-container .mobileSelect-control.selected
+	{
+	background-color: #3F41B5 !important;
+}
+
+/* Text field */
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+	color: #3F41B5
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label:BEFORE {
+	background-color: #3F41B5
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #3F41B5
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #9FA8DA
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #3F41B5;
+}
+
+.dtp-content line[stroke="#2196F3"] {
+	stroke: #3F41B5;
+}
+
+.dtp-content circle[fill="#2196F3"] {
+	fill: #3F41B5;
+}
+
+/* BUTTON */
+.mdl-button--raised, 
+.mdl-button--raised:HOVER {
+	background-color: #3F41B5;
+}
+
+@keyframes loader { 
+	0% {
+		border-top-color: #3F41B5;
+	}
+	50% {
+		border-top-color: #3F41B5;
+		border-right-color: #3F41B5;
+	}
+	75% {
+		border-top-color: #3F41B5;
+    	border-bottom-color: #3F41B5;
+		border-right-color: #3F41B5;
+	}
+	100% {
+		border-top-color: #3F41B5;
+		border-bottom-color: #3F41B5;
+		border-left-color: #3F41B5;
+		border-right-color: #3F41B5;
+	}
+}
+
+/* Wizard*/
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress .progress-bar-primary{
+	background-color: #3F41B5;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.active .step, 
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li:hover .step{
+    border-color: #3F41B5;
+    color: #3F41B5;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.active .title,
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li:hover .title{
+    color: #3F41B5;		
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.complete .step{
+    border-color: #3F41B5;
+    background-color: #3F41B5;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.complete .title{
+	color: #3F41B5
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	width: 73.5%;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	right: 10px;
+}
+
+/* INPUT GROUP ACTIVE */
+.mdl-input-group.active .mdl-icon i{
+	color: #3F41B5
+}
+
+.mdl-js-button.active{
+	border-radius:26px;
+	line-height:0px !important;
+	color: #FFFFFF !important;
+	
+}
+
+/* BTN ICON */
+.mdl-button__icon i{
+	color: #3F41B5
+}
+
+/*Dolar Color*/
+.monet-active{
+	color: #3DB549;
+}
+
+.monet-inactive{
+	color: #d50000;
+}
+
+/*  LOADING */
+
+.mdl-navigation
+
+.mdl-navigation .mdl-spinner.is-active .mdl-spinner__layer-4,
+.mdl-navigation .mdl-spinner.is-active .mdl-spinner__layer-3,
+.mdl-navigation .mdl-spinner.is-active .mdl-spinner__layer-2,
+.mdl-navigation .mdl-spinner.is-active .mdl-spinner__layer-1{
+	border-color: #FFFFFF !important;
+}
+
+.mdl-navigation .mdl-spinner{
+	width: 22px;
+    height: 22px;
+    top: 3px;
+}
+
+.mdl-spinner.is-active .mdl-spinner__layer-4,
+.mdl-spinner.is-active .mdl-spinner__layer-3,
+.mdl-spinner.is-active .mdl-spinner__layer-2,
+.mdl-spinner.is-active .mdl-spinner__layer-1{
+	border-color: #3F41B5 !important;
+}
+
+a.mdl-button.mdl-save__load.mdl-save__load__loading[disabled],
+button.mdl-button.mdl-save__load.mdl-save__load__loading[disabled]{
+	background-color: #3F41B5  !important;
+}
+
+/* PHOTO */
+.mdl-photo:hover .mdl-img{
+	border-color: #3F41B5 !important;
+}
+
+.mdl-photo .fade-caption i{
+	color: #3F41B5;
+}
+
+/* CAMBIOS ESPECIFICOS PARA LAS VISTAS */
+/* Datos Postulante */
+.mdl-select.icon-add-uso {
+	width: calc(100% - 100px);
+}
+
+.display-label{
+	visibility:hidden;
+}
+
+.wizard-label .title{
+	visibility:visible;
+}
+
+
+@media (max-width:860px){
+	.display-label{
+	visibility:visible;
+	}		
+	
+	.wizard-label .title{
+	visibility:hidden;
+	}
+}
+
+.highlight{
+	background-color: #ffff80;
+	color: #757575;
+}
+
+#modalMotivosTraslado .mdl-card__supporting-text{
+	line-height: 10px;
+	
+}
+
+#icon-regFam .mdi-more_horiz{
+	font-size: 24px;
+}
+
+.s-colegio-fam .dropdown-menu.inner{
+	max-height:152px !important;
+}
+
+.s-colegio{
+    min-width: 220px !important;
+}
+
+.s-religion .dropdown-menu.open{
+	min-height: 180px !important;
+}
+
+.s-estado .dropdown-menu.open{
+	min-height: 205px !important; 
+}
+.s-parentesco .dropdown-menu.open{
+	min-height: 230px !important;
+}
+
+.s-apoderado .dropdown-menu.open{
+	min-height: 125px !important;
+}
+
+.s-colegio-fam .dropdown-menu.inner{
+	max-height:255px !important;
+}
+
+.s-ciclo-aula .dropdown-menu.open{
+	min-height: 125px !important;
+}
+
+.s-resp .dropdown-menu.open{
+	 min-height:121px !important;
+}
+
+.s-tutorAula .dropdown-menu.inner{
+	    max-height: 86px !important;
+}
+
+.s-colegio .dropdown-menu.open, 
+.s-religion .dropdown-menu.open,
+.s-estado .dropdown-menu.open,
+.s-parentesco .dropdown-menu.open,
+.s-apoderado .dropdown-menu.open,
+.s-colegio-fam .dropdown-menu.open,
+.s-ciclo-aula .dropdown-menu.open {
+
+}
+
+.i-detalle{
+	padding: 10px 0px !important;
+	padding-bottom:30px !important;
+}
+
+.info-doc-aula{
+	color:#FFFFFF !important;
+}
+
+#btnBuscar{
+	margin-top:0px !important;
+}
+
+#search-alumno{
+	font-size: 25px;
+}
+
+#search-general{
+	font-size: 30px;
+}
+
+#search-general{
+	display:inline-block;
+	font-size: 30px;
+    top: 5px;
+    margin-right: 8px;	
+}
+
+#btnTodos{
+	float:left;
+	margin-top: 20px;
+}
+
+#inputAlumno{
+	width: calc(100% - 67px);
+	margin-left: 23px;
+}
+
+@media(max-width:425px){	
+	#people{
+		display:initial;
+		font-size: 30px;
+	}
+	
+	#search-general{
+		display:inline-block;
+		font-size: 30px;
+	}
+}
+
+/* BARRA PROGRESIVA  */
+.progress-barra{
+    position: absolute;
+    right: 35px;
+    top: 6px;
+}
+
+.progress-barra span{
+	position: absolute;
+	right: 93px;
+	color: #757575;
+	font-size: 13px;
+}
+
+.progress-barra .progress{
+	width: 85px;
+	height: 10px;
+	background-color: #ffffff;
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+@media ( max-width : 395px){
+	.progress-barra .progress{
+		display: none;
+	}
+	
+	.progress-barra span{
+		right: 0;
+	}
+}
+
+#cont_alumnos .fixed-table-toolbar .pull-left.search{
+	    width: calc( 100% - 120px );
+}
+
+#btnViewSearch{
+	z-index:3;
+}
+
+.dtp-btn-cancel.mdl-button.btn-flat{
+	right:10px;
+}
+
+/*-- BANCOS ---*/
+
+.bancos img{
+	width:100%;
+	max-width:115px;
+	height:100%;
+	max-height:25px;
+}
+
+.bancos li{
+	display: inline-block;
+	padding: 8px;
+}
+
+.dropdown-menu.inner{
+	max-height: calc(100% - 50px) !important;
+}
+
+.s-region .bootstrap-select.btn-group .dropdown-menu{
+	overflow-y:hidden !important;
+}
+
+.s-region .bootstrap-select.btn-group .dropdown-menu.inner{
+	overflow-y: scroll !important;
+    max-height: 370px  !important;
+	overflow-x: hidden !important;
+}
+
+.s-colegio .bootstrap-select.btn-group .dropdown-menu{
+    max-height: 496px;
+    overflow-y: scroll;
+    min-height: 134px;
+	height:300px;
+    width: 417px;
+}
+
+.s-colegio .bootstrap-select.btn-group .dropdown-menu.open{
+	overflow-y: scroll !important;
+}
+
+.breadcrumb li, .breadcrumb li a, .breadcrumb li:HOVER a, .breadcrumb li:FOCUS a{
+	cursor: default !important;
+}
+
+.modal .list-group .list-group-item{
+	padding: 0;
+    border: none;
+    margin-bottom: 0;
+	margin-top:11px;	
+}
+
+/* PERFIL */
+.box-header{
+	background: #3F41B5;
+}
+
+.mdl-header-input-group .mdl-textfield__input{
+	color:#FFFFFF;
+}

@@ -1,0 +1,138 @@
+@CHARSET "UTF-8";
+
+header .mdl-layout__drawer-button {
+	display: none !important;
+}
+
+header a.mdl-button__return {
+	display: block;
+	z-index: 9;
+}
+
+/* AFTER */
+.mdl-input-group.mdl-input-group__only .mdl-select::after{
+    height: 21px;
+    top: 6px !important;
+}
+
+/* MODAL ASISTENCIA */
+ul.ul-assistance{	
+	text-align: center;	
+}
+
+ul.ul-assistance li{
+	display: inline-block;
+	padding: 0;
+	width: 140px;
+	margin: 0;	
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+ul.ul-assistance li div{
+	width: 70px;
+	height: 70px;
+	margin: 0 auto;
+	margin-bottom: 10px;	
+	border-radius: 100%;
+	cursor: pointer;
+}
+
+ul.ul-assistance li small{
+	width: 100%;
+	margin-top: 10px;
+	font-size: 18px;
+	color: #757575;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;	
+}
+
+ul.ul-assistance li:NTH-CHILD(1) div{
+	background-color: #8BC34A;
+}
+
+ul.ul-assistance li:NTH-CHILD(1) div:AFTER{
+	content: "A";	    
+	font-size: 30px;
+    line-height: 65px;
+	color: #FFF;
+}
+
+ul.ul-assistance li:NTH-CHILD(2) div{
+	background-color: #FFEB3B;
+}
+
+ul.ul-assistance li:NTH-CHILD(2) div:AFTER{
+	content: "T";	    
+	font-size: 30px;
+    line-height: 65px;	
+	color: #795548;
+}
+
+ul.ul-assistance li:NTH-CHILD(3) div{
+	background-color: #673AB7;
+}
+
+ul.ul-assistance li:NTH-CHILD(3) div:AFTER{
+	content: "TJ";	    
+	font-size: 30px;
+    line-height: 65px;	
+	color: #FFF;
+}
+
+
+ul.ul-assistance li:NTH-CHILD(4) div{
+	background-color: #757575;
+}
+
+ul.ul-assistance li:NTH-CHILD(4) div:AFTER{
+	content: "F";	    
+	font-size: 30px;
+    line-height: 65px;	
+	color: #FFF;
+}
+
+ul.ul-assistance li:NTH-CHILD(5) div{
+	background-color: #FF9800;
+}
+
+ul.ul-assistance li:NTH-CHILD(5) div:AFTER{
+	content: "FJ";	    
+	font-size: 30px;
+    line-height: 65px;	
+	color: #FFF;	
+}
+
+/* Nota color */
+#notaFinal.mdl-student_red{
+    color: #F44336;
+}
+
+#notaFinal.mdl-student_green{
+    color: #4CAF50;	
+}
+
+#notaFinal.mdl-student_ambar{
+    color: #FFC107;	
+}
+ 	
+.highcharts-data-labels.highcharts-series-0.highcharts-tracker g text{
+	font-size: 11px !important
+}
+
+/* Modal estudiante */
+#modalSelecEstudiante .mdl-radio.is-upgraded .mdl-radio__button{
+	position: relative;
+}
+
+#modalInstrumento .list-group{
+	margin: 0;
+	border: none;
+}
+
+#modalInstrumento .list-group .list-group-item{
+	padding-left: 0;
+    padding-top: 0;
+    border: none;
+}

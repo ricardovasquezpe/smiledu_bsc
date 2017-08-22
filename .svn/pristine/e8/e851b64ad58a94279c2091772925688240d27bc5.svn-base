@@ -1,0 +1,193 @@
+<?php
+//LAST CODE 001
+class M_evaluacion_rapido extends  CI_Model{
+    function __construct(){
+        parent::__construct();
+    }
+
+    function busquedaContactos($nombre, $idEvento){
+        $sql = "SELECT CONCAT(INITCAP(c.ape_paterno),' ',INITCAP(c.ape_materno),', ',INITCAP( c.nombres)) nombrecompleto,
+                       CONCAT(INITCAP(c.ape_paterno),', ',SPLIT_PART(INITCAP( c.nombres),' ',1)) nombreabreviado,
+                       c.id_contacto,
+                       (SELECT desc_sede
+                          FROM sede
+                         WHERE nid_sede = sede_interes) AS sede_interes,
+                       (SELECT abvr
+                          FROM nivel
+                         WHERE nid_nivel = nivel_ingreso) AS nivel_interes,
+                       (SELECT abvr
+                          FROM grado
+                         WHERE nid_grado = grado_ingreso) AS grado_interes,
+                       a.fecha AS fecha_agendado
+                  FROM admision.contacto c LEFT JOIN admision.agendar a
+                       ON (c.id_contacto = a.id_contacto AND a.id_evento = ?)
+                 WHERE UPPER(CONCAT( SPLIT_PART(c.nombres, ' ',1), ' ',c.ape_paterno,' ',c.ape_materno)) LIKE UPPER(?)
+                   AND flg_estudiante = ".FLG_ESTUDIANTE."
+                   AND id_contacto_matricula IS NULL";
+        $result = $this->db->query($sql, array($idEvento, '%'.$nombre.'%'));
+        return $result->result();
+    }
+    
+    function agendarContacto($arrayInsert){
+        $rpt['error']    = EXIT_ERROR;
+        $rpt['msj']      = MSJ_ERROR;
+        try{
+            $this->db->insert("admision.agendar", $arrayInsert);
+            if($this->db->affected_rows() != 1) {
+                throw new Exception('(MER-001)');
+            }
+            $rpt['error'] = EXIT_SUCCESS;
+            $rpt['msj']   = MSJ_INS;
+        }catch(Exception $e){
+            $rpt['msj'] = $e->getMessage();
+        }
+        return $rpt;
+    }
+    
+    function validateContactoAgendado($idEvento, $fecha, $idContacto){
+        $sql = "SELECT COUNT(1) AS count
+                  FROM admision.agendar c
+                 WHERE id_contacto                   = ?
+                   AND TO_CHAR(c.fecha,'dd/mm/yyyy') = ?
+                   AND id_evento                     = ?";
+        $result = $this->db->query($sql, array($idContacto, $fecha, $idEvento));
+        _logLastQuery();
+        return $result->row()->count;
+    }
+    
+    function filtrarContactosDia($nombre, $fecha, $idEvento, $idRol){
+        $order = "fecha ASC";
+        if($idRol == ID_ROL_SECRETARIA){
+            $order = "CASE WHEN a.estado = ".EVALUACION_ENTREVISTADO." THEN 10
+                           ELSE a.estado END DESC";
+        }
+        $sql = "SELECT CONCAT(INITCAP(c.ape_paterno),' ',INITCAP(c.ape_materno),', ',INITCAP( c.nombres)) nombrecompleto,
+                       CONCAT(INITCAP(c.ape_paterno),', ',SPLIT_PART(INITCAP( c.nombres),' ',1)) nombreabreviado,
+                       c.id_contacto,
+                       (SELECT desc_sede
+                          FROM sede
+                         WHERE nid_sede = sede_interes) AS sede_interes,
+                       (SELECT abvr
+                          FROM nivel
+                         WHERE nid_nivel = nivel_ingreso) AS nivel_interes,
+                       (SELECT abvr
+                          FROM grado
+                         WHERE nid_grado = grado_ingreso) AS grado_interes,
+                       fecha,
+                       TO_CHAR(fecha, 'hh12:mi AM') AS hora,
+                       a.estado,
+                       (SELECT count(1)
+                          FROM admision.diagnostico
+                         WHERE id_estudiante    = c.id_contacto
+                           AND id_evento        = ?
+                           AND tipo_diagnostico = ".DIAGNOSTICO_CURSO.") AS cant_diag_real,
+                       (SELECT CONCAT(taller_verano,'  -  ', obser_diagnostico)
+                          FROM admision.diagnostico
+                         WHERE id_estudiante    = c.id_contacto
+                           AND id_evento        = ?
+                           AND tipo_diagnostico = ".DIAGNOSTICO_ENTREVISTA.") AS observ_entrevista, 
+                       (SELECT COUNT(1)
+                          FROM admision.diagnostico
+                         WHERE id_estudiante    = c.id_contacto
+                           AND id_evento        = ?
+                           AND tipo_diagnostico = ".DIAGNOSTICO_ENTREVISTA.") AS cant_entrevista, 
+                       (SELECT COUNT(1)
+                          FROM admision.config_eval 
+                         WHERE _id_grado = c.grado_ingreso) AS cant_diag,
+                       (SELECT diagnostico_final
+                          FROM admision.diagnostico
+                         WHERE id_estudiante    = c.id_contacto
+                           AND id_evento        = ?
+                           AND tipo_diagnostico = ".DIAGNOSTICO_ENTREVISTA.") AS entrevista
+                  FROM admision.contacto c,
+                       admision.agendar  a
+                 WHERE CASE WHEN ? IS NOT NULL THEN UPPER(CONCAT(c.ape_paterno,' ',c.ape_materno,', ', c.nombres)) LIKE UPPER(?)
+                            ELSE 1 = 1 END
+                   AND CASE WHEN ? IS NOT NULL THEN TO_CHAR(a.fecha,'dd/mm/yyyy') = ?
+                            ELSE 1 = 1 END
+                   AND a.id_contacto  = c.id_contacto
+                   AND flg_estudiante = ".FLG_ESTUDIANTE."
+                   AND a.id_evento = ? ORDER BY ".$order;
+        $result = $this->db->query($sql, array($idEvento, $idEvento, $idEvento, $idEvento, $nombre, '%'.$nombre.'%', $fecha, $fecha, $idEvento));
+        return $result->result();
+    }
+    
+    function updateAgendado($arrayUpdate, $idContacto, $idEvento){
+        $rpt['error']    = EXIT_ERROR;
+        $rpt['msj']      = MSJ_ERROR;
+        try{
+            $this->db->where("id_evento", $idEvento);
+            $this->db->where("id_contacto", $idContacto);
+            $this->db->update("admision.agendar", $arrayUpdate);
+            if($this->db->affected_rows() != 1){
+                throw new Exception('(MER-004)');
+            }
+            $rpt['error']    = EXIT_SUCCESS;
+            $rpt['msj']      = MSJ_UPT;
+        }catch(Exception $e){
+            $rpt['msj'] = $e->getMessage();
+        }
+        return $rpt;
+    }
+    
+    function cantDiagnosticoRealizadosEvento($idContacto, $idEvento){
+        $sql = "SELECT COUNT(1) AS count
+                  FROM admision.diagnostico d
+                 WHERE id_estudiante = ?
+                   AND id_evento     = ?";
+        $result = $this->db->query($sql, array($idContacto, $idEvento));
+        return $result->row()->count;
+    }
+    
+    function deleteAgendado($idContacto, $idEvento){
+        $rpt['error']    = EXIT_ERROR;
+        $rpt['msj']      = MSJ_ERROR;
+        try{
+            $this->db->where('id_evento', $idEvento);
+            $this->db->where('id_contacto', $idContacto);
+            $this->db->delete("admision.agendar");
+            if($this->db->affected_rows() != 1) {
+                throw new Exception('(MER-005)');
+            }
+            $rpt['error'] = EXIT_SUCCESS;
+            $rpt['msj']   = MSJ_DEL;
+        }catch(Exception $e){
+            $rpt['msj'] = $e->getMessage();
+        }
+        return $rpt;
+    }
+    
+    function validateCamposCompletosProcesoMatricula($codGrupo, $idContacto){
+        $sql = "SELECT COUNT(1) AS count
+                  FROM admision.contacto c
+                 WHERE cod_grupo = ?
+                   AND nombres IS NOT NULL
+                   AND ape_paterno IS NOT NULL
+                   AND ape_materno IS NOT NULL
+                   AND nro_documento IS NOT NULL
+                   AND tipo_documento IS NOT NULL
+                   AND sexo IS NOT NULL
+                   AND (CASE WHEN flg_estudiante = 0 THEN
+                            (parentesco IS NOT NULL
+                             AND ubigeo IS NOT NULL
+                             AND referencia_domicilio IS NOT NULL)
+                         ELSE (sede_interes IS NOT NULL
+                         AND id_contacto = ?
+                   AND fecha_nacimiento IS NOT NULL) END)";
+        $result = $this->db->query($sql, array($codGrupo, $idContacto));
+        return $result->row()->count;
+    }
+    
+    function cantParientesByGrupo($codGrupo){
+        $sql = "SELECT COUNT(1) AS count
+                  FROM admision.contacto c
+                 WHERE cod_grupo      = ?
+                   AND flg_estudiante = ".FLG_FAMILIAR;
+        $result = $this->db->query($sql, array($codGrupo));
+        _logLastQuery();
+        return $result->row()->count;
+    }
+    
+    //ubigeo, nombre completo, dni, tipo doc, direccion --PARIENTE
+    //sede, nombres, fec_naci, sexo
+}

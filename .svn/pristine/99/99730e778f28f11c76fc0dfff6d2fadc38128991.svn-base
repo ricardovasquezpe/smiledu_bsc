@@ -1,0 +1,1323 @@
+function init(){
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+	    $('.selectButton').selectpicker('mobile');
+	} else {
+		$('.selectButton').selectpicker();
+	}
+	
+	//$(":input").inputmask();
+
+	initMaskInputs('fechaEvento');
+	initLimitInputs('observacion');
+	initButtonCalendarHours('horaInicio');
+	initButtonCalendarHours('horaFin');
+	initButtonCalendarHours('horaHorarioCrear');
+	initButtonLoad('btnMARAA', 'btnMCDAA', 'btnMARM', 'btnCCRM', 'btnMCDRM', 'btnMCR', 'btnMCCRC', 'btnMCIC', 'btnMCHE', 'btnMCDE', 'btnMLL', 'btnMCSEE','elim');
+	$('#horaInicio').bootstrapMaterialDatePicker({ weekStart : 0, 
+		                                           date      : false, 
+		                                           time      : true, 
+		                                           format 	 : 'hh:mm a', 
+		                                           shortTime : true
+	}).on('change', function(e, date){
+		Pace.restart();
+    	Pace.track(function() {
+        	$("#horaInicio").parent().addClass("is-dirty");
+    		$('#horaInicio').parent().addClass('is-focused');
+    		var time = date._d.toTimeString().substr(0, 8);
+    		$.ajax({
+    			data : { campo : "hora_inicio",
+    				     valor : time,
+    				     enc   : noEnc},
+    			url  : 'c_detalle_evento/saveCampo',
+    			type : 'POST'
+    		})
+    		.done(function(data) {
+    			try {
+    				data = JSON.parse(data);
+    				if(data.error == 0){
+    					$("horaInicio").attr("attr-old-value", $("#horaInicio").val());
+    				}else{
+    					setearInput("horaInicio", null);
+    				}
+    				msj('success', data.msj, null);
+    			} catch(err) {
+    				location.reload();
+    			}
+    		});
+    	});
+	});
+	
+	$('#horaFin').bootstrapMaterialDatePicker({ weekStart : 0, 
+												   date      : false, 
+												   time      : true, 
+												   format 	 : 'hh:mm a', 
+												   shortTime : true
+	}).on('change', function(e, date){
+		Pace.restart();
+		Pace.track(function() {
+			$("#horaFin").parent().addClass("is-dirty");
+			$('#horaFin').parent().addClass('is-focused');
+			var time = date._d.toTimeString().substr(0, 8);
+			$.ajax({
+				data : { campo : "hora_fin",
+						 valor : time,
+						 enc   : noEnc},
+			    url  : 'c_detalle_evento/saveCampo',
+		       type  : 'POST'
+			})
+			.done(function(data) {
+				try {
+					data = JSON.parse(data);
+					if(data.error == 0){
+    					$("#horaFin").attr("attr-old-value", $("#horaFin").val());
+    				}else{
+    					setearInput("horaFin", null);
+    				}
+					msj('success', data.msj, null);
+				} catch(err) {
+					location.reload();
+				}
+			});
+		});
+	});
+	
+	
+	$('#horaHorarioCrear').bootstrapMaterialDatePicker({ weekStart : 0, 
+        date      : false, 
+        time      : true, 
+        format 	 : 'hh:mm a', 
+        shortTime : true
+	});
+}
+
+function changeInputSave(dataCampo, dataId, dataEnc){
+	Pace.restart();
+	Pace.track(function() {
+		var valorCampo = $("#"+dataId).val();
+		if(dataCampo != null && valorCampo != null && valorCampo.trim().length != 0){
+			$.ajax({
+				data  : { campo : dataCampo,
+					      valor : valorCampo,
+					      enc   : dataEnc},
+				url   : 'c_detalle_evento/saveCampo',
+				type  : 'POST',
+				async : true
+			})
+			.done(function(data) {
+				try {
+					data = JSON.parse(data);
+					$("#"+dataId).attr("attr-old-value", valorCampo);
+					msj('success', data.msj, null);
+				} catch(err) {
+					location.reload();
+				}
+			});
+		}else{
+			setearInput(dataId, $("#"+dataId).attr("attr-old-value"))
+			msj('success', "Ingrese un valor", null);
+		}
+	});
+}
+
+cons_opcion_invitado_selecc = null;
+cons_card_invitado_selecc   = "cont_cards_familia1";
+function familiasPorOpcion(dataOpcion, idCard){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : { opcion : dataOpcion},
+			url  : 'c_detalle_evento/getFamiliasByOpcion',
+			type : 'POST'
+		})
+		.done(function(data) {
+			try {
+				data = JSON.parse(data);
+				if(data.countFam != 0){
+					$("#cont_cards_familia1").html(null);
+					$("#cont_cards_familia2").html(null);
+					$("#cont_cards_familia3").html(null);
+					$("#cont_cards_familia4").html(null);
+					
+					$("#"+idCard).html(data.familias);
+					componentHandler.upgradeAllRegistered();
+					cons_opcion_invitado_selecc = dataOpcion;
+					cons_card_invitado_selecc   = idCard;
+				}else{
+					$("#"+idCard).html(null);
+				}
+			} catch(err) {
+				location.reload();
+			}
+		});
+	});
+}
+
+function familiasPorInvitar(){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url  : 'c_detalle_evento/getFamiliasInvitar',
+			type : 'POST'
+		})
+		.done(function(data) {
+			try {
+				data = JSON.parse(data);
+				if(data.countFam != 0){
+					cantidadScroll = 1;
+					$("#cont_cards_familia1").html(null);
+					$("#cont_cards_familia2").html(null);
+					$("#cont_cards_familia3").html(null);
+					$("#cont_cards_familia4").html(null);
+					
+					$("#cont_cards_familia1").html(data.familias);
+					componentHandler.upgradeAllRegistered();
+					cons_opcion_invitado_selecc = null;
+					cons_card_invitado_selecc   = "cont_cards_familia1";
+				}else{
+					$("#cont_cards_familia1").html(null);
+				}
+			} catch(err) {
+				location.reload();
+			}
+		});
+	});
+}
+
+function abrirModalCrearRecurso(){
+	setearInput("nombreRecursoCrear", null);
+	modal("modalCrearRecurso");
+}
+
+function crearRecurso(){
+	Pace.restart();
+	Pace.track(function() {
+		var valorRecurso = $("#nombreRecursoCrear").val();
+		if(valorRecurso != null){
+			addLoadingButton('btnMCR');
+			$.ajax({
+				data : { nombrerecurso : valorRecurso},
+				url  : 'c_detalle_evento/crearRecurso',
+				type : 'POST'
+			})
+			.done(function(data) {
+				try {
+					data = JSON.parse(data);
+					setearInput("nombreRecursoCrear", null);
+					setCombo("selectRecursoMaterialAsignar", data.comboRecursoMaterial, "Seleccionar Recurso Material");
+					stopLoadingButton('btnMCR');
+					msj('success', data.msj, null);
+					abrirCerrarModal("modalCrearRecurso");
+				} catch(err) {
+					location.reload();
+					abrirCerrarModal("modalCrearRecurso");
+				}
+			});
+		}
+	});
+}
+
+cons_id_recurso_material_evento = null;
+function abrirModalConfirmDeleteRecursoMaterial(dataRecursoEvento){
+	cons_id_recurso_material_evento = dataRecursoEvento;
+	modal("modalConfirmDeleteRecursoMaterial");
+}
+
+function borrarRecursoMaterial(){
+	addLoadingButton('btnMCDRM');
+	Pace.restart();
+	Pace.track(function() {
+		if(cons_id_recurso_material_evento != null){
+
+			$.ajax({
+				data : { recursoevento : cons_id_recurso_material_evento},
+				url  : 'c_detalle_evento/borrarRecursoMaterial',
+				type : 'POST'
+			})
+			.done(function(data) {
+				try {
+					data = JSON.parse(data);
+					$("#cont_table_recurso_material").html(data.tablaRecursos);
+					componentHandler.upgradeAllRegistered();
+					$("#tbRecursosMateriales").bootstrapTable({});
+					stopLoadingButton('btnMCDRM');
+					modal("modalConfirmDeleteRecursoMaterial");
+					msj('success', data.msj, null);
+					stopLoadingButton('btnMCDRM');
+					abrirCerrarModal("modalConfirmDeleteRecursoMaterial");
+				} catch(err) {
+					location.reload();
+					stopLoadingButton('btnMCDRM');
+					abrirCerrarModal("modalConfirmDeleteRecursoMaterial");
+				}
+			});
+		}
+	});
+}
+
+function abrirModalAsignarRecursoMaterial(){
+	setearCombo("selectRecursoMaterialAsignar", null);
+	setearCombo("selectEncargadoRecursoMaterialAsignar", null);
+	setearInput("cantidadAsignarRecursoMaterial", null);
+	setearInput("ObservacionAsignarRecursoMaterial", null);
+	modal("modalAsignarRecursoMaterial");
+}
+
+function AsignarRecursoMaterial(){
+	Pace.restart();
+	Pace.track(function() {
+		var recursoMaterial = $("#selectRecursoMaterialAsignar").val();
+		var encargado       = $("#selectEncargadoRecursoMaterialAsignar").val();
+		var cantidad        = $("#cantidadAsignarRecursoMaterial").val();
+		var observacion     = $("#ObservacionAsignarRecursoMaterial").val();
+		if(cantidad != null && encargado.length != 0 && recursoMaterial.length != 0){
+			addLoadingButton('btnMARM');
+			$.ajax({
+				data : { recurso     : recursoMaterial,
+					     encargado   : encargado,
+					     cantidad    : cantidad,
+					     observacion : observacion},
+				url  : 'c_detalle_evento/asignarRecursoMaterial',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						$("#cont_table_recurso_material").html(data.tablaRecursos);
+						componentHandler.upgradeAllRegistered();
+						$("#tbRecursosMateriales").bootstrapTable({});
+						stopLoadingButton('btnMARM');
+						modal("modalAsignarRecursoMaterial");
+						$('#tbRecursosMateriales tbody tr:first-CHILD').addClass('mdl-parpadea');
+						$(document).ready(function(){
+			        	    $('[data-toggle="tooltip"]').tooltip(); 
+			            });
+					}
+					stopLoadingButton('btnMARM');
+					msj('success', data.msj, null);
+					abrirCerrarModal("modalAsignarRecursoMaterial");
+				}catch(err){
+					location.reload();
+					stopLoadingButton('btnMARM');
+					abrirCerrarModal("modalAsignarRecursoMaterial");
+				}
+			});
+		}else{
+			msj('success', "Falta llenar algunos campos", null);
+		}
+	});
+}
+
+function abrirModalObservacionRecursoMaterial(observacionPedido, observacionCumplimiento, observacionResp){
+	setearInput("observacionPedidoRecursoMaterial", observacionPedido);
+	setearInput("observacionCumplimientoRecursoMaterial", observacionCumplimiento);
+	setearInput("observacionRespuestaRecursoMaterial", observacionResp);
+	modal("modalObservacionRecursoMaterial");
+}
+
+cons_index_row_recurso_material = null;
+function abrirModalChangeCantidadRecursoMaterial(dataRecursoEvento, index){
+	cons_id_recurso_material_evento = dataRecursoEvento;
+	cons_index_row_recurso_material = index;
+	setearInput("cambiarCantidadRecursoMaterial", $("#cantidadRecursoMaterial"+index).attr("data-attr-cantidad"));
+	modal("modalChangeCantidadRecursoMaterial");
+}
+
+function guardarCantidadRecursoMaterial(){
+	Pace.restart();
+	Pace.track(function() {
+		var cantidad = $("#cambiarCantidadRecursoMaterial").val();
+		if(cantidad != null && cons_id_recurso_material_evento != null){
+			addLoadingButton('btnMCCRC');
+			$.ajax({
+				data : { recursoevento : cons_id_recurso_material_evento,
+					     cantidad      : cantidad},
+				url  : 'c_detalle_evento/cambiarCantidadRecursoMaterial',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						$("#cantidadRecursoMaterial"+cons_index_row_recurso_material).text(parseInt(cantidad, 10));
+						$("#cantidadRecursoMaterial"+cons_index_row_recurso_material).attr("data-attr-cantidad", parseInt(cantidad, 10))
+						modal("modalChangeCantidadRecursoMaterial");
+					}
+					stopLoadingButton('btnMCCRC');
+					msj('success', data.msj, null);
+				}catch(err){
+					location.reload();
+				}
+			});
+		}else{
+			msj('success', "Ingrese una cantidad", null);
+		}
+	});
+}
+
+function changeSedeRuta(dataSede){
+	Pace.restart();
+	Pace.track(function() {
+		if(dataSede != null){
+			$.ajax({
+				data : {sede : dataSede},
+				url  : 'c_detalle_evento/changeSedeRuta',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						$("#tablaRutasSedes").html(data.tablaRutas);
+						$("#tbSedesRuta").bootstrapTable({});
+						componentHandler.upgradeAllRegistered();
+					}else{
+						msj('error', data.msj, null);
+					}
+				}catch(err){
+					location.reload();
+				}
+			});
+		}
+	});
+}
+
+function moveRow(eleme, idSede, orden){
+    var dir = 0;
+    if ($(eleme).hasClass("up")) {
+        dir = 1;
+    }
+    moverOrden(dir, idSede, orden);
+}
+
+function moverOrden(direccion, idSede, orden){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data  : {direccion : direccion,
+				     idsede    : idSede,
+				     orden     : orden},
+			url   : 'c_detalle_evento/changeOrdenSedeRuta',
+			type  : 'POST',
+			async : false
+	 	})
+		.done(function(data) {
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#tablaRutasSedes").html(data.tablaRutas);
+				$("#tbSedesRuta").bootstrapTable({});
+				componentHandler.upgradeAllRegistered();
+			}else if(data.error == 1){
+				msj('error', data.msj, 'Error');
+			}
+		});
+	});
+}
+
+function abrirModalConformidadRecursoMaterial(check, obs, dataRecursoMaterial){
+	cons_id_recurso_material_evento = dataRecursoMaterial;
+	setChecked("conforme_recurso_material", check);
+	setearInput("observacionConformidadRecursoMaterial", obs);
+	modal("modalChangeConformidadRecursoMaterial");
+}
+
+function guardarConformidadRecursoMaterial(){
+	Pace.restart();
+	Pace.track(function() {
+		observacion = $("#observacionConformidadRecursoMaterial").val();
+		valcheck = 0;
+		if($("#conforme_recurso_material").parent().hasClass("is-checked") == true){
+			valcheck = 1;
+		}
+		if(cons_id_recurso_material_evento != null){
+			addLoadingButton('btnCCRM');
+			$.ajax({
+				data : { recursoevento : cons_id_recurso_material_evento,
+					     check         : valcheck,
+					     observacion   : observacion},
+				url  : 'c_detalle_evento/changeCheckConformidadRecursoMaterial',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						$("#cont_table_recurso_material").html(data.tablaRecursos);
+						componentHandler.upgradeAllRegistered();
+						$("#tbRecursosMateriales").bootstrapTable({});
+						modal("modalChangeConformidadRecursoMaterial");
+					}
+					stopLoadingButton('btnCCRM');
+					msj('success', data.msj, null);
+				}catch(err){
+					location.reload();
+				}
+			});
+		}
+	});
+}
+
+function abrirModalObservacionApoyoAdministratico(observacionPedido){
+	setearInput("observacionPedidoApoyoAdministrativo", observacionPedido);
+	modal("modalObservacionApoyoAdministrativo");
+}
+
+cons_id_apoyo_administrativo_evento = null;
+function abrirModalConfirmDeleteApoyoAdministrativo(dataRecursoEvento){
+	cons_id_apoyo_administrativo_evento = dataRecursoEvento;
+	modal("modalConfirmDeleteApoyoAdministrativo");
+}
+
+function borrarApoyoAdministrativo(){
+	Pace.restart();
+	Pace.track(function() {
+		if(cons_id_recurso_material_evento != null){
+			$.ajax({
+				data : { recursoevento : cons_id_apoyo_administrativo_evento},
+				url  : 'c_detalle_evento/borrarApoyoAdministrativo',
+				type : 'POST'
+			})
+			.done(function(data) {
+				try {
+					/*data = JSON.parse(data);
+					$("#cont_table_recurso_material").html(data.tablaRecursos);
+					componentHandler.upgradeAllRegistered();
+					$("#tbRecursosMateriales").bootstrapTable({});
+					modal("modalConfirmDeleteRecursoMaterial");
+					msj('success', data.msj, null);*/
+				} catch(err) {
+					location.reload();
+				}
+			});
+		}
+	});
+}
+
+function borrarRecursoApoyoAdministrativo(){
+	addLoadingButton('btnMCDAA');
+	Pace.restart();
+	Pace.track(function() {
+		if(cons_id_apoyo_administrativo_evento != null){
+			$.ajax({
+				data : { recursoevento : cons_id_apoyo_administrativo_evento},
+				url  : 'c_detalle_evento/borrarRecursoApoyoAdministrativo',
+				type : 'POST'
+			})
+			.done(function(data) {
+				try {
+					data = JSON.parse(data);
+					$("#cont_table_recurso_humano").html(data.tablaRecursosHumanos);
+					
+					componentHandler.upgradeAllRegistered();
+					$("#tbRecursosHumanos").bootstrapTable({});
+					modal("modalConfirmDeleteApoyoAdministrativo");
+					msj('success', data.msj, null);
+		            $(document).ready(function(){
+		        	    $('[data-toggle="tooltip"]').tooltip(); 
+		            });
+					stopLoadingButton('btnMCDAA');
+				} catch(err) {
+					location.reload();
+					stopLoadingButton('btnMCDAA');
+				}
+			});
+		}
+	});
+}
+
+function abrirModalAsignarApoyoAdministrativo(){
+	setearCombo("selectRecursoApoyoAdministrativoAsignar", null);
+	setearCombo("selectSedeApoyoAdministrativoAsignar", null);
+	setearInput("cantidadAsignarApoyoAdministrativo", null);
+	setearInput("ObservacionAsignarApoyoAdministrativo", null);
+	modal("modalAsignarRecursoApoyoAdministrativo");
+	setChecked("chBox_tomarAsistencia", false);
+}
+
+function asignarApoyoAdministrativo(){
+	addLoadingButton('btnMARAA');
+	Pace.restart();
+	Pace.track(function() {
+		var apoyoAdministrativo = $("#selectRecursoApoyoAdministrativoAsignar").val();
+		var sede                = $("#selectSedeApoyoAdministrativoAsignar").val();
+		var cantidad            = $("#cantidadAsignarApoyoAdministrativo").val();
+		var observacion         = $("#ObservacionAsignarApoyoAdministrativo").val();
+		var checkBox            = isChecked($("#chBox_tomarAsistencia"));
+		if(cantidad != null && apoyoAdministrativo.length != 0){
+			$.ajax({
+				data : { recurso     : apoyoAdministrativo,
+					     sede        : sede,
+					     cantidad    : cantidad,
+					     observacion : observacion,
+					     asistencia  : checkBox},
+				url  : 'c_detalle_evento/asignarApoyoAdministrativo',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+
+					if(data.error == 0){
+						$("#cont_table_recurso_humano").html(data.tablaRecursosHumanos);				
+						$("#tbRecursosHumanos").bootstrapTable({});
+						modal("modalAsignarRecursoApoyoAdministrativo");
+						componentHandler.upgradeAllRegistered();
+						$('#tbRecursosHumanos tbody tr:FIRST-CHILD').addClass('mdl-parpadea');
+					}
+					stopLoadingButton('btnMARAA');
+					msj('success', data.msj, null);
+				}catch(err){
+					location.reload();
+					stopLoadingButton('btnMARAA');	
+				}
+			});
+		}else{
+			msj('success', "Falta llenar algunos campos", null);
+		}
+	});
+}
+
+function abrirModalCantidadApoyoAdministrativoEvento(dataRecursoEvento, index){
+	if(dataRecursoEvento != null){
+		$.ajax({
+			data : { recursoevento : dataRecursoEvento},
+			url  : 'c_detalle_evento/cantidadApoyoAdministrativoEvento',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				cons_index_cant_apoyo_adm = index;
+				$("#cont_asignado_apoyo_adm").html(data.tablaApoyoAdministrativo);
+				$("#tbApoyoAdiministrativoAsignados").bootstrapTable({});
+				componentHandler.upgradeAllRegistered();
+				$(document).ready(function(){
+	         	       $('[data-toggle="tooltip"]').tooltip();
+	             });
+				modal("modalDetalleApoyoAdministrativo");
+			}catch(err){
+				location.reload();
+			}
+		});
+	}
+}
+
+function asistenciasApoyoAdministrativo(dataRecursoEvento, dataPersona, elem, index){
+	if(dataRecursoEvento.length != 0 && dataPersona.length != 0){
+		valcheck = 0;
+		if($(elem).is(":checked")){
+			valcheck = 1;
+		}
+		$.ajax({
+			data : { recursoevento : dataRecursoEvento,
+				     persona       : dataPersona,
+				     check         : valcheck},
+			url  : 'c_detalle_evento/asistenciaApoyoAdministrativo',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					$("#horaAsistenciaApoyoAdm"+index).text(data.horallegada);
+				}
+			}catch(err){
+				location.reload();
+			}
+		});
+	}
+}
+
+function clickTabMenu(opc){
+	$("#li_menu_1").hide();
+	$("#li_menu_2").hide();
+	if(opc == 1){
+		$("#li_menu_2").show();
+	}else if(opc == 0){
+		$("#li_menu_1").show();
+	}
+	$('#tbRecursosHumanos tbody tr:FIRST-CHILD').removeClass('mdl-parpadea');
+	$('#tbRecursosMateriales tbody tr:first-CHILD').removeClass('mdl-parpadea');
+	
+}
+
+function abrirModalConfirmAsignarEncargado(){
+	var encargado = $("#cmbEncargado").val();
+	if(encargado.length != 0){
+		modal('modalConfirmSelectEncargadoEvento')
+	}else{
+		resetComboEncargado();
+	}
+}
+
+function resetComboEncargado(){
+	setearCombo("cmbEncargado", cmbEncargado);
+}
+
+cons_opc_invitacion_contacto = null;
+function abrirModalConfirmInvitarContacto(elem, opc, obsHora){
+	idContacto = $(elem).parent().parent().parent().parent().find(".mdl-card__title").find("li[class='active']").attr("data-id-contacto");
+	if(idContacto != null){
+		$.ajax({
+			data : {idcontacto : idContacto,
+				    opc        : opc},
+			url  : 'c_detalle_evento/getPersonasAInvitar',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				setearCombo("selectHorarioInvitar", null);
+				if(data.opc == 1 || data.opc == 2){
+					$("#cont_input_razon_invitar").hide();
+				}else{
+					$("#cont_input_razon_invitar").show();
+				}
+				$("#cont_tb_familiares_invitar").html(data.tabla);
+				$("#tbFamiliaresAInivitar").bootstrapTable({});
+				if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+				    $('.selectButton').selectpicker('mobile');
+				} else {
+					$('.selectButton').selectpicker();
+				}
+				componentHandler.upgradeAllRegistered();
+			}catch(err){
+				location.reload();
+			}
+		});
+		cons_opc_invitacion_contacto = opc;
+		modal("modalConfirmInvitarContacto");
+	}
+}
+
+function invitarContacto(){
+	var json = {};
+	var contactos = [];
+	json.contacto = contactos;
+	$('.persona_invitar').each(function(i, obj) {
+	    var contacto         = {"check"    : isChecked(this), 
+						        "contacto" : $(this).attr("data-id-contacto"), 
+						        "hora"     : $("#"+$(this).attr("data-id-select")).val()};
+			
+			json.contacto.push(contacto);
+	});
+	var jsonStringContactos = JSON.stringify(json);
+	if(cons_opc_invitacion_contacto != null){
+		Pace.restart();
+		Pace.track(function() {
+			var razoninasistencia = $("#razonInasistenciaContactoInvitar").val();
+			addLoadingButton('btnMCIC');
+			$.ajax({
+				data : { opcinvitacion     : cons_opc_invitacion_contacto,
+				         contactos         : jsonStringContactos,
+				         razoninasistencia : razoninasistencia,
+				         opcmenu           : cons_opcion_invitado_selecc},
+				url  : 'c_detalle_evento/invitarContacto',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						cantidadScroll = 1;
+						$("#cont_cards_familia1").html(null);
+						$("#cont_cards_familia2").html(null);
+						$("#cont_cards_familia3").html(null);
+						$("#cont_cards_familia4").html(null);
+						$("#"+cons_card_invitado_selecc).html(data.familias);
+						$("#"+data.id_span).html(data.count_contactos);
+						componentHandler.upgradeAllRegistered();
+						stopLoadingButton('btnMCIC');
+						modal("modalConfirmInvitarContacto");
+						msj('success', data.msj, null);
+					}else{
+						stopLoadingButton('btnMCIC');
+						msj('success', data.msj, null);
+					}
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}
+}
+
+cons_index_cant_apoyo_adm = null;
+function abrirModalAsignarPersonasApoyoMaterial(dataRecursoEvento, index){
+	cons_id_apoyo_administrativo_evento = dataRecursoEvento;
+	cons_index_cant_apoyo_adm = index;
+	$('#buscarAsignarApoyoAdministrativo').val('');
+	$('#btnBuscar').removeClass("mdl-button--raised");
+	$('#btnBuscar').attr('disabled', true);
+	$('#cont_busqueda_apoyo_administrativo').html(null);
+	modal("modalBuscarPersonasApoyoAdministrativo");
+}
+
+function buscarApoyoAdministrativo(e) {
+	var busqueda = $("#buscarAsignarApoyoAdministrativo").val();
+	if(e != undefined) {
+		if(e.keyCode != 13) {
+			return;
+		}
+		if(busqueda.length == 0) {
+			$('#cont_busqueda_apoyo_administrativo').html(null);
+			return;
+		}
+	}
+	if(cons_id_apoyo_administrativo_evento != null && busqueda.length >= 3){
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				data : { busqueda      : busqueda,
+				         recursoevento : cons_id_apoyo_administrativo_evento},
+				url  : 'c_detalle_evento/buscarApoyoAdministrativo',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					$("#cont_busqueda_apoyo_administrativo").html(data.busqueda);
+					$("#tbBusquedaAuxiliaresApoyoAdm").bootstrapTable({});
+					$(document).ready(function(){
+		        	    $('[data-toggle="tooltip"]').tooltip(); 
+		            });
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}else{
+		$("#cont_busqueda_apoyo_administrativo").html(null);
+	}
+}
+
+cons_row_elementApoyoAdm   = null;
+cons_recursoEventoApoyoAdm = null;
+cons_personaApoyoAdm 	   = null;
+function abrirModalAsignarApoyoAdm(event, recursoEvento, persona){
+	cons_row_elementApoyoAdm   = event;
+	cons_recursoEventoApoyoAdm = recursoEvento;
+	cons_personaApoyoAdm       = persona;
+	setearInput("observacionAsignarApoyoAdministrativoAux", null);
+	modal("modalConfirmAsignApoyoAdm");
+}
+
+function asignarAuxiliarApoyoAdm(){
+	var busqueda = $("#buscarAsignarApoyoAdministrativo").val();
+	var observacion = $("#observacionAsignarApoyoAdministrativoAux").val();
+	if(observacion != null){
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				data : { recursoevento : cons_recursoEventoApoyoAdm,
+					     persona       : cons_personaApoyoAdm,
+					     busqueda      : busqueda,
+					     observacion   : observacion},
+				url  : 'c_detalle_evento/asignarAuxiliarApoyoAdministrativo',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);	
+					if(data.error == 0){
+						cons_row_elementApoyoAdm.parent().parent().addClass('mdl-table__remove');
+						setTimeout(function(){ 
+							cons_row_elementApoyoAdm.parent().parent().css('display', 'none')	 
+						}, 1000);
+						modal("modalConfirmAsignApoyoAdm");
+						setTimeout(function(){ 
+							$("#cont_busqueda_apoyo_administrativo").html(data.busqueda);
+							$("#tbBusquedaAuxiliaresApoyoAdm").bootstrapTable({});
+							$("#cantidad_apoyo_adm_"+cons_index_cant_apoyo_adm).text(data.count);
+						}, 1250);
+					}else{
+						msj("success", data.msj, null);
+					}
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}else{
+		msj("success", "Ingrese una observacion", null);
+	}
+}
+
+function changeDuracionSedeRuta(dataSede, elem){
+	var duracion = $(elem).val();
+	if(duracion >= 1){
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				data : { sede     : dataSede,
+					     duracion : duracion},
+				url  : 'c_detalle_evento/changeDuracionSedeRuta',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						msj('success', data.msj, null);
+					}else{
+						msj('error', data.msj, null);
+					}
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}
+}
+
+function abrirModalCrearHorarioEvaluacion(){
+	setearInput("nombreHorarioCrear", null);
+	setearInput("horaHorarioCrear", null);
+	modal("modalCrearHorarioEvaluacion");
+}
+
+function crearHorarioEvaluacion(){
+	var hora        = $("#horaHorarioCrear").val();
+	var descripcion = $("#nombreHorarioCrear").val();
+	if(descripcion != null && hora != null){
+		Pace.restart();
+		Pace.track(function() {
+			addLoadingButton('btnMCHE');
+			$.ajax({
+				data : {hora        : hora,
+					    descripcion : descripcion},
+				url  : 'c_detalle_evento/crearHorarioEvaluacion',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.error == 0){
+						$("#tablaHorarioEvaluacion").html(data.tablaHoras);
+						$("#tbHorarioEvaluacion").bootstrapTable({});
+						componentHandler.upgradeAllRegistered();
+						modal("modalCrearHorarioEvaluacion");
+						setCombo("selectHorarioInvitar", data.comboHorario, "Selecciona un horario", null);
+						setCombo("selectHorarioInvitarEditar", data.comboHorario, "Selecciona un horario", null);
+						msj('success', data.msj, null);
+					}else{
+						msj('success', data.msj, null);
+					}
+					stopLoadingButton('btnMCHE');
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}
+}
+
+var cons_correlativo_horario_evaluacion = null;
+function abrirModalConfirmDeleteHorarioEvaluacion(dataCorre){
+	cons_correlativo_horario_evaluacion = dataCorre;
+	modal("modalConfirmDeleteHorarioEvaluacion");
+}
+
+function deleteHorarioEvaluacion(){
+	addLoadingButton('btnMCDE');
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : {correlativo : cons_correlativo_horario_evaluacion},
+			url  : 'c_detalle_evento/borrarHorarioEvaluacion',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					$("#tablaHorarioEvaluacion").html(data.tablaHoras);
+					$("#tbHorarioEvaluacion").bootstrapTable({});
+					componentHandler.upgradeAllRegistered();
+					modal("modalConfirmDeleteHorarioEvaluacion");
+					setCombo("selectHorarioInvitar", data.comboHorario, "Selecciona un horario", null);
+					setCombo("selectHorarioInvitarEditar", data.comboHorario, "Selecciona un horario", null);
+					msj('success', data.msj, null);
+				}else{
+					msj('success', data.msj, null);
+				}
+				stopLoadingButton('btnMCDE');
+			}catch(err){
+				location.reload();
+				stopLoadingButton('btnMCDE');
+			}
+		});
+	});
+}
+
+function abrirModalCambiarHorario(elem){
+	idContacto = $(elem).parent().parent().parent().parent().find(".mdl-card__title").find("li[class='active']").attr("data-id-contacto");
+	if(idContacto != null){
+		$.ajax({
+			data : {idcontacto : idContacto,
+				    opcion     : cons_opcion_invitado_selecc},
+			url  : 'c_detalle_evento/getHorarioCambiar',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				$("#cont_tb_horarios_invitados").html(data.tabla);
+				$("#tbCambiarHorariosInvitados").bootstrapTable({});
+				if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+				    $('.selectButton').selectpicker('mobile');
+				} else {
+					$('.selectButton').selectpicker();
+				}
+				modal("modalEditHorarioInvitacion");
+			}catch(err){
+				location.reload();
+			}
+		});
+	}
+}
+
+function cambiarHorarioInvitado(contacto, elem){
+	valor = $(elem).val();
+	if(valor.length != 0){
+		$.ajax({
+			data : {idcontacto : contacto,
+				    hora       : valor},
+			url  : 'c_detalle_evento/cambiarHorarioInvitado',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					msj('success', data.msj, null);
+				}
+			}catch(err){
+				location.reload();
+			}
+		});
+	}
+}
+
+function habilitarSelectHoraCitada(num, elem) {
+	if(isChecked(elem)){
+		disableEnableCombo("selectHoraCitadaInvitado"+num, true);
+	}else{
+		disableEnableCombo("selectHoraCitadaInvitado"+num, false);
+	}
+	setearCombo("selectHoraCitadaInvitado"+num, null);
+}
+
+var recursoEventoGlobal = null;
+var personaGlobal       = null;
+function modalDeletePersonaRecursoEvento(recursoEvento, persona) {
+	$('.pregunta').text('\u00BFEst\u00E1 seguro de eliminar a esta persona?');
+	$('#elim').attr('onclick', 'borrarPersonaRecursoEvento()');
+
+	recursoEventoGlobal = recursoEvento;
+	personaGlobal		= persona;
+	modal('modalDelete');
+}
+
+function borrarPersonaRecursoEvento(recursoEvento, persona) {
+	addLoadingButton('elim');
+	if(recursoEventoGlobal == null || recursoEventoGlobal == '' || personaGlobal == null || personaGlobal == '') {
+		return;
+	}
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : {recursoevento : recursoEventoGlobal,
+				    persona       : personaGlobal},
+			url  : 'c_detalle_evento/eliminarPersonaRecursoEvento',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					modal('modalDelete');
+					$("#cont_asignado_apoyo_adm").html(data.tablaApoyoAdministrativo);
+					$("#tbApoyoAdiministrativoAsignados").bootstrapTable({});
+					componentHandler.upgradeAllRegistered();
+					$("#cantidad_apoyo_adm_"+cons_index_cant_apoyo_adm).text(data.count);
+					msj('success', data.msj, null);
+					stopLoadingButton('elim');
+				}
+			}catch(err){
+				location.reload();
+				stopLoadingButton('elim');
+			}
+		});
+	});
+}
+
+function clickConfirmacion(recursoEvento, elem){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : {recursoevento : recursoEvento},
+			url  : 'c_detalle_evento/cambiarConfirmacion',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					$(elem).find("i").removeClass("mdi-thumbs_up_down");
+					$(elem).find("i").removeClass("mdi-thumb_up");
+					$(elem).find("i").removeClass("mdi-thumb_down");
+					
+					$(elem).find("i").addClass(data.icon);
+					$(elem).find("i").css("color", data.color);
+					msj('success', data.msj, null);
+				}
+			}catch(err){
+				location.reload();
+			}
+		});
+	});
+}
+
+function confirmarAsistenciaRecursoEventoPersona(recursoEvento, datapersona, elem){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : {recursoevento : recursoEvento,
+					persona       : datapersona},
+			url  : 'c_detalle_evento/confirmacionRecursoEvento',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					$(elem).find("i").removeClass("mdi-thumbs_up_down");
+					$(elem).find("i").removeClass("mdi-thumb_up");
+					$(elem).find("i").removeClass("mdi-thumb_down");
+					
+					$(elem).find("i").addClass(data.icon);
+					$(elem).find("i").css("color", data.color);
+					msj('success', data.msj, null);
+				}
+			}catch(err){
+				location.reload();
+			}
+		});
+	});
+}
+
+cantidadScroll = 1;
+function onScrollEvent(element){
+		if($(element).scrollTop() + $(element).innerHeight()+1>=$(element)[0].scrollHeight){
+			$("#loading_cards").css("display","block");
+			Pace.restart();
+			Pace.track(function() {
+			$.ajax({
+	  			type    : 'POST',
+	  			'url'   : 'c_detalle_evento/onScrollGetFamilias',
+	  			data    : {countScroll   : cantidadScroll},
+	  			'async' : false
+	  		}).done(function(data){
+	  			data = JSON.parse(data);
+	  			$("#cont_cards_familia1").append(data.cardsFamilia);
+	  			componentHandler.upgradeAllRegistered();
+	  			cantidadScroll = cantidadScroll + 1;
+	  			$("#loading_cards").css("display","block");
+	  		});
+		});
+	}
+}
+
+function goToViewContacto(elem){
+	var idDetalleContacto = $(elem).parent().parent().find(".mdl-card__title").find("li[class='active']").attr("data-id-contacto");
+	
+	if(idDetalleContacto != null){
+		$.ajax({
+			type    : 'POST',
+			'url'   : 'c_contactos/goToViewContacto',
+			data    : {idcontacto : idDetalleContacto},
+			'async' : true
+		}).done(function(data){
+			window.location.href = 'c_detalle_contactos';
+		});
+	}
+}
+
+function goToEditContacto(elem){
+	var idDetalleContacto = $(elem).parent().parent().find(".mdl-card__title").find("li[class='active']").attr("data-id-contacto");
+	
+	if(idDetalleContacto != null){
+		$.ajax({
+			type    : 'POST',
+			'url'   : 'c_contactos/goToEditContacto',
+			data    : {idcontacto : idDetalleContacto},
+			'async' : true
+		}).done(function(data){
+			window.location.href = 'c_detalle_contactos';
+		});
+	}
+}
+
+function abrirModalenviarCorreoPariente(idContacto){
+	idcontactomensaje = idContacto;
+	setearInput("asuntoCorreoEnviar", null);
+	setearInput("mensajeCorreoEnviar", null);
+	modal("modalEnviarMensajePariente");
+}
+
+function enviarCorreoPariente(){
+	asunto  = $("#asuntoCorreoEnviar").val();
+	mensaje = $("#mensajeCorreoEnviar").val();
+	if($.trim(asunto).length != 0 && $.trim(mensaje).length != 0){
+		Pace.restart();
+		Pace.track(function(){
+			$.ajax({
+				type    : 'POST',
+				'url'   : 'c_contactos/enviarMensajeContacto',
+				data    : {contacto : idcontactomensaje,
+						   asunto   : asunto,
+						   mensaje  : mensaje},
+				'async' : true
+			}).done(function(data){
+				data = JSON.parse(data);
+				msj('success', data.msj, null);
+				modal("modalEnviarMensajePariente");
+			});
+		});
+	}else{
+		msj('success', "Ingrese todos los campos", null);
+	}
+}
+
+function abrirModalLlamadas(idcontacto,telefono){
+	$.ajax({
+		type    : 'POST',
+		'url'   : 'c_contactos/abrirModalLlamadas',
+		data    : {idcontacto : idcontacto,
+			       telefono   : telefono},
+		'async' : false
+	}).done(function(data){
+		data = JSON.parse(data);
+		$(".tabLlamadas").removeClass("is-active");
+		$("#tabLlamadas").addClass("is-active");
+		$(".panelLlamadas").removeClass("is-active");
+		$("#llamadas").addClass("is-active");
+		
+		setearCombo("selectEvento",null);
+		setearCombo("selectTipoLlamada",null);
+		setearInput("observacionLlamada",null);
+		$("#cont_table_llamadas").html(data.tablaLlamadas);
+		$("#tbLlamadas").bootstrapTable({});
+		$('.fixed-table-toolbar').addClass('mdl-card__menu');
+		componentHandler.upgradeAllRegistered();
+		idcontactollamada = idcontacto;
+		modal("modalLlamadas");
+		
+		$("#numTelefono").text(data.telefono);
+	});
+}
+
+function agregarLlamada(opcion){
+	var idevento      = $("#selectEvento").val();
+	var tipoLlamada = $("#selectTipoLlamada").val();
+	var observacion = $("#observacionLlamada").val();
+	addLoadingButton('btnMLL');
+	$.ajax({
+		type    : 'POST',
+		'url'   : 'c_contactos/agregarLlamada',
+		data    : {idevento      : idevento,
+			       tipoLlamada   : tipoLlamada,
+			       observacion   : observacion,
+			       idcontacto    : idcontactollamada,
+			       opcion        : opcion},
+		'async' : false
+	}).done(function(data){
+		data = JSON.parse(data);
+		if(data.error == 0){
+			setearCombo("selectEvento",null);
+			setearCombo("selectTipoLlamada",null);
+			setearInput("observacionLlamada",null);
+			$("#cont_table_llamadas").html(data.tablaLlamadas);
+			$("#tbLlamadas").bootstrapTable({});
+			$('.fixed-table-toolbar').addClass('mdl-card__menu');
+			componentHandler.upgradeAllRegistered();
+			msj('success', data.msj, null);
+		} else {
+			msj('success', data.msj, null);
+		}
+		stopLoadingButton('btnMLL');
+	});
+}
+
+function activeDesactiveSearch(){
+	var nameadmin = $("#buscarAsignarApoyoAdministrativo").val();
+	if($.trim(nameadmin).length>=3){
+		$('#btnBuscar').attr('disabled', false);
+		$('#btnBuscar').addClass('mdl-button--raised');
+	} else{
+		$("#cont_busqueda_apoyo_administrativo").html(null);
+		$('#btnBuscar').attr('disabled', true);
+		$('#btnBuscar').removeClass('mdl-button--raised');
+	}
+}
+
+function mostrarPostulantesHorario(horario, hora){
+	$.ajax({
+		type    : 'POST',
+		'url'   : 'c_detalle_evento/postulantesHorario',
+		data    : {horario : horario},
+		'async' : false
+	}).done(function(data){
+		data = JSON.parse(data);
+		$("#title_postulantes_horario").html("Postulantes: "+hora);
+		$("#cont_tab_postulantes_horario").html(data.tabla);
+		modal("modalPostulantesHorario");
+	});
+}
+
+function verObservacionApoyoAdministrativoAux(obsPedido, obsResp){
+	setearInput("observacionPedidoApoyoAdministrativoAux", obsPedido);
+	setearInput("observacionRespuestaApoyoAdministrativoAux", obsResp);
+	modal("modalObservacionApoyoAdministrativoAux")
+}
+
+function abrirModalAsignarApoyoAdministrativoSede(){
+	setearInput("buscarAsignarApoyoAdministrativoSede", null);
+	$("#cont_busqueda_apoyo_administrativo_sede").html(null);
+	modal("modalAsignarApoyoAdministrativoSede");
+}
+
+function buscarApoyoAdministrativoSede(){
+	nombre = $("#buscarAsignarApoyoAdministrativoSede").val();
+	if(nombre.length != 0){
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				data : {nombre : nombre},
+				url  : 'c_detalle_evento/buscarApoyoAdmSede',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					$("#cont_busqueda_apoyo_administrativo_sede").html(data.tabla);
+					$("#tbBusquedaAuxiliaresApoyoAdmSede").bootstrapTable({});
+					$(document).ready(function(){
+		        	    $('[data-toggle="tooltip"]').tooltip(); 
+		            });
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}else{
+		$("#cont_busqueda_apoyo_administrativo_sede").html(null);
+	}
+}
+
+var personaApoyoAdmSede = null;
+function abrirModalAsignarApoyoAdmSede(persona){
+	personaApoyoAdmSede = persona;
+	modal("modalConfirmAsignarApoyoAdmSede");
+}
+
+function guardarApoyoAdmSede(){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : {persona : personaApoyoAdmSede},
+			url  : 'c_detalle_evento/guardarApoyoAdministrativoSede',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				$("#cont_table_recurso_humano_sede").html(data.tabla);
+				$("#tbRecursosHumanosSede").bootstrapTable({});
+				modal("modalConfirmAsignarApoyoAdmSede");
+			}catch(err){
+				location.reload();
+			}
+		});
+	});
+}

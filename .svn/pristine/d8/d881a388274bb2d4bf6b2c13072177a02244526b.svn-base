@@ -1,0 +1,88 @@
+.base_color{
+	background-color: #6a4a89;
+	border-color: #6a4a89;
+	color: white;
+}
+1	
+.borde{
+	border-radius:3px;
+}
+
+.form_distance{
+	margin-top: -28px;
+	margin-left: -11px;
+	margin-right: -11px;
+}
+
+.table_distance{
+	margin-top: -17px;
+}
+
+.borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+    border-bottom: none;
+	border-left: none;
+}
+
+.table thead{
+	color: #8597A8;
+}
+
+.fixed-table-container{
+	border:none;
+}
+
+.fixed-table-container .fixed-table-pagination .pagination ul.pagination li a{
+	border: none;
+	border-radius: 50%;
+}
+
+.fixed-table-container .fixed-table-pagination .pagination ul.pagination li a:hover{
+	background-color: rgba(158, 158, 158, .2) !important;
+}
+
+.fixed-table-container .fixed-table-pagination .pagination ul.pagination li a:active{
+	background-color: rgba(158, 158, 158, .4) !important;
+}
+
+.fixed-table-toolbar .btn-group button.dropdown-toggle{
+	background-color: #FFF;
+    border: none;
+	box-shadow: none;
+}
+
+.fixed-table-toolbar .btn-group button.dropdown-toggle:HOVER{
+	background-color: rgba(158, 158, 158, .2);
+}
+
+.fixed-table-toolbar .btn-group button.dropdown-toggle:ACTIVE{
+	background-color: rgba(158, 158, 158, .4);
+}
+
+.caretSelects{
+	display: block;
+}
+/*
+ ::-webkit-scrollbar {
+    width: 8px;  /* for vertical scrollbars */
+    /*height: 5px; /* for horizontal scrollbars *//*
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#menu:hover{
+	-webkit-filter:brightness(1.2);
+}*/
+
+#viewID:hover:after{
+	display: block;
+}
+#viewID:not(:hover):after{
+	display: none;
+}
+#listaMenu:hover ~ #viewID:after{
+	display: block;
+}

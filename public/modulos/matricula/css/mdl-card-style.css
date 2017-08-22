@@ -1,0 +1,624 @@
+@CHARSET "UTF-8";
+
+/* --------------------------
+ *       STUDENT
+ * --------------------------
+ */
+.mdl-card.mdl-student{
+    max-width: 250px;
+	margin-top: 0px;	
+	margin-bottom:10px;
+	margin-right: 2.5px;
+	margin-left: 2.5px;	
+	display: inline-block;	
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
+}
+
+.mdl-card.mdl-student .mdl-card__title{
+	padding-bottom: 10px;
+	padding-top: 60px;
+}
+
+.mdl-card.mdl-student .mdl-card__title img{
+	margin: auto;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+.mdl-card.mdl-student .mdl-card__supporting-text{
+	padding-top: 0px;
+	text-align: center;	
+}
+
+.mdl-card.mdl-student .mdl-card__supporting-text .icon{
+	float: right;
+}
+
+.student-desc-state{
+	font-size: 14px;	
+	margin-bottom: 5px;
+}
+
+.student-desc-state i{
+	position: relative;
+	top: 2.5px;
+	font-size: 14px;		
+}
+
+.state{
+    position: absolute;
+    top: 120px;
+    right: calc(50% - 60px);
+	text-align: center;
+	line-height: 2.5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.state:HOVER{
+	cursor: pointer;
+}
+
+.pre-registro:after,
+.registrado:after,
+.promovido:after,
+.verano:after,
+.retirado:after,
+.no-promivido:after,
+.nivelacion:after,
+.egresado:after{
+	font-weight: 500;		
+}
+
+/*----- PRE-REGISTRO -----*/
+.pre-registro{
+	background-color: #EEEEEE;	
+	color: #757575;
+}
+
+.pre-registro:after{
+	content: "PR";
+}
+
+/*-----   REGISTRO   -----*/
+.registrado{
+	background-color: #E0E0E0;
+	color: #9E9E9E;	
+}
+
+.registrado:after{
+	content: "RE";
+}
+
+/*-----  MATRICULADO  -----*/
+.matriculado,
+.student-matriculado ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #3350B9;
+	color: #FFF
+}
+
+.matriculado:after{
+	content: "MT";	
+}
+
+.student-matriculado ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #3350B9;
+}
+
+/*-----   PROMOVIDO   -----*/
+.promovido,
+.student-promovido ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #8BC34A;
+    color: #FFF;	
+}
+
+.promovido:after{
+	content: "PV";		
+}
+
+.student-promovido ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #8BC34A;
+}
+
+/*-----    VERANO    -----*/
+.verano,
+.student-verano ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #FFEB3B;
+    color: #757575;	
+}
+
+.verano:after{
+	content: "VR";		
+}
+
+.student-verano ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #FFEB3B;
+}
+
+/*-----    RETIRADO    -----*/
+.retirado,
+.student-retirado ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #757575;
+    color: #FFF;	
+}
+
+.retirado:after{
+	content: "RT";		
+}
+
+.student-retirado ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #757575;
+}
+
+/*-----    NO PROMOVIDO    -----*/
+.no-promovido,
+.student-no-promovido ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #E53935;
+    color: #FFF;	
+}
+
+.no-promovido:after{
+	content: "NP";		
+}
+
+.student-no-promovido ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #E53935;
+}
+
+/*-----    NIVELACION    -----*/
+.nivelacion,
+.student-nivelacion ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #EF9A9A;
+    color: #FFF;	
+}
+
+.nivelacion:after{
+	content: "NV";
+}
+
+.student-nivelacion ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #EF9A9A;
+}
+
+/*-----    EGRESADO    -----*/
+.egresado,
+.student-egresado ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #FF9800;
+    color: #FFF;	
+}
+
+.egresado:after{	
+	content: "EX";	
+}
+
+.student-egresado ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #FF9800;
+}
+
+/* --------------------------
+ *       CLASSROOM 
+ * --------------------------
+ */
+.mdl-card.mdl-classroom{
+    max-width: 250px;
+	margin-top: 0px;	
+	margin-bottom:10px;
+	margin-right: 2.5px;
+	margin-left: 2.5px;		
+	display: inline-block;    
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;	
+}
+
+.mdl-card.mdl-classroom .mdl-card__title-text{
+    font-size: 16px;	
+	color: 	#5E5E5E;
+	font-weight: 500;
+	cursor:default;
+}
+
+.mdl-card.mdl-classroom .mdl-card__supporting-text{	
+	padding-top: 0px;
+	text-align: center;
+}
+
+/*----- AÑO PASADO -----*/
+.classroom-last-year ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #EEEEEE;	
+	color: #757575;
+}
+.classroom-last-year ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #757575;
+}
+
+
+/*----- AÑO RECIENTE -----*/
+.classroom-now-year ~ .mdl-card__actions .mdl-button--colored{
+	background-color: #3350B9;
+	color: #FFF
+}
+
+.classroom-now-year ~ .mdl-card__actions .mdl-button--colored-text{
+	color: #3350B9;
+}
+
+
+.classroom-photo-desc strong{
+	font-weight: 600
+}
+
+.classroom-photo{
+	text-align: right;	
+	color: #9E9E9E;
+	padding: 0
+}
+
+.classroom-photo img{
+	margin: 0;
+	padding: 0;
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+}
+
+.classroom-photo-desc{
+	font-weight: 100;	
+	color: #9E9E9E;
+	padding: 0
+}
+
+@media ( max-width : 620px ){
+	.col-md-4.col-sm-6.col-xs-6{
+		width: 100%;
+	}
+}
+
+/* --------------------------
+ *       PARENT
+ * --------------------------
+ */
+.mdl-card.mdl-parent{
+    max-width: 250px;
+	margin-top: 0px;	
+	margin-bottom:10px;
+	margin-right: 2.5px;
+	margin-left: 2.5px;		
+	display: inline-block;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;	
+}
+
+.mdl-card.mdl-parent .mdl-card__title{
+	padding-bottom: 10px;
+	padding-top: 50px;	
+}
+
+/*.mdl-card.mdl-parent .mdl-card__title:hover img{	
+	opacity: 0.5;
+}*/
+
+.mdl-card.mdl-parent .mdl-card__supporting-text{
+	padding-top: 0;
+	text-align: center;
+	min-height: 165px;
+}
+
+/* ---------------------------------------
+ *       DETAIL TEACHER
+ * ---------------------------------------
+ */
+.mdl-card.mdl-teacher{
+	max-width: 250px;
+	margin-top: 0px;	
+	margin-bottom:10px;
+	margin-right: 2.5px;
+	margin-left: 2.5px;	
+	min-height: 196px;	
+	display: inline-block;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;	
+}
+
+.mdl-card.mdl-teacher .mdl-card__title{
+	padding-bottom: 10px;
+	padding-top: 60px;
+}
+
+.mdl-card.mdl-teacher .mdl-card__supporting-text{
+	padding-top: 0;
+	text-align: center;
+}
+
+.mdl-card.mdl-teacher .mdl-card__title img{
+	margin: auto;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+.mdl-card.mdl-teacher .mdl-card__supporting-text{
+	padding-top: 0px;
+	text-align: center;
+}
+
+/* MDL PHOTO */
+.mdl-photo{
+	background-color: #FFFFFF;
+    cursor: pointer;
+    overflow: hidden;
+    width: 100px;
+	margin: auto;
+	text-align: center;	
+	padding: 0;
+}
+
+.mdl-img {
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	margin: auto 0;
+	cursor: pointer;
+	border: 3px solid;
+	border-color: #FFFFFF;	
+	opacity: 1;	
+    -webkit-transition: border-color .5s ease-in, opacity .5s ease-in;	
+    -moz-transition: border-color .5s ease-in, opacity .5s ease-in;	
+    -ms-transition: border-color .5s ease-in, opacity .5s ease-in;
+    -o-transition: border-color .5s ease-in, opacity .5s ease-in;	
+	transition: border-color .5s ease-in, opacity .5s ease-in;	
+}
+
+.mdl-photo:hover .mdl-img{
+	opacity: 0.5;	
+	border-color: #3F41B5;
+}
+
+.mdl-photo .fade-caption i{
+	font-size: 42px;
+	color: #3F41B5;
+	position:absolute;
+	right: -webkit-calc(50% - 20.5px);
+	right: -moz-calc(50% - 20.5px);	
+	right: -ms-calc(50% - 20.5px);	
+	right: -o-calc(50% - 20.5px);	
+	right: calc(50% - 20.5px);	
+    top: 75px;
+	opacity: 0;
+	-webkit-transform: scale(0);	
+	transform: scale(0);
+    -webkit-transition: opacity .5s ease-in, transform.25s ease-in;	
+	transition: opacity .5s ease-in, transform.25s ease-in;	
+}
+
+.mdl-photo:hover .fade-caption i{
+	opacity:1;
+	-webkit-transform: scale(1);	
+	transform: scale(1);
+}
+
+/* TITLE CARDS */
+.mdl-card.mdl-teacher h2.mdl-card__title-text,
+.mdl-card.mdl-teacher h2.mdl-card__title-text,
+.mdl-card.mdl-teacher h2.mdl-card__title-text,
+.mdl-card.mdl-teacher h2.mdl-card__title-text {
+	color: #757575;
+	white-space: nowrap;
+	width:calc(100% - 35px);
+}
+
+/* SOMBRAS HOVRES ALL CARDS */
+.mdl-card.mdl-student:hover,
+.mdl-card.mdl-classroom:hover,
+.mdl-card.mdl-parent:hover,
+.mdl-card.mdl-teacher:hover {
+	box-shadow: 0 2px 15px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* ITEM/ VALUE FOR CARDS */
+.student-name,
+.classroom-name,
+.parent-name,
+.teacher-name {
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+	text-align: center;	
+}
+
+.student-name:NTH-CHILD(2),
+.classroom-name:NTH-CHILD(2),
+.parent-name:NTH-CHILD(2),
+.teacher-name:NTH-CHILD(2) {
+	margin-bottom: 7.5px;	
+}
+
+.student-head,
+.student-item,
+.student-value,
+.classroom-head,
+.classroom-item,
+.classroom-value,
+.parent-head,
+.parent-item,
+.parent-value,
+.teacher-head,
+.teacher-item,
+.teacher-value{
+	height: 20px		
+}
+
+.student-head,
+.classroom-head,
+.parent-head,
+.teacher-head {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0
+}
+
+.student-value.student-link,
+.classroom-value.classroom-link,
+.parent-value.parent-link,
+.teacher-value.student-link {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.student-value,
+.classroom-value,
+.parent-value,
+.teacher-value {
+	font-weight: lighter;	
+}	
+
+.student-head,
+.student-item,
+.classroom-head,
+.classroom-item,
+.parent-head,
+.parent-item,
+.teacher-head,
+.teacher-item {
+	text-align: left;	
+}
+
+.student-item,
+.classroom-item,
+.parent-item,
+.teacher-item {
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;
+	font-weight: 100;	
+	color: #9E9E9E;
+	padding: 0;
+}
+
+.student-value,
+.classroom-value,
+.parent-value,
+.teacher-value {
+	text-align: right;
+	padding-right: 0;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;	
+	font-weight: 500;		
+	color: #757575
+}
+
+/* RESPONSIVE ALL CARDS */
+@media ( max-width : 320px ){
+	.mdl-card.mdl-student,
+	.mdl-card.mdl-classroom,
+	.mdl-card.mdl-parent	{
+		margin-left: 0;
+		margin-right: 0
+	}
+}
+
+@media ( min-width : 321px ) and ( max-width : 799px ){	
+	.mdl-card.mdl-student:NTH-CHILD( 2n - 1 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 2n - 1 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 2n - 1 ) {
+		margin-left: 0;
+		margin-right: 2.5px;	
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 2n ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 2n ),
+	.mdl-card.mdl-parent:NTH-CHILD( 2n ) {
+		margin-right: 0;
+		margin-left: 2.5px;		
+	}
+}
+
+@media ( min-width : 800px ) and ( max-width : 1059px ){
+	.mdl-card.mdl-student:NTH-CHILD( 3n - 2 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 3n - 2 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 3n - 2 ) {
+		margin-left: 0;
+		margin-right: 2.5px;
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 3n - 1 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 3n - 1 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 3n - 2 ) {
+		margin-left: 2.5px;
+		margin-right: 2.5px;
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 3n ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 3n ),
+	.mdl-card.mdl-parent:NTH-CHILD( 3n ) {
+		margin-right: 0;
+		margin-left: 2.5px;
+	}
+}
+
+@media ( min-width : 1060px ) and ( max-width : 1309px ){
+	.mdl-card.mdl-student:NTH-CHILD( 4n - 3 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 4n - 3 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 4n - 3 ) {
+		margin-left: 0;
+		margin-right: 2.5px;
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 4n - 2 ),
+	.mdl-card.mdl-student:NTH-CHILD( 4n - 1 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 4n - 2 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 4n - 1 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 4n - 2 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 4n - 1 )  {
+		margin-left: 2.5px;
+		margin-right: 2.5px;
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 4n ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 4n ),
+	.mdl-card.mdl-parent:NTH-CHILD( 4n ) {
+		margin-right: 0;
+		margin-left: 2.5px;
+	}
+}
+
+@media ( min-width : 1310px ){
+	.mdl-card.mdl-student:NTH-CHILD( 5n - 4 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 5n - 4 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 5n - 4 ) {
+		margin-left: 0;
+		margin-right: 2.5px;
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 5n - 3 ),	
+	.mdl-card.mdl-student:NTH-CHILD( 5n - 2 ),
+	.mdl-card.mdl-student:NTH-CHILD( 5n - 1 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 5n - 3 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 5n - 2 ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 5n - 1 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 5n - 3 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 5n - 2 ),
+	.mdl-card.mdl-parent:NTH-CHILD( 5n - 1 ) {
+		margin-left: 2.5px;
+		margin-right: 2.5px;
+	}
+	
+	.mdl-card.mdl-student:NTH-CHILD( 5n ),
+	.mdl-card.mdl-classroom:NTH-CHILD( 5n ),
+	.mdl-card.mdl-parent:NTH-CHILD( 5n ) {
+		margin-right: 0;
+		margin-left: 2.5px;
+	}
+}

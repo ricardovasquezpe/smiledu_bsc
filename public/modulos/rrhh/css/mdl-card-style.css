@@ -1,0 +1,203 @@
+@CHARSET "UTF-8";
+
+/* --------------------------
+ *       PHOTO
+ * --------------------------
+ */
+.mdl-photo{
+    cursor: pointer;
+    overflow: hidden;
+    width: 100%;
+}
+
+.mdl-img {
+	border-radius: 50%;
+	width: 150px;
+	height :150px;
+	margin: auto 0;
+	cursor: pointer;
+}
+
+.mdl-photo .caption {
+    background-color: #FFF;
+    position: absolute;
+    color: #fff;
+    z-index: 100;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    -ms-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+    left: 0;
+}
+
+.mdl-photo .fade-caption {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 55px 0;
+}
+
+.mdl-photo .caption i{
+	font-size: 48px !important
+}
+
+.mdl-photo:hover .fade-caption {
+    opacity: 0.5;
+}
+
+/* --------------------------
+ *       COLLABORATOR
+ * --------------------------
+ */
+.mdl-card.mdl-collaborator{
+	/*background-image: url("../../../general/img/card/card_padding_student.png");*/
+	background-repeat: no-repeat;	
+    background-color: #FFF;
+    background-position: 0 0;
+    background-size: 100%;
+    max-width: 245px;
+    margin: 0 5px 10px 5px;	
+	display: inline-table;
+	transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out; 
+}
+
+.mdl-card.mdl-collaborator:hover{
+	box-shadow: 0 2px 15px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;  
+}
+
+.mdl-card.mdl-collaborator .mdl-card__title,
+.mdl-card.mdl-collaborator .mdl-card__supporting-text,
+.mdl-card.mdl-collaborator .mdl-card__actions{
+	background-color: transparent;	
+}
+
+.mdl-card.mdl-collaborator .mdl-card__title{
+	padding-bottom: 10px;
+	padding-top: 50px;	
+	text-align: center;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.mdl-card.mdl-collaborator .mdl-card__supporting-text{
+	padding-top: 0;
+	padding-bottom: 0;
+	text-align: center;
+	min-height: 165px;
+	padding-bottom: 10px;
+	max-width:245px;
+}
+
+.mdl-card.mdl-collaborator .mdl-card__actions{
+	padding: 0 10px 10px;
+}
+
+.mdl-card.mdl-collaborator .mdl-card__actions button.mdl-button{
+	margin:0;	
+}
+
+.mdl-card.mdl-collaborator .mdl-card__title .mdl-photo{
+    cursor: pointer;
+    overflow: hidden;
+    width: 100%;
+	text-align: center;
+}
+
+.mdl-card.mdl-collaborator .mdl-card__title .mdl-img {
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+
+.mdl-card.mdl-collaborator .mdl-card__title .mdl-photo .caption {
+    background-color: #FFF;
+    position: absolute;
+    color: #fff;
+    z-index: 100;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    -ms-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+    left: 0;
+}
+
+.mdl-card.mdl-collaborator .mdl-card__title .mdl-photo .fade-caption {
+    height: auto;
+    padding: 25px 0;
+}
+
+.collaborator-lastname,
+.collaborator-name{
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+	line-height: 1.25
+}
+
+.collaborator-lastname{
+	text-transform: uppercase;
+}
+
+.collaborator-rol{
+	color: #8bc34a
+}
+
+.collaborator-head,
+.collaborator-item,
+.collaborator-value{
+	height: 20px		
+}
+
+.collaborator-head{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0
+}
+
+.collaborator-head strong,
+.collaborator-value{
+	font-weight: lighter;	
+}
+
+.collaborator-head,
+.collaborator-item{
+	text-align: left;	
+}
+
+.collaborator-value.collaborator-link{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.collaborator-item{
+	font-weight: 100;	
+	color: #9E9E9E;
+	padding: 0;
+}
+
+.collaborator-value{
+	text-align: right;
+	padding-right: 0;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;	
+}
+
+/* CONTENEDOR CARDS */
+.mdl-content-cards{
+	text-align: left;
+}
+
+@media ( max-width : 768px ){
+	.mdl-content-cards{
+		text-align: center;
+	}
+}

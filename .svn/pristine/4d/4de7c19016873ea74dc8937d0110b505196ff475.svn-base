@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+header .mdl-layout__drawer-button {
+	display: none !important;
+}
+
+header a.mdl-button__return {
+	display: block;
+	z-index: 9;
+}

@@ -1,0 +1,83 @@
+@CHARSET "UTF-8";
+
+.col-lg-3.col-md-4.col-sm-6.col-xs-6{
+	padding: 0 10px;
+}
+	
+@media ( max-width : 620px ){
+	.col-lg-3.col-md-4.col-sm-6.col-xs-6{
+		width: 100%;
+		margin-bottom: 15px
+	}
+}
+#saveCompromisosAlu{
+	position: absolute;
+	top: 20px;
+    right: 20px;
+}
+.ocultar{
+	display:none;
+}
+
+table#tb_sedes tbody tr{
+	cursor: pointer;
+}
+
+.parpadea-text {  
+  animation-name: parpadeo;
+  animation-duration: .75s;
+  animation-timing-function: linear;
+  animation-iteration-count: 4;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: .75s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: 4;
+}
+
+.img-table img{
+	height: 25x;
+	width: 25px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+#tableSSedes .fixed-table-toolbar .btn-group>.btn-group{
+	margin-top: -4px;
+	margin-left: 0
+}
+
+#tab-1 .col-sm-4 .mdl-card__menu{
+	right: 50px
+}
+
+#tb_cronograma_calendario tbody tr td ul{
+	padding: 0;
+}
+
+.title-cronograma{
+	overflow:hidden;
+	text-overflow:ellipsis;	
+}
+
+#tableBancos {
+	overflow:auto;
+}

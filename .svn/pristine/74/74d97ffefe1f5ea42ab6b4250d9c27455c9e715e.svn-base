@@ -1,0 +1,33 @@
+ @CHARSET "UTF-8";
+
+#tab-1 .state {
+	top: 90px;
+	right: calc(50% - 90px);
+}
+
+.display-none {
+	display: none !important;
+}
+
+#tab-1 .mdl-photo {
+	width: 150px
+}
+
+#tab-1 .mdl-img {
+	width: 150px;
+	height: 150px;
+}
+
+#tab-1 .mdl-photo .fade-caption i {
+	right: calc(50% - 20.5px);
+	top: calc(50% - 20.5px);
+}
+
+.state {
+	top: 90px;
+	right: calc(50% - 95px);
+	line-height: 3;
+	width: 60px;
+	height: 60px;
+	font-size: 18px;
+}

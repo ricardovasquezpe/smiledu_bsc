@@ -1,0 +1,153 @@
+@CHARSET "ISO-8859-1";
+
+#button_Apps {
+	display: none;
+}
+
+.fade.in {
+	opacity: 0.5;
+}
+
+.popover{
+	display:block !important;
+}
+
+.popover.tour.fade.in{
+	opacity: 1 !important;
+}
+
+.modal.fade.in {
+	opacity: 1
+}
+
+.mdl-header-init {
+	background-image: url(../../img/header/mes_diciembre.png);
+	height: 320px;
+	-webkit-background-size: 500px;
+	background-size: 500px;
+	/*background-position: 50% 120px;*/
+	background-color: #FF9800;
+	/*background-attachment: center;*/
+	background-repeat: no-repeat;
+	webkit-transition: 1s all;
+	-moz-transition: 1s all;
+	-o-transition: 1s all;
+	transition: 1s all;
+	background-position:center;
+}
+
+.mdl-content-cards {
+	text-align: center;
+	margin-top: -25px;
+}
+
+.mdl-app.mdl-card .mdl-card__actions .mdl-button a i {
+	top: 2.5px;
+}
+
+.display-animation>* {
+	-webkit-transform: scale(0);
+	-ms-transform: scale(0);
+	-o-transform: scale(0);
+	transform: scale(0);
+}
+
+.display-animation>.animated {
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	-o-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+	-o-transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+	transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.no-js .display-animation>* {
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	-o-transform: scale(1);
+	transform: scale(1);
+}
+
+.mdl-desactive {
+	cursor: no-drop;
+}
+
+.mdl-desactive img {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+}
+
+@media ( max-width : 420px ) {
+	.mdl-header-init {
+		height: 165px;
+		-webkit-background-size: 225px;
+		background-size: 240px;
+		background-position: 50% 39%;
+	}
+}
+
+#all-products {
+	display: none
+}
+
+.popover.bottom>.arrow:after {
+	border-bottom-color: #FF9200;
+}
+
+.popover {
+	padding: 0px;
+}
+
+.tour-backdrop {
+	z-index: 98;
+}
+
+.tour-step-backdrop {
+	z-index: 99;
+}
+
+.tour-step-background {
+	z-index: 98;
+}
+
+.popover[class*="tour-"] {
+	z-index: 98;
+}
+
+@media ( max-width : 470px) {
+	.popover .arrow, .popover .arrow:after {
+		display: none;
+	}
+
+.ui-state-default {
+	display: inline-block;
+	height: 139px;
+	width: 139px;
+	margin-bottom: 25px;
+}
+
+.draggable {
+	cursor: url(images/grab.cur); /* fallback: Internet Explorer */
+	cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
+	cursor: -moz-grab; /* Firefox 1.5-26 */
+	cursor: grab; /* W3C standards syntax, should come least */
+	opacity: 1;
+	transition: all 0.2s;
+}
+
+.draggable:active {
+	cursor: url(images/grabbing.cur);
+	cursor: -webkit-grabbing;
+	cursor: -moz-grabbing;
+	cursor: grabbing;
+	opacity: 0.7;
+	transform: scale(0.95, 0.95);
+	transition: all 0.2s;
+}
+
+.mdl-header-input-group .mdl-textfield__input{
+	color: #757575 !important
+}

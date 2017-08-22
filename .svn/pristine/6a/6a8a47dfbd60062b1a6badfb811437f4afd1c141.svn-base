@@ -1,0 +1,424 @@
+<?php
+class M_becas extends CI_Model{
+	function __construct(){
+		parent::__construct();
+	}
+	
+	function verificaDeudaByAlumno($idAlumno) {
+        $sql = "SELECT COUNT(1) cuenta
+                  FROM pagos.movimiento m,
+                       pagos.detalle_cronograma dc
+                 WHERE dc.fecha_vencimiento < now()
+                   AND m.estado                 = '".ESTADO_VENCIDO."'
+                   AND m._id_persona            = ?
+                   AND dc.id_detalle_cronograma = m._id_detalle_cronograma";
+        $result = $this->db->query($sql,array($idAlumno));
+        return $result->row()->cuenta;
+    }
+    
+    function getBecaAsignada($tipoBeca, $id) {
+    	$sql = "SELECT _id_condicion, _id_persona, fecha_asignacion, estado, flg_beca, to_char(now(),'YYYY-MM-DD')
+				  FROM pagos.condicion_x_persona
+				 WHERE _id_condicion    = ?
+				   AND _id_persona      = ?
+				   AND fecha_asignacion = cast(to_char(now(),'YYYY-MM-DD') as date)";
+    	$result = $this->db->query($sql,array($tipoBeca, $id));
+    	return $result->num_rows();
+    }
+    
+    function asignarBecaDeAlumno($arrayInsert,$arrayUpdate = array()) {
+    	$data['error'] = EXIT_ERROR;
+    	$data['msj']   = null;
+    	$this->db->trans_begin();
+    	try{
+    		$this->db->insert('pagos.condicion_x_persona', $arrayInsert);
+    		if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+    			throw new Exception(MSJ_ERROR);
+    		}
+    		if(count($arrayUpdate) != 0){
+    			$this->db->update_batch('pagos.movimiento', $arrayUpdate, 'id_movimiento');
+    			$this->db->affected_rows();
+    			if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($arrayUpdate)) { 
+    				throw new Exception(MSJ_ERROR);
+    			}
+    		}
+    		$data['error'] = EXIT_SUCCESS;
+    		$data['msj']   = MSJ_INS;
+    		$this->db->trans_commit();
+    	}catch (Exception $e){
+    		$data['msj']   = $e->getMessage();
+    		$this->db->trans_rollback();
+    	}
+    	return $data;
+    }
+    
+    function porcentajeByBecas($tipoBeca) {
+    	$sql = "SELECT porcentaje_beca
+		    	  FROM pagos.condicion
+		    	 WHERE tipo_condicion = '0'
+    			  AND  id_condicion = ?";
+    	$result = $this->db->query($sql, $tipoBeca);
+    	return $result->row()->porcentaje_beca;
+    }
+    
+    function detallePagosByPersona($id) {
+    	$sql = "SELECT m.id_movimiento,
+    	               m.monto,
+    	               m.mora_acumulada,
+    	               m.monto_final,
+    	               m.descuento_acumulado,
+    				   d.cantidad_mora,
+    	               d.fecha_vencimiento,
+    	               d.fecha_descuento 
+				  FROM pagos.movimiento m,
+    			       pagos.detalle_cronograma d
+				 WHERE m._id_persona = ?
+				   AND m.monto_adelanto         = 0  
+				   AND m.estado                 <> '".ESTADO_PAGADO."'
+				   AND m.tipo_movimiento        = '".MOV_INGRESO."'
+				   AND m._id_detalle_cronograma = d.id_detalle_cronograma
+				   AND d.flg_beca               = '1'";
+    	$result = $this->db->query($sql, $id);
+    	return $result->result();
+    }
+    
+    function getComboBecas() {
+    	$sql = "SELECT id_condicion,
+    	               desc_condicion
+		    	  FROM pagos.condicion
+		    	 WHERE tipo_condicion = '0'
+    	      ORDER BY porcentaje_beca DESC";
+    	$result = $this->db->query($sql);
+    	return $result->result();
+    }
+    
+    function modificarBecaDeAlumno ($id, $arrayUpdate, $fecha, $tipoBeca, $updateGeneral) {
+    	$data['error'] = EXIT_ERROR;
+    	$data['msj']   = null;
+    	$this->db->trans_begin();
+    	try{
+    		$this->db->where('_id_persona', $id);
+    		$this->db->where('flg_beca', 1);
+    		$this->db->where('fecha_asignacion', $fecha);
+    		$this->db->where('_id_condicion', $tipoBeca);
+    		$this->db->update('pagos.condicion_x_persona', $arrayUpdate);
+    		if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+    			throw new Exception(MSJ_ERROR);
+    		}
+    		if(count($updateGeneral) != 0){
+    			$this->db->update_batch('pagos.movimiento', $updateGeneral, 'id_movimiento');
+    			$this->db->affected_rows();
+    			if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($updateGeneral)) {
+    				throw new Exception(MSJ_ERROR);
+    			}
+    		}
+    		$data['error'] = EXIT_SUCCESS;
+    		$data['msj']   = MSJ_UPT;
+    		$this->db->trans_commit();
+    	}catch (Exception $e){
+    		$data['msj']   = $e->getMessage();
+    		$this->db->trans_rollback();
+    	}
+    	return $data;
+    }
+    
+    function modificarBecaDeAlumnoInactivo ($id, $arrayUpdate, $fecha, $arrayUpdatePagos) {
+        $data['error'] = EXIT_ERROR;
+        $data['msj']   = null;
+        $this->db->trans_begin();
+        try{
+            $this->db->where('estado', FLG_ESTADO_ACTIVO);
+            $this->db->where('_id_persona', $id);
+            $this->db->where('flg_beca', 1);
+            $this->db->where('fecha_asignacion', $fecha);
+            $this->db->update('pagos.condicion_x_persona', $arrayUpdate);
+            if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+                throw new Exception(MSJ_ERROR);
+            }
+            if(count($arrayUpdatePagos) != 0){
+            	$this->db->update_batch('pagos.movimiento', $arrayUpdatePagos, 'id_movimiento');
+            	$this->db->affected_rows();
+            	if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($arrayUpdatePagos)) {
+            		throw new Exception(MSJ_ERROR);
+            	}
+            }
+            $data['error'] = EXIT_SUCCESS;
+            $data['msj']   = MSJ_UPT;
+            $this->db->trans_commit();
+             
+        }catch (Exception $e){
+            $data['msj']   = $e->getMessage();
+            $this->db->trans_rollback();
+        }
+        return $data;
+    }
+    
+    function getCondicionesExistentes($idAlumno) {
+    	$sql = "SELECT _id_condicion,
+    	               _id_persona,
+    	               fecha_asignacion,
+    	               estado, flg_beca
+				  FROM pagos.condicion_x_persona
+				 WHERE _id_persona = ?
+				   AND flg_beca                           = 0
+				   --AND estado                             = 'ACTIVO'
+			       AND (SELECT EXTRACT (YEAR FROM now())) = (SELECT EXTRACT (YEAR FROM fecha_asignacion))";
+    	$result = $this->db->query($sql,array($idAlumno));
+    	if ($result->num_rows() == 0){
+    		return 0;
+    	}else{
+    		return $result->num_rows();
+    	}
+    }
+    
+    function verificaBeca($idAlumno) {
+    	$sql = " SELECT cp.flg_beca,
+    	                c.desc_condicion
+				   FROM pagos.condicion_x_persona cp,
+				        pagos.condicion c
+				  WHERE cp._id_persona                     = ?
+		            AND cp.estado                          = 'ACTIVO'
+    		        AND cp._id_condicion                   = c.id_condicion        
+    	            AND cp.flg_beca                        IS NOT NULL
+    	       	    AND cp.flg_beca                        <> 0
+                    AND (SELECT EXTRACT (YEAR FROM now())) = (SELECT EXTRACT (YEAR FROM cp.fecha_asignacion))";
+    	$result = $this->db->query($sql,array($idAlumno));
+    	return $result->row_array();
+    }
+
+	function getAlumnosByFiltro($idSede,$idNivel,$idGrado,$idAula,$searchMagic,$offSet = 0) {
+        $sql = "SELECT INITCAP(CONCAT(p.nom_persona,' ',p.ape_pate_pers,' ', p.ape_mate_pers)) as nombrecompleto,
+                       INITCAP(p.nom_persona) as nombres,
+                       UPPER(CONCAT(p.ape_pate_pers,' ', p.ape_mate_pers, ',')) as apellidos,
+                       da.cod_alumno,
+                       da.cod_familia,
+                       p.foto_persona,
+                       s.desc_sede,
+                       g.desc_grado,
+                       a.desc_aula,
+                       n.desc_nivel,
+                       p.nid_persona
+                  FROM public.persona         p,
+                       public.persona_x_aula pa,
+                       public.aula            a,
+                       public.sede            s,
+                       public.grado           g,
+                       public.nivel           n,
+                       sima.detalle_alumno   da
+                 WHERE a.year = "._YEAR_."
+                   AND LOWER(CONCAT(p.ape_pate_pers,' ',p.ape_mate_pers,' ',p.nom_persona)) LIKE LOWER(?)
+                   AND CASE WHEN( ? IS NOT NULL) THEN s.nid_sede  = ? ELSE 1 = 1 END
+                   AND CASE WHEN( ? IS NOT NULL) THEN n.nid_nivel = ? ELSE 1 = 1 END
+                   AND CASE WHEN( ? IS NOT NULL) THEN g.nid_grado = ? ELSE 1 = 1 END
+                   AND CASE WHEN( ? IS NOT NULL) THEN a.nid_aula  = ? ELSE 1 = 1 END
+                   AND pa.__id_persona = p.nid_persona
+                   AND a.nid_aula      = pa.__id_aula
+                   AND a.nid_sede      = s.nid_sede
+                   AND a.nid_grado     = g.nid_grado
+                   AND a.nid_nivel     = n.nid_nivel
+                   AND da.nid_persona  = p.nid_persona
+                 UNION
+                SELECT INITCAP(CONCAT(p.nom_persona,' ',p.ape_pate_pers,' ', p.ape_mate_pers)) as nombrecompleto,
+                       INITCAP(p.nom_persona) as nombres,
+                       UPPER(CONCAT(p.ape_pate_pers,' ', p.ape_mate_pers, ',')) as apellidos,
+                       da.cod_alumno,
+                       da.cod_familia,
+                       p.foto_persona,
+                       s.desc_sede,
+                       g.desc_grado,
+                       '' as desc_aula,
+                       n.desc_nivel,
+                       p.nid_persona
+                  FROM public.persona         p,
+                       public.sede            s,
+                       public.grado           g,
+                       public.nivel           n,
+                       sima.detalle_alumno   da
+                 WHERE da.estado IN('PREREGISTRO','REGISTRADO')
+                   AND LOWER(CONCAT(p.ape_pate_pers,' ',p.ape_mate_pers,' ',p.nom_persona)) LIKE LOWER(?)
+                   AND CASE WHEN( NULL IS NOT NULL) THEN da.id_sede_ingreso  = NULL ELSE 1 = 1 END
+                   AND CASE WHEN( NULL IS NOT NULL) THEN da.id_nivel_ingreso = NULL ELSE 1 = 1 END
+                   AND CASE WHEN( NULL IS NOT NULL) THEN da.id_grado_ingreso = NULL ELSE 1 = 1 END
+                   AND da.id_sede_ingreso  = s.nid_sede
+                   AND da.id_grado_ingreso = g.nid_grado
+                   AND da.id_nivel_ingreso = n.nid_nivel
+                   AND da.nid_persona      = p.nid_persona
+             --ORDER BY p.ape_pate_pers
+                LIMIT 12 OFFSET " . $offSet."";
+        $result = $this->db->query($sql,array("%".$searchMagic."%",$idSede,$idSede,$idNivel,$idNivel,$idGrado,$idGrado,$idAula,$idAula,'%'.$searchMagic.'%'));
+        return $result->result();
+    }
+    
+	function descBeca($id) {
+		$sql = "SELECT c.desc_condicion
+	              FROM pagos.condicion c
+	             WHERE c.id_condicion = ?";
+		$result = $this->db->query($sql, $id);
+		return $result->row()->desc_condicion;
+	}
+	
+	function descPromocion($id) {
+		$sql = "SELECT c.desc_promo
+	              FROM pagos.promociones c
+	             WHERE c.id_promocion = ?";
+		$result = $this->db->query($sql, $id);
+		return $result->row()->desc_promo;
+	}
+	
+	function getBecas() {
+	    $sql = " SELECT id_condicion,
+	                    desc_condicion,
+	                    porcentaje_beca,
+	                    tipo_condicion,
+	                    year_condicion
+                   FROM pagos.condicion
+                  WHERE tipo_condicion = '0'
+               ORDER BY porcentaje_beca DESC";
+	    $result = $this->db->query($sql);
+	    return $result->result();
+	}
+	
+	function getPromociones() {
+		$sql = " SELECT id_promocion,
+		                desc_promo,
+		                cant_cuotas,
+		                porcentaje_descuento
+                   FROM pagos.promociones
+               ORDER BY porcentaje_descuento DESC";
+		$result = $this->db->query($sql);
+		return $result->result();
+	}
+	
+	function getDetalleBeca($id) {
+	    $sql = " SELECT desc_condicion,
+	                    porcentaje_beca
+                   FROM pagos.condicion
+                  WHERE id_condicion = ?";
+	    $result = $this->db->query($sql, $id);
+	    return $result->row_array();
+	}
+	
+	function getDetallePromocion($id) {
+		$sql = " SELECT desc_promo,
+		                cant_cuotas,
+		                porcentaje_descuento
+                   FROM pagos.promociones
+                  WHERE id_promocion = ?";
+		$result = $this->db->query($sql, $id);
+		return $result->row_array();
+	}
+	
+	function getBeca($id) {
+		$sql = " SELECT _id_condicion
+                   FROM pagos.condicion_x_persona
+                  WHERE _id_persona = ?
+				    AND estado = '".FLG_ESTADO_ACTIVO."'
+				    AND flg_beca = 1";
+		$result = $this->db->query($sql, $id);
+		return $result->row_array();
+	}
+	
+	function actualizarBeca($id, $arrayUpdate) {
+	    $data['error'] = EXIT_ERROR;
+	    $data['msj']   = null;
+	    $this->db->trans_begin();
+	    try{
+	        $this->db->where('id_condicion', $id);
+	        $this->db->update('pagos.condicion', $arrayUpdate);
+	        if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+	            throw new Exception(MSJ_ERROR);
+	        }
+	        $data['error'] = EXIT_SUCCESS;
+	        $data['msj']   = MSJ_UPT;
+	        $this->db->trans_commit();
+	        
+	    }catch (Exception $e){
+	        $data['msj']   = $e->getMessage();
+	        $this->db->trans_rollback();
+	    }
+	    return $data;
+	}
+	
+	function actualizarPromocion($id, $arrayUpdate) {
+		$data['error'] = EXIT_ERROR;
+		$data['msj']   = null;
+		$this->db->trans_begin();
+		try{
+			$this->db->where('id_promocion', $id);
+			$this->db->update('pagos.promociones', $arrayUpdate);
+			if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+				throw new Exception(MSJ_ERROR);
+			}
+			$data['error'] = EXIT_SUCCESS;
+			$data['msj']   = MSJ_UPT;
+			$this->db->trans_commit();
+			 
+		}catch (Exception $e){
+			$data['msj']   = $e->getMessage();
+			$this->db->trans_rollback();
+		}
+		return $data;
+	}
+	
+	function registrarBeca($arrayInsert) {
+	    $data['error'] = EXIT_ERROR;
+	    $data['msj']   = null;
+	    $this->db->trans_begin();
+	    try{
+	        $this->db->insert('pagos.condicion', $arrayInsert);
+	        if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+	            throw new Exception(MSJ_ERROR);
+	        }
+	        $data['error'] = EXIT_SUCCESS;
+	        $data['msj']   = MSJ_INS;
+	        $this->db->trans_commit();
+	    }catch (Exception $e){
+	        $data['msj']   = $e->getMessage();
+	        $this->db->trans_rollback();
+	    }
+	    return $data;
+	}
+	
+	function registrarPromocion($arrayInsert) {
+		$data['error'] = EXIT_ERROR;
+		$data['msj']   = null;
+		$this->db->trans_begin();
+		try{
+			$this->db->insert('pagos.promociones', $arrayInsert);
+			if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+				throw new Exception(MSJ_ERROR);
+			}
+			$data['error'] = EXIT_SUCCESS;
+			$data['msj']   = MSJ_INS;
+			$this->db->trans_commit();
+		}catch (Exception $e){
+			$data['msj']   = $e->getMessage();
+			$this->db->trans_rollback();
+		}
+		return $data;
+	}
+	
+	function allBecas($desc) {
+	    $sql = "SELECT COUNT(1) as count
+	              FROM pagos.condicion c
+	             WHERE LOWER(c.desc_condicion) = LOWER(?)";
+	    $result = $this->db->query($sql, $desc);
+	    return $result->row()->count;
+	}
+	
+	function allPromocion($desc) {
+		$sql = "SELECT COUNT(1) as count
+	              FROM pagos.promociones p
+	             WHERE LOWER(p.desc_promo) = LOWER(?)";
+		$result = $this->db->query($sql, $desc);
+		return $result->row()->count;
+	}
+	
+	function countBecas($id) {
+		$sql = "SELECT COUNT(1) as count
+	              FROM pagos.condicion_x_persona
+	             WHERE _id_condicion = ?";
+		$result = $this->db->query($sql, $id);
+		return $result->row()->count;
+	}
+}

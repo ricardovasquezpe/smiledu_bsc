@@ -1,0 +1,81 @@
+@CHARSET "UTF-8";
+
+.mdl-card__title img{
+	position: relative;
+	border-radius: 50%;
+	width: 40px;
+}
+
+.mdl-card__title h2.pago{
+    position: relative;
+    margin: 0px;
+    margin-bottom: 18px;
+	font-size: 18px;
+	font-weight: 500;
+	width: -webkit-calc(100% - 100px);
+	width: -moz-calc(100% - 100px);	
+	width: -ms-calc(100% - 100px);
+	width: -o-calc(100% - 100px);	
+	width: calc(100% - 100px);	
+	line-height: 1;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;	
+	text-align: left;	
+}
+
+.mdl-card__title h2.moroso{
+	color: #F44336
+}
+
+.mdl-card__title h2.puntual{
+	color: #009688
+}
+
+.mdl-card__title small{
+	position: absolute;
+	margin: 0px;
+	width: -webkit-calc(100% - 100px);
+	width: -moz-calc(100% - 100px);	
+	width: -ms-calc(100% - 100px);
+	width: -o-calc(100% - 100px);	
+	width: calc(100% - 100px);	
+	left: 16px;
+	top: 38px;
+	color: #757575;
+	font-size: 13px;
+	text-align: left;
+}
+
+.mdl-card__title small a{
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+	color: #009688;
+}
+
+.mdl-assign{
+    padding: 16px;
+    height: 68px;	
+}
+
+/*#contTbCompromisos1 .table-responsive{
+	overflow-x: hidden;
+}*/
+
+/* .mdl-menu__container{ */
+/*     right: 165px !important; */
+/*     top: 85px; */
+/*     width: 162px !important; */
+/*     height: 160px !important; */
+/*     position: fixed !important; */
+/* 	top:initial !important; */
+/* } */
+
+.mdl-checkbox.is-upgraded{
+	padding-left:16px !important;
+}
+
+.mdl-calendar .cal-row-head [class*="cal-cell"]:first-child, .mdl-calendar .cal-row-head [class*="cal-cell"], .mdl-calendar span[data-cal-date]{
+	pointer-events: none;
+}

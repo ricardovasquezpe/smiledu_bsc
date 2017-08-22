@@ -1,0 +1,150 @@
+@CHARSET "UTF-8";
+
+.highcharts-tracker {
+	font-size: 100%;
+}
+
+table tbody .mdl-menu__container.is-visible{
+	top: inherit !important;
+	right: 0px !important;
+}
+/*
+#ulsEncuesta .mdl-menu__container.is-upgraded.is-visible {
+	margin-right: 9.5%;
+	margin-top: 265px;
+	margin-bottom: 20px;
+}
+
+#ulsEncuesta .mdl-menu__container.is-upgraded.is-visible i.material-icons
+	{
+	position: absolute;
+	top: 12.5px;
+	left: 12.5px
+}
+
+#ulsEncuesta .mdl-menu {
+	min-width: 175px;
+	width: 100%;
+}
+
+#ulsEncuesta ul li {
+	padding-left: 50px;
+}*/
+
+.fixed-table-toolbar.mdl-card__menu{
+	width: 98.6% !important;
+}
+
+.fixed-table-toolbar.mdl-card__menu .pull-left.search{
+	width: 90%;
+	margin-left: 20px
+}
+
+.fixed-table-toolbar.mdl-card__menu .caret{
+	display: none !important;
+}
+
+.fixed-table-pagination .btn.btn-default{
+	border: none;
+}
+
+li.mdl-menu__item[disabled] {
+	opacity: 0.3 !important;
+}
+
+table td span {
+	width: 100%;
+}
+
+table span.label {
+	padding: 5px 20px;
+	color: #FFF;
+}
+
+table span.label i.material-icons {
+	position: relative;
+	top: 3.5px;
+	right: 7px;
+	color: #FFF;
+	font-size: 14px;
+}
+
+table tbody .mdl-menu__container.is-visible .mdl-menu__item i.material-icons
+	{
+	position: relative;
+	right: 3.5px;
+	top: 7px;
+}
+
+table tbody  .mdl-menu__container.is-visible, .mdl-menu__container.is-animating {
+	margin-right: 37.5px;
+	margin-top: 10px;
+}
+
+table tbody .mdl-menu__container.is-visible li.mdl-menu__item a,
+	.mdl-menu__container.is-animating li.mdl-menu__item a {
+	text-decoration: none;
+	cursor: pointer;
+	color: #6B6B6B;
+}
+
+#tb_encuestas tbody tr span i{
+	position: relative;
+    right: 6px;
+    top: 5px;
+    font-size: 20px;
+	color: #fff;
+}
+
+#tb_encuestas td{
+	vertical-align: middle;
+}
+
+.wrapper button{
+	margin: auto;
+}
+
+.wrapper ul li i{
+	vertical-align: middle;
+}
+
+.wrapper ul li .mdi-link{
+	margin-right: 5px;
+}
+
+
+@media ( min-width : 769px) {
+	.contenido-indica {
+		align-self: center;
+	}
+	.indica {
+		display: flex;
+	}
+}
+
+@media (min-width: 501px) and (max-width: 985px) {
+	.mdl-card {
+		border-radius: 0px;
+	}
+	
+	.fixed-table-toolbar.mdl-card__menu .pull-left.search{
+		width: 80%;
+	}	
+}
+
+@media ( min-width: 986px )  {
+	
+	.fixed-table-toolbar.mdl-card__menu .pull-left.search{
+		width: 87.5%;
+	}	
+}
+
+@media (max-width: 500px) {
+	.mdl-card {
+		border-radius: 0px;
+	}
+	
+	.fixed-table-toolbar.mdl-card__menu .pull-left.search{
+		width: 70%;
+	}	
+}

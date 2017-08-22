@@ -1,0 +1,111 @@
+@CHARSET "UTF-8";
+
+/* --------------------------
+ *       MAIN INDICATOR
+ * --------------------------
+ */
+#colorBarraGeneral{
+	position: absolute;
+    border-radius: 100%;
+    top: 16px;
+    left: 16px;
+    height: 16px;
+    width: 16px;
+}            
+
+#indicator-head{
+	margin: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;	
+}
+
+#indicator-head:HOVER{
+	z-index: 123	
+}
+
+#indicator-head .mdl-card__supporting-text{
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;		
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;	
+    padding: 25px 0px;
+	padding-bottom: 0;
+    text-align: left;
+}
+
+#indicator-head .mdl-graphic,
+#indicator-head .mdl-graphic-desc{
+	float: left;
+}
+
+#indicator-head .mdl-graphic{
+    width: 300px;
+    margin: 0;
+    padding: 0;
+    margin-left: 20%;
+}
+
+#indicator-head .mdl-graphic-desc{
+    margin-left: -50px;
+    width: -moz-calc( 70% - 310px );
+    width: -webkit-calc( 70% - 310px );
+    width: -o-calc( 70% - 310px );
+    width: calc( 70% - 220px );
+}
+	
+.mdl-graphic-desc p{
+	margin: 0;
+	line-height: 20px;
+}
+
+.highcharts-container path[fill="transparent"]{
+	fill: transparent !important
+}    
+
+.mdl-transparent{
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+	text-align: center;
+}
+
+
+#gaugesObjetivos .mdl-button{
+	z-index: 1
+}
+
+#gaugesObjetivos h2,
+#gaugesObjetivos .mdl-button i.mdi.mdi-close{
+	color: #FFFFFF;
+	font-weight: 600;
+}
+
+@media ( max-width : 625px ){
+	#indicator-head .mdl-card__supporting-text{
+		text-align: center;
+	}
+	
+	#indicator-head .mdl-graphic, 
+	#indicator-head .mdl-graphic-desc{
+	    float: none;
+	    margin: auto;
+	    width: 200px;
+	}
+	
+	#indicator-head .mdl-graphic-desc{
+		padding-top: 0;
+    	margin-left: auto;
+		margin-bottom: 25px;
+	}	
+	
+	#indicator-head .mdl-graphic-desc h2{
+		display: block;
+	}	
+}
+
+@media ( max-width : 750px ) {
+	#indicator-head .mdl-card__supporting-text{
+	    border-bottom-right-radius: 5px;
+	    border-bottom-left-radius: 5px;	
+	}           	
+}  

@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+label.mdl-textfield__label[for="fecInicioDoc"], 
+label.mdl-textfield__label[for="fecFinDoc"], 
+label.mdl-textfield__label[for="fecInicioEva"], 
+label.mdl-textfield__label[for="fecFinEva"]{
+   visibility: visible !important;
+   top: 15px;
+}
+                        
+.img-evaluador{
+    border-radius: 50%;
+	width: 125px;
+	height: 125px;
+	margin: auto;
+	margin-bottom: 20px
+}
+
+.form-group{
+	text-align: left
+}
+
+.form-group label ~ p{
+	font-weight: 600;
+}
+
+@media ( max-width: 420px){
+	#body .col-xs-6.col-md-4{
+		width: 100%
+	}
+}

@@ -1,0 +1,351 @@
+@CHARSET "UTF-8";
+
+header {
+	background-color: #8BC34A !important;
+}
+
+header i {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout__drawer-button i:BEFORE {
+	color: #FFFFFF;
+}
+
+header .mdl-section-head {
+	left: 190.67px;
+	border-left-color : #FFFFFF;
+	color: #FFFFFF;
+}
+
+header a.mdl-button__return {
+	display: block;
+	z-index: 9;
+}
+
+@media ( max-width : 768px) {
+	header .mdl-section-head {
+		left: 0px;
+		top: -10.5px;
+	}
+}
+
+.mdl-card-fab .mdl-card__title {
+	background-color: #8BC34A;
+}
+
+.modal .mdl-card__actions button.mdl-button, .mdl-card-fab .mdl-card__actions button.mdl-button
+	{
+	color: #8BC34A;
+}
+
+.modal .mdl-card__actions a.mdl-button--raised, .mdl-card-fab .mdl-card__actions a.mdl-button--raised,
+	.modal .mdl-card__actions button.mdl-button--raised, .mdl-card-fab .mdl-card__actions button.mdl-button--raised
+	{
+	background-color: #8BC34A;
+}
+
+/* Botones */
+button.mdl-button, 
+a.mdl-button {
+	color: #8BC34A;
+}
+
+.form-group .form-control ~ label:after, .form-group .form-control ~
+	.form-control-line:after {
+	background-color: #8BC34A !important;
+}
+
+/* Search */
+.mdl-header-input-group {
+	background-color: #C5E1A5;
+}
+
+.mdl-header-input-group .mdl-icon i:BEFORE {
+	color: #FFFFFF
+}
+
+.mdl-header-input-group .mdl-textfield .mdl-textfield__label {
+	color: #FFFFFF;
+}
+
+/* Arbol de modulos */
+.mdl-layout .mdl-layout__drawer .mdl-layout-title img, .mdl-layout .mdl-layout__header-row .mdl-layout-title img
+	{
+	height: 37.5px;
+}
+
+.mdl-nav a.dont-three i  {
+	top: 13.5px;
+}
+
+/* ADD MENU COLOR */
+.mdl-nav li.active a, .mdl-nav li.active a i {
+	color: #8BC34A !important;
+}
+
+/* Tabs */
+header .mdl-layout__tab {
+	color: #9FA8DA !important
+}
+
+header .mdl-layout__tab.is-active {
+	color: #FFFFFF !important
+}
+
+header .mdl-layout__tab::after {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab .mdl-layout__tab-ripple-container .mdl-ripple {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab-bar {
+	background-color: #8BC34A;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+	background-color: #FFFFFF;
+}
+
+.mdl-tabs__tab .mdl-tabs__ripple-container .mdl-ripple, .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after
+	{
+	background-color: #8BC34A
+}
+
+/* Combo box */
+.bs-searchbox input.form-control, .bs-searchbox input.form-control:hover,
+	.bs-searchbox input.form-control:active, .bs-searchbox input.form-control:focus
+	{
+	border-bottom-color: #8BC34A;
+	color: #8BC34A;
+}
+
+.dropdown-menu>.active>a .text, .dropdown-menu>.active>a:focus .text, .dropdown-menu>.active>a:hover .text,
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover
+	{
+	background-color: #8BC34A;
+}
+
+/* Inputs and Label mdl */
+.mdl-textfield__label:after {
+	background-color: #8BC34A !important;
+}
+
+/* GROUPS INPUTS */
+.mdl-button-group .mdl-btn .mdl-button.active {
+	background-color: #8BC34A;
+}
+
+.mdl-button-group .mdl-textfield .mdl-textfield__label:AFTER {
+	bottom: 20px
+}
+
+/* Checkbox and option toggle */
+.mdl-radio.is-checked .mdl-radio__outer-circle, .mdl-checkbox.is-checked .mdl-checkbox__box-outline
+	{
+	border-color: #8BC34A;
+}
+
+.mdl-radio__inner-circle, .mdl-switch.is-checked .mdl-switch__thumb,
+	.mdl-switch__ripple-container .mdl-ripple,
+	.mdl-checkbox__ripple-container .mdl-ripple, .mdl-checkbox.is-checked .mdl-checkbox__tick-outline
+	{
+	background-color: #8BC34A;
+}
+
+.mdl-radio__ripple-container .mdl-ripple, .mdl-switch.is-checked .mdl-switch__track
+	{
+	background-color: #9FA8DA;
+}
+
+/* Items asignados */
+.mdl-assign {
+	background-color: #9FA8DA;
+}
+
+.mdl-assign .text {
+	color: #8BC34A;
+}
+
+.mdl-assign .option button i {
+	color: #8BC34A;
+}
+
+/* Fab position */
+.mfb-component--br .mfb-component__button--main {
+	background-color: #8BC34A !important;
+}
+
+.mfb-component--br .mfb-component__button--child i.mfb-component__child-icon
+	{
+	color: #8BC34A !important;
+}
+
+/* Modal select */
+.mobileSelect-savebtn, .mobileSelect-container .list-container .mobileSelect-control.selected
+	{
+	background-color: #8BC34A !important;
+}
+
+/* Text field */
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+	color: #8BC34A
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label:BEFORE {
+	background-color: #8BC34A
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #8BC34A
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #FFFFFF;
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #8BC34A;
+}
+
+.dtp-content line[stroke="#2196F3"] {
+	stroke: #8BC34A;
+}
+
+.dtp-content circle[fill="#2196F3"] {
+	fill: #8BC34A;
+}
+
+/* BUTTON */
+.mdl-button--raised, 
+.mdl-button--raised:HOVER {
+	background-color: #8BC34A;
+}
+
+.mdl-card__actions .mdl-ripple{
+	background-color: #FFFFFF !important;
+}
+
+@keyframes loader { 
+	0% {
+		border-top-color: #8BC34A;
+	}
+	50% {
+		border-top-color: #8BC34A;
+		border-right-color: #8BC34A;
+	}
+	75% {
+		border-top-color: #8BC34A;
+    	border-bottom-color: #8BC34A;
+		border-right-color: #8BC34A;
+	}
+	100% {
+		border-top-color: #8BC34A;
+		border-bottom-color: #8BC34A;
+		border-left-color: #8BC34A;
+		border-right-color: #8BC34A;
+	}
+}
+
+/* INPUT GROUP ACTIVE */
+.mdl-input-group.active .mdl-icon i{
+	color: #8BC34A
+}
+
+/* cropper */
+.img-container{
+	max-width: 268px !important;
+    height: 220px !important;
+    width: 100%;
+}
+
+.cropper-canvas{
+	max-width: 268px !important;
+	width: 100% !important;
+	height: 220px !important;
+	top:0 !important;
+	left:0 !important;
+}
+
+.cropper-bg,
+.cropper-canvas img{
+	max-width: 268px !important;
+	width: 100% !important;
+	height: 220px !important;
+}
+
+/* Wizard*/
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress .progress-bar-primary{
+	background-color: #8BC34A;
+}
+
+.form-wizard.form-wizard-horizontal .form-wizard-nav .nav-justified>li{
+	width: 32% !important;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.active .step, 
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li:hover .step{
+    border-color: #8BC34A;
+    color: #8BC34A;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.active .title,
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li:hover .title{
+    color: #8BC34A;		
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.complete .step{
+    border-color: #8BC34A;
+    background-color: #8BC34A;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.complete .title{
+	color: #8BC34A
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	width: 65% !important;
+}
+
+/*tabla permisos */
+#contTablaRolesSist td{
+	cursor:pointer;
+}
+
+.breadcrumb>li+li:before{
+	content: ">\00a0"
+}
+
+.mdl-textfield--floating-label.has-placeholder .mdl-textfield__label{
+	color: #757575 !important;
+}
+
+/*  LOADING */
+.mdl-spinner.is-active .mdl-spinner__layer-4,
+.mdl-spinner.is-active .mdl-spinner__layer-3,
+.mdl-spinner.is-active .mdl-spinner__layer-2,
+.mdl-spinner.is-active .mdl-spinner__layer-1{
+	border-color: #8BC34A !important;
+}
+
+a.mdl-button.mdl-save__load.mdl-save__load__loading[disabled],
+button.mdl-button.mdl-save__load.mdl-save__load__loading[disabled]{
+	background-color: #8BC34A  !important;
+}
+
+/* PERFIL */
+.box-header{
+	background: #8BC34A;
+}
+
+.mdl-header-input-group .mdl-textfield__input{
+	color:#FFFFFF;
+}

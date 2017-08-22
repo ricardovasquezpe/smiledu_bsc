@@ -1,0 +1,143 @@
+.container {
+    min-height: 150px;
+    position: relative; /* so center-area can
+                           be positioned absolute */
+  }
+  .center-area {
+    /* let it fill the whole container */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .center-area:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+  }
+  .centered {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+
+
+/*GAUGES LINEAS NUEVOS*/
+@media (min-width: 1200px){
+	.cont_linea{
+		margin-top: -20px;
+		margin-bottom: -35px;
+	}
+	.desc_linea{
+   	   margin-top: -15px;
+       margin-bottom: -14px;
+	}
+	.icon-cup{
+		padding-top: 3vh;
+	}
+	/*.barraEstado{
+       	margin-top: 148px; 
+    }*/
+}
+
+@media (min-width: 992px) and (max-width: 1200px){
+	.cont_linea{
+		margin-bottom: -37px;
+		margin-top: -14px;
+	}
+	.desc_linea{
+   	   margin-top: -15px;
+       margin-bottom: -14px;
+	}
+	.icon-cup{
+		padding-top: 5vh;
+	}
+	/*.barraEstado{
+       	margin-top: 203px; 
+    }*/
+}
+
+@media (min-width: 769px) and (max-width: 992px){
+	.cont_linea{
+		margin-bottom: -21%;
+		margin-top: -13px;
+	}
+	.desc_linea{
+   	   margin-top: -15px;
+       margin-bottom: -14px;
+	}
+	.icon-cup{
+		padding-top: 3vh;
+	}
+	/*.barraEstado{
+       	margin-top: 164px; 
+    }*/
+}
+
+
+@media (min-width: 530px) and (max-width: 769px){
+	.cont_linea{
+		margin-top: -4%; 
+		margin-bottom: -13%;
+	}.desc_linea{
+   	   margin-top: 0%;
+	}
+	.icon-cup{
+		padding-top: 8vh;
+	}
+	/*.barraEstado{
+       	margin-top: 275px; 
+    }*/
+}
+
+@media (min-width: 400px) and (max-width: 530px){
+	.cont_linea{
+		margin-top: -5%; 
+		margin-bottom: -14%;
+	}.desc_linea{
+   	   margin-top: 0%;
+	}
+	.icon-cup{
+		padding-top: 4vh;
+	}
+	/*.barraEstado{
+       	margin-top: 191px; 
+    }*/
+}
+
+@media(max-width: 400px){
+	.cont_linea{
+		margin-top: -1%; 
+		margin-bottom:0%;
+	}.desc_linea{
+   	   margin-top: 0%;
+	}
+	.icon-cup{
+		padding-top: 4vh;
+	}
+	/*.barraEstado{
+       	margin-top: 171px; 
+    }*/
+}
+
+
+/*MENU INDICADOR*/
+
+#menuIndicador{
+	margin-right:22px; 
+	margin-top:-19px;
+}
+	
+@media(max-width: 769px){
+	#menuIndicador{
+		margin-right:22px; 
+		margin-top:-12px;
+	}
+}
+
+
+/*HOVER EFFECT*/
+.card-type-pricing:hover{
+	box-shadow:0 2px 7px 0 rgba(0, 0, 0, 0.33)
+}

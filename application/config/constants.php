@@ -1,0 +1,705 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+/*
+|--------------------------------------------------------------------------
+| Display Debug backtrace
+|--------------------------------------------------------------------------
+|
+| If set to TRUE, a backtrace will be displayed along with php errors. If
+| error_reporting is disabled, the backtrace will not display, regardless
+| of this setting
+|
+*/
+defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
+
+/*
+|--------------------------------------------------------------------------
+| File and Directory Modes
+|--------------------------------------------------------------------------
+|
+| These prefs are used when checking and setting modes when working
+| with the file system.  The defaults are fine on servers with proper
+| security, but you may wish (or even need) to change the values in
+| certain environments (Apache running a separate process for each
+| user, PHP under CGI with Apache suEXEC, etc.).  Octal values should
+| always be used to set the mode correctly.
+|
+*/
+defined('FILE_READ_MODE')  OR define('FILE_READ_MODE', 0644);
+defined('FILE_WRITE_MODE') OR define('FILE_WRITE_MODE', 0666);
+defined('DIR_READ_MODE')   OR define('DIR_READ_MODE', 0755);
+defined('DIR_WRITE_MODE')  OR define('DIR_WRITE_MODE', 0755);
+
+/*
+|--------------------------------------------------------------------------
+| File Stream Modes
+|--------------------------------------------------------------------------
+|
+| These modes are used when working with fopen()/popen()
+|
+*/
+defined('FOPEN_READ')                           OR define('FOPEN_READ', 'rb');
+defined('FOPEN_READ_WRITE')                     OR define('FOPEN_READ_WRITE', 'r+b');
+defined('FOPEN_WRITE_CREATE_DESTRUCTIVE')       OR define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb'); // truncates existing file data, use with care
+defined('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE')  OR define('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE', 'w+b'); // truncates existing file data, use with care
+defined('FOPEN_WRITE_CREATE')                   OR define('FOPEN_WRITE_CREATE', 'ab');
+defined('FOPEN_READ_WRITE_CREATE')              OR define('FOPEN_READ_WRITE_CREATE', 'a+b');
+defined('FOPEN_WRITE_CREATE_STRICT')            OR define('FOPEN_WRITE_CREATE_STRICT', 'xb');
+defined('FOPEN_READ_WRITE_CREATE_STRICT')       OR define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
+
+/*
+|--------------------------------------------------------------------------
+| Exit Status Codes
+|--------------------------------------------------------------------------
+|
+| Used to indicate the conditions under which the script is exit()ing.
+| While there is no universal standard for error codes, there are some
+| broad conventions.  Three such conventions are mentioned below, for
+| those who wish to make use of them.  The CodeIgniter defaults were
+| chosen for the least overlap with these conventions, while still
+| leaving room for others to be defined in future versions and user
+| applications.
+|
+| The three main conventions used for determining exit status codes
+| are as follows:
+|
+|    Standard C/C++ Library (stdlibc):
+|       http://www.gnu.org/software/libc/manual/html_node/Exit-Status.html
+|       (This link also contains other GNU-specific conventions)
+|    BSD sysexits.h:
+|       http://www.gsp.com/cgi-bin/man.cgi?section=3&topic=sysexits
+|    Bash scripting:
+|       http://tldp.org/LDP/abs/html/exitcodes.html
+|
+*/
+defined('EXIT_SUCCESS')        OR define('EXIT_SUCCESS', 0); // no errors
+defined('EXIT_WARNING')        OR define('EXIT_WARNING', 2); // warning
+defined('EXIT_ERROR')          OR define('EXIT_ERROR', 1); // generic error
+defined('EXIT_CONFIG')         OR define('EXIT_CONFIG', 3); // configuration error
+defined('EXIT_UNKNOWN_FILE')   OR define('EXIT_UNKNOWN_FILE', 4); // file not found
+defined('EXIT_UNKNOWN_CLASS')  OR define('EXIT_UNKNOWN_CLASS', 5); // unknown class
+defined('EXIT_UNKNOWN_METHOD') OR define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
+defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user input
+defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
+defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
+defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+
+defined('CLAVE_ENCRYPT')      OR define('CLAVE_ENCRYPT','1029384756123456');
+defined('CHARSET_ISO_8859_1') OR define('CHARSET_ISO_8859_1', 'Content-Type: text/html; charset=ISO-8859-1');
+defined('NO_ACCION')          OR define('NO_ACCION', 'No hubo cambios');
+
+defined('RUTA_SMILEDU') OR define('RUTA_SMILEDU', 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/');
+defined('RUTA_SPED')    OR define('RUTA_SMILEDU_FISICA', (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : null).'/smiledu/');
+defined('RUTA_SPED')    OR define('RUTA_SPED', (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : null).'/sped/');
+defined('RUTA_BASE')    OR define('RUTA_BASE', 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/');
+defined('RUTA_SIMA')    OR define('RUTA_SIMA', 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/sima/');
+
+//RECURSOS PUBLICOS
+defined('RUTA_PLUGINS') OR define('RUTA_PLUGINS', 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/general/plugins/');
+defined('RUTA_JS')      OR define('RUTA_JS'     , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/general/js/');
+defined('RUTA_CSS')     OR define('RUTA_CSS'    , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/general/css/');
+defined('RUTA_IMG')     OR define('RUTA_IMG'    , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/general/img/');
+defined('RUTA_FONTS')   OR define('RUTA_FONTS'  , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/general/fonts/');
+defined('RUTA_FILES')   OR define('RUTA_FILES'  , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/general/files/');
+
+//RECURSOS PUBLICOS MODULOS
+defined('RUTA_PUBLIC_ADMISION')     OR define('RUTA_PUBLIC_ADMISION'    , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/admision/');
+defined('RUTA_PUBLIC_BSC')          OR define('RUTA_PUBLIC_BSC'         , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/bsc/');
+defined('RUTA_PUBLIC_COMEDOR')      OR define('RUTA_PUBLIC_COMEDOR'     , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/comedor/');
+defined('RUTA_PUBLIC_MATRICULA')    OR define('RUTA_PUBLIC_MATRICULA'   , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/matricula/');
+defined('RUTA_PUBLIC_NOTAS')        OR define('RUTA_PUBLIC_NOTAS'       , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/notas/');
+defined('RUTA_PUBLIC_PAGOS')        OR define('RUTA_PUBLIC_PAGOS'       , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/pagos/');
+defined('RUTA_PUBLIC_RRHH')         OR define('RUTA_PUBLIC_RRHH'        , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/rrhh/');
+defined('RUTA_PUBLIC_SENC')         OR define('RUTA_PUBLIC_SENC'        , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/senc/');
+defined('RUTA_PUBLIC_SPED')         OR define('RUTA_PUBLIC_SPED'        , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/public/modulos/sped/');
+
+//FOTO DEFECTO PERFIL 
+defined('FOTO_NO_USER') OR define('FOTO_NO_USER', 'public/files/images/profile/nouser.svg');
+defined('FOTO_DEFECTO') OR define('FOTO_DEFECTO', 'public/general/img/profile/nouser.svg');
+
+//NOMBRE, FAVICON Y LOGO AVANTGARD - SMILEDU
+defined('NAME_SMILEDU')         OR define('NAME_SMILEDU',       'Smiledu');
+defined('FAVICON_SIST_AV')      OR define('FAVICON_SIST_AV',    RUTA_IMG.'menu/logo-smiledu.png');
+defined('MENU_LOGO_SIST_AV')    OR define('MENU_LOGO_SIST_AV',  RUTA_IMG.'header/sistema_avantgard.png');
+defined('COLOR_BARRA_ANDROID_SIST_AVA')     OR define('COLOR_BARRA_ANDROID_SIST_AVA',   '#E9E9E9');
+
+//LOGOS DE SISTEMAS Y FAVICON
+defined('MENU_LOGO_ADMISION')   OR define('MENU_LOGO_ADMISION',     RUTA_IMG.'iconsSistem/icon_admision.png');
+defined('MENU_LOGO_BSC')        OR define('MENU_LOGO_BSC',          RUTA_IMG.'iconsSistem/icon_balance.png');
+defined('MENU_LOGO_COMEDOR')    OR define('MENU_LOGO_COMEDOR',      RUTA_IMG.'iconsSistem/icon_comedor.png');
+defined('MENU_LOGO_MATRICULA')  OR define('MENU_LOGO_MATRICULA',    RUTA_IMG.'iconsSistem/icon_matricula.png');
+defined('MENU_LOGO_NOTAS')      OR define('MENU_LOGO_NOTAS',        RUTA_IMG.'iconsSistem/icon_notas.png');
+defined('MENU_LOGO_PAGOS')      OR define('MENU_LOGO_PAGOS',        RUTA_IMG.'iconsSistem/icon_pagos.png');
+defined('MENU_LOGO_RRHH')       OR define('MENU_LOGO_RRHH',         RUTA_IMG.'iconsSistem/icon_rrhh.png');
+defined('MENU_LOGO_SENC')       OR define('MENU_LOGO_SENC',         RUTA_IMG.'iconsSistem/icon_encuestas.png');
+defined('MENU_LOGO_SPED')       OR define('MENU_LOGO_SPED',         RUTA_IMG.'iconsSistem/icon_evaluacion_docentes.png');
+
+//LOGOS DE SISTEMAS BLANCO
+defined('MENU_LOGO_BLANCO_ADMISION')   OR define('MENU_LOGO_BLANCO_ADMISION',     RUTA_IMG.'iconsSistem/icon_admision_blanco.png');
+defined('MENU_LOGO_BLANCO_BSC')        OR define('MENU_LOGO_BLANCO_BSC',          RUTA_IMG.'iconsSistem/icon_balance_blanco.png');
+defined('MENU_LOGO_BLANCO_COMEDOR')    OR define('MENU_LOGO_BLANCO_COMEDOR',      RUTA_IMG.'iconsSistem/icon_comedor_blanco.png');
+defined('MENU_LOGO_BLANCO_MATRICULA')  OR define('MENU_LOGO_BLANCO_MATRICULA',    RUTA_IMG.'iconsSistem/icon_matricula_blanco.png');
+defined('MENU_LOGO_BLANCO_NOTAS')      OR define('MENU_LOGO_BLANCO_NOTAS',        RUTA_IMG.'iconsSistem/icon_notas_blanco.png');
+defined('MENU_LOGO_BLANCO_PAGOS')      OR define('MENU_LOGO_BLANCO_PAGOS',        RUTA_IMG.'iconsSistem/icon_pagos_blanco.png');
+defined('MENU_LOGO_BLANCO_RRHH')       OR define('MENU_LOGO_BLANCO_RRHH',         RUTA_IMG.'iconsSistem/icon_rrhh_blanco.png');
+defined('MENU_LOGO_BLANCO_SENC')       OR define('MENU_LOGO_BLANCO_SENC',         RUTA_IMG.'iconsSistem/icon_encuestas_blanco.png');
+defined('MENU_LOGO_BLANCO_SPED')       OR define('MENU_LOGO_BLANCO_SPED',         RUTA_IMG.'iconsSistem/icon_evaluacion_blanco.png');
+
+//NOMBRES DE SISTEMAS
+defined('NAME_MODULO_ADMISION')   OR define('NAME_MODULO_ADMISION',     'Admisi&oacute;n');
+defined('NAME_MODULO_BSC')        OR define('NAME_MODULO_BSC',          'Balance Scorecard');
+defined('NAME_MODULO_COMEDOR')    OR define('NAME_MODULO_COMEDOR',      'Comedor');
+defined('NAME_MODULO_MATRICULA')  OR define('NAME_MODULO_MATRICULA',    'Matr&iacute;cula');
+defined('NAME_MODULO_NOTAS')      OR define('NAME_MODULO_NOTAS',        'Notas');
+defined('NAME_MODULO_PAGOS')      OR define('NAME_MODULO_PAGOS',        'Pagos');
+defined('NAME_MODULO_RRHH')       OR define('NAME_MODULO_RRHH',         'Rec. Humanos');
+defined('NAME_MODULO_SENC')       OR define('NAME_MODULO_SENC',         'Encuestas');
+defined('NAME_MODULO_SPED')       OR define('NAME_MODULO_SPED',         'Evaluaci&oacute;n de Docentes');
+
+//COLORES ANDROID SISTEMAS 
+defined('COLOR_BARRA_ANDROID_ADMISION')     OR define('COLOR_BARRA_ANDROID_ADMISION',   '#2196F3');
+defined('COLOR_BARRA_ANDROID_BSC')          OR define('COLOR_BARRA_ANDROID_BSC',        '#607D8B');
+defined('COLOR_BARRA_ANDROID_COMEDOR')      OR define('COLOR_BARRA_ANDROID_COMEDOR',    '#7536BB');
+defined('COLOR_BARRA_ANDROID_MATRICULA')    OR define('COLOR_BARRA_ANDROID_MATRICULA',  '#3F41B5');
+defined('COLOR_BARRA_ANDROID_NOTAS')        OR define('COLOR_BARRA_ANDROID_NOTAS',      '#00BCD4');
+defined('COLOR_BARRA_ANDROID_PAGOS')        OR define('COLOR_BARRA_ANDROID_PAGOS',      '#009688');
+defined('COLOR_BARRA_ANDROID_RRHH')         OR define('COLOR_BARRA_ANDROID_RRHH',       '#8BC34A');
+defined('COLOR_BARRA_ANDROID_SENC')         OR define('COLOR_BARRA_ANDROID_SENC',       '#FF9800');
+defined('COLOR_BARRA_ANDROID_SPED')         OR define('COLOR_BARRA_ANDROID_SPED',       '#4CAF50');
+
+//MENSAJES DE ERROR,CONFIRMACION Y EDICION
+defined('MSJ_INS') OR define('MSJ_INS', 'Se Registr&oacute; Correctamente');
+defined('MSJ_UPT') OR define('MSJ_UPT', 'Se Edit&oacute; Correctamente');
+defined('MSJ_DEL') OR define('MSJ_DEL', 'Se Elimin&oacute; Correctamente');
+defined('MSJ_ANL') OR define('MSJ_ANL', 'Se Anul&oacute; Correctamente');
+defined('MSJ_GEN') OR define('MSJ_GEN', 'Se Gener&oacute; Correctamente');
+defined('MSJ_INSERT_ERROR')   OR define('MSJ_INSERT_ERROR', 'Se ha insertado incorrectamente');
+defined('MSJ_INSERT_SUCCESS') OR define('MSJ_INSERT_SUCCESS', 'Se ha insertado correctamente');
+defined('MSJ_DELETE_ERROR')   OR define('MSJ_DELETE_ERROR', 'Se ha eliminado incorrectamente');
+defined('MSJ_DELETE_SUCCESS') OR define('MSJ_DELETE_SUCCESS', 'Se ha eliminado correctamente');
+
+defined('MSJ_ERROR') OR define('MSJ_ERROR', 'Hubo un problema');
+
+defined('CABE_INS') OR define('CABE_INS', 'Registro');
+defined('CABE_UPT') OR define('CABE_UPT', 'Edicion');
+defined('CABE_DEL') OR define('CABE_DEL', 'Eliminacion');
+
+defined('CABE_INFO')  OR define('CABE_INFO' , 'Info');
+defined('CABE_WARN')  OR define('CABE_WARN' , 'Alerta');
+defined('CABE_ERROR') OR define('CABE_ERROR', 'Error');
+
+defined('ANP')    OR define('ANP', 'Accion No Permitida');
+defined('_YEAR_') OR define('_YEAR_', '(SELECT EXTRACT(YEAR FROM now()))');
+
+//Flags
+defined('FLG_ACTIVO')      OR define('FLG_ACTIVO'  ,'1');
+defined('FLG_INACTIVO')    OR define('FLG_INACTIVO','0');
+defined('FLG_ESTADO')      OR define('FLG_ESTADO', 'ACTIVO');
+defined('FLG_PRIMARIO')    OR define('FLG_PRIMARIO', '1');
+defined('ESTADO_ACTIVO')   OR define('ESTADO_ACTIVO', 'ACTIVO');
+defined('ESTADO_INACTIVO') OR define('ESTADO_INACTIVO', 'INACTIVO');
+
+//Envio de correos
+defined('CORREO_BASE')   OR define('CORREO_BASE'  ,'soporte.softhy@gmail.com');
+defined('PASSWORD_BASE') OR define('PASSWORD_BASE','s0fthy100');
+defined('PROTOCOL')      OR define('PROTOCOL'     ,'smtp');
+defined('SMTP_HOST')     OR define('SMTP_HOST'    ,'ssl://smtp.gmail.com');
+defined('SMTP_PORT')     OR define('SMTP_PORT'    ,'465');
+defined('MAILTYPE')      OR define('MAILTYPE'     ,'html');
+
+defined('INSERT_ACCION') OR define('INSERT_ACCION', '1');
+defined('DELETE_ACCION') OR define('DELETE_ACCION', '2');
+
+//CONDICION INSERTA ACTUALIZA MONGO
+defined('INSERTA')   OR define('INSERTA'  , '0');
+defined('ACTUALIZA') OR define('ACTUALIZA', '1');
+
+//NodeJS
+defined('NODE_SERVER') OR define('NODE_SERVER' , 'http://192.168.4.15:8000');
+//defined('NODE_SERVER') OR define('NODE_SERVER' , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).':8000');
+
+//Conexion MongoDB
+defined('MONGO_CONEXION') OR define('MONGO_CONEXION' , 'mongodb://127.0.0.1');
+defined('SMILEDU_MONGO')  OR define('SMILEDU_MONGO'  , 'bsc');
+//LOG ERRORES MONGO
+define('ERROR_MONGO'   , '0');
+define('SUCCESS_MONGO' , '1');
+
+//ROLES
+//ROLES DE PERSONAS
+defined('ID_ROL_DOCENTE')                   OR define('ID_ROL_DOCENTE',3);
+defined('ID_ROL_PROMOTOR')                  OR define('ID_ROL_PROMOTOR',10);
+defined('ID_ROL_SOLICITUD_PERSONAL')        OR define('ID_ROL_SOLICITUD_PERSONAL',12);
+defined('ID_ROL_RESP_RRHH')                 OR define('ID_ROL_RESP_RRHH',11);
+defined('ID_ROL_DIRECTOR')                  OR define('ID_ROL_DIRECTOR', 1);
+defined('ID_ROL_ESTUDIANTE')                OR define('ID_ROL_ESTUDIANTE',5);
+defined('ID_ROL_MEDICION')                  OR define('ID_ROL_MEDICION' , 9);
+defined('ID_ROL_ADMINISTRADOR')             OR define('ID_ROL_ADMINISTRADOR' , 6);
+defined('ID_ROL_EVALUADOR')                 OR define('ID_ROL_EVALUADOR' , 2);
+defined('ID_ROL_SUBDIRECTOR')               OR define('ID_ROL_SUBDIRECTOR' , 4);
+defined('ID_ROL_NUTRICIONISTA')             OR define('ID_ROL_NUTRICIONISTA' , 20);
+defined('ID_ROL_SECRETARIA')                OR define('ID_ROL_SECRETARIA' , 21);
+defined('ID_ROL_CAJERA')                    OR define('ID_ROL_CAJERA', 40);
+defined('ID_ROL_MARKETING')                 OR define('ID_ROL_MARKETING', 13);
+defined('ID_ROL_DIRECTOR_TI')               OR define('ID_ROL_DIRECTOR_TI', 22);
+defined('ID_ROL_FAMILIA')                   OR define('ID_ROL_FAMILIA', 41);
+defined('ID_ROL_TUTOR')                     OR define('ID_ROL_TUTOR', 16);
+defined('ID_ROL_PROFESORA_ASISTENTE')       OR define('ID_ROL_PROFESORA_ASISTENTE', 17);
+defined('ID_ROL_PSICOPEDAGOGO_SEDE')        OR define('ID_ROL_PSICOPEDAGOGO_SEDE', 18);
+defined('ID_ROL_ENFERMERA')                 OR define('ID_ROL_ENFERMERA', 19);
+defined('ID_ROL_COORDINADOR_ACADADEMICO')   OR define('ID_ROL_COORDINADOR_ACADADEMICO', 15);
+defined('ID_ROL_RESP_COBRANZAS')            OR define('ID_ROL_RESP_COBRANZAS', 37);
+defined('ID_ROL_CONTABILIDAD')              OR define('ID_ROL_CONTABILIDAD', 39);
+
+defined('ID_ROL_NUTRICIONISTA')         OR define('ID_ROL_NUTRICIONISTA', 20);
+defined('ID_ROL_OPERADOR_TICE')         OR define('ID_ROL_OPERADOR_TICE', 23);
+defined('ID_ROL_RESPONSABLE_MOBILIDAD') OR define('ID_ROL_RESPONSABLE_MOBILIDAD', 24);
+defined('ID_ROL_CHOFER')                OR define('ID_ROL_CHOFER', 25);
+defined('ID_ROL_ELECTRICISTA')          OR define('ID_ROL_ELECTRICISTA', 27);
+defined('ID_ROL_JEFE_SEGURIDAD')        OR define('ID_ROL_JEFE_SEGURIDAD', 31);
+defined('ID_ROL_AGENTE_SEGURIDAD')      OR define('ID_ROL_AGENTE_SEGURIDAD', 32);
+defined('ID_ROL_BIBLIOTECARIO')         OR define('ID_ROL_BIBLIOTECARIO',47);
+
+defined('ID_ROL_DIRECTOR_CALIDAD')      OR define('ID_ROL_DIRECTOR_CALIDAD', 51);
+defined('ID_ROL_USUARIO_GENERICO')      OR define('ID_ROL_USUARIO_GENERICO', 52);
+
+
+//SISTEMAS
+defined('ID_SISTEMA_SPED')         OR define('ID_SISTEMA_SPED', 1);
+defined('ID_SISTEMA_SENC')         OR define('ID_SISTEMA_SENC', 2);
+defined('ID_SISTEMA_COMEDOR')      OR define('ID_SISTEMA_COMEDOR', 3);
+defined('ID_SISTEMA_PAGOS')        OR define('ID_SISTEMA_PAGOS', 4);
+defined('ID_SISTEMA_NOTAS')        OR define('ID_SISTEMA_NOTAS', 5);
+defined('ID_SISTEMA_SIMA')         OR define('ID_SISTEMA_MATRICULA', 6);
+defined('ID_SISTEMA_ADMISION')     OR define('ID_SISTEMA_ADMISION', 7);
+defined('ID_SISTEMA_SEGURIDAD')    OR define('ID_SISTEMA_SEGURIDAD', 8);
+defined('ID_SISTEMA_GEDUCA')       OR define('ID_SISTEMA_GEDUCA', 9);
+defined('ID_SISTEMA_INSTRUMENTOS') OR define('ID_SISTEMA_INSTRUMENTOS', 10);
+defined('ID_SISTEMA_RRHH')         OR define('ID_SISTEMA_RRHH', 11);
+defined('ID_SISTEMA_BIBLIOTECA')   OR define('ID_SISTEMA_BIBLIOTECA', 12);
+defined('ID_SISTEMA_BSC')          OR define('ID_SISTEMA_BSC', 13);
+defined('ID_SISTEMA_JUEGOS')       OR define('ID_SISTEMA_JUEGOS', 14);
+defined('ID_SISTEMA_PSICOLOGIA')   OR define('ID_SISTEMA_PSICOLOGIA', 15);
+defined('ID_SISTEMA_MATENIMIENTO') OR define('ID_SISTEMA_MATENIMIENTO', 16);
+defined('ID_SISTEMA_MEDICO')       OR define('ID_SISTEMA_MEDICO', 17);
+defined('ID_SISTEMA_MOVILIDAD')    OR define('ID_SISTEMA_MOVILIDAD', 18);
+
+//AREAS
+defined('ID_AREA_ACADEMICA')       OR define('ID_AREA_ACADEMICA', '18');
+defined('ID_AREA_CONTABLE')        OR define('ID_AREA_CONTABLE', '58');
+
+//TIPOS DE MURAL
+defined('MURAL_HOME')         OR define('MURAL_HOME', 'home');
+defined('MURAL_PUBLICO')      OR define('MURAL_PUBLICO', 'publico');
+defined('MURAL_ESTRELLA')     OR define('MURAL_ESTRELLA', 'estrella');
+defined('MURAL_DOCENTE')      OR define('MURAL_DOCENTE', 'docente');
+
+//ROLES QUE PUEDEN PUBLICAR EN EL MURAL ESRELLA
+define("ROLES_PUBLICAR_MURAL_ESTRELLA", json_encode(array (ID_ROL_PROMOTOR,ID_ROL_SUBDIRECTOR,ID_ROL_DIRECTOR)));
+
+//ID GRUPOS DE COMBO
+defined('ID_GRUPO_21_TIPO_CONFIGURACION') OR define('ID_GRUPO_21_TIPO_CONFIGURACION', '21');
+defined('ID_GRUPO_22_MEDIDAS_RASH_ECE')   OR define('ID_GRUPO_22_MEDIDAS_RASH_ECE', '22');
+defined('ID_GRUPO_23_PROMEDIOS')          OR define('ID_GRUPO_23_PROMEDIOS', '23');
+defined('ID_GRUPO_24_MEDIDAS_RASH_EAI')   OR define('ID_GRUPO_24_MEDIDAS_RASH_EAI', '24');
+//COMBO TIPO
+define('COMBO_SI_NO', 4);
+define('COMBO_PARENTEZCO', 5);
+define('COMBO_TIPO_DOC', 6);
+define('COMBO_ESTADO_CIVIL', 7);
+define('COMBO_NIVEL_INST', 8);
+define('COMBO_OCUPACION', 9);
+define('COMBO_SITUACION_LABORAL', 10);
+define('COMBO_SEXO', 11);
+define('COMBO_RELIGION', 12);
+define('COMBO_IDIOMA', 20);
+define('COMBO_TIPO_TRASLADO', 25);
+define('COMBO_CICLO_ACAD', 28);
+define('COMBO_TIPO_CICLO', 35);
+define('COMBO_DOCUMENTOS', 36);
+define('COMBO_REPORTES', 37);
+define('COMBO_REPORTES_NOTAS', 57);
+define('COMBO_ESTADO_ALUMNO', 39);
+define('COMBO_DIFICULTAD', 47);
+define('COMBO_SIST_OPERATIVO', 50);
+define('COMBO_TIPO_SANGRE', 51);
+define('COMBO_AUDI_PAGOS' , 52);
+define('COMBO_TIPO_CINGRESO' , 53);
+define('COMBO_COLEGIO_EGRESO' , 54);
+define('COMBO_TIPO_CERRADO' , 55);
+define('COMBO_INCIDENCIA'   , 56);
+
+//Tipos de ciclos academicos
+defined('ID_TIPO_BIMESTRE')   OR define('ID_TIPO_BIMESTRE', 1);
+
+//flag general de Schoowl de la tabla area
+defined('FLG_GENERAL') OR define('FLG_GENERAL', '0');
+
+//SEXO
+defined('SEXO_MASCULINO') OR define('SEXO_MASCULINO', 1);
+defined('SEXO_FEMENINO')  OR define('SEXO_FEMENINO', 2);
+
+//Orden acciones
+defined('ORDEN_SUBIR') OR define('ORDEN_SUBIR', '1');
+defined('ORDEN_BAJAR') OR define('ORDEN_BAJAR', '0');
+
+//ESTADOS CAJA
+defined('ESTADO_APERTURA') OR define('ESTADO_APERTURA' , 'APERTURA');
+defined('ESTADO_CERRADA')  OR define('ESTADO_CERRADA'  , 'CERRADA');
+
+//DIAS DE LA SEMANA
+defined('DIAS_SEMANA')      OR define('DIAS_SEMANA', 'Domingo;Lunes;Martes;Miércoles;Jueves;Viernes;Sábado');
+defined('DIA_DOMINGO_CODE') OR define('DIA_DOMINGO_CODE', '0');
+defined('DIA_SABADO_CODE')  OR define('DIA_SABADO_CODE', '6');
+
+define('FOTO_PATH_FAMILIAR', 'uploads/general/images/foto_perfil/familiares/');
+define('FOTO_PATH_ESTUDIANTE', 'uploads/general/images/foto_perfil/estudiantes/');
+
+define('FOTO_PATH_FAMILIAR_MATRICULA', 'uploads/modulos/matricula/images/foto_perfil/familiares/');
+define('FOTO_PATH_ESTUDIANTE_MATRICULA', 'uploads/modulos/matricula/images/foto_perfil/estudiantes/');
+define('FOTO_PATH_NOTAS_GRAFICOS', 'uploads/modulos/notas/');
+
+//BIMESTRES
+defined('BIMESTRE_I')   OR define('BIMESTRE_I'  , 1);
+defined('BIMESTRE_II')  OR define('BIMESTRE_II' , 2);
+defined('BIMESTRE_III') OR define('BIMESTRE_III', 3);
+defined('BIMESTRE_IV')  OR define('BIMESTRE_IV' , 4);
+
+//BIMESTRES
+defined('AWARDS_POSITIVO')   OR define('AWARDS_POSITIVO'  , '1');
+defined('AWARDS_NEEDS_WORK') OR define('AWARDS_NEEDS_WORK', '2');
+
+//TIPOS DISCIPLINAS
+define("TIPOS_DISCIPLINA", json_encode(array ('DEPORTIVA','ARTISTICA')));
+define("NIVEL_COMPETITIVO", json_encode(array ('FORMATIVA','COMPETITIVA')));
+
+define('TIPO_DISCI_ARTISTICO', 'ARTISTICA');
+
+define('_HTML_TYPE', 'HTML');
+define('__COD_ERROR','ERROR');
+
+//UNIVERSIDADES
+define('ID_PUCP', '1');
+//TIPO DE EXAMEN
+define('ADMISION', 'ADMI');
+define('SIMULACRO', 'SIMU');
+
+//CERTIFICADO INGLES
+define('APROBO_EXAMEN_CERTIFICADO', 'A');
+define('POSTULO_EXAMEN_CERTIFICADO', 'P');
+define('NO_DIO_EXAMEN_CERTIFICADO', 'N');
+
+//NIVELES
+define('ID_INICIAL', '1');
+define('ID_PRIMARIA', '2');
+define('ID_SECUNDARIA', '3');
+
+//GRADOS PPU 4to y 5to SEC
+define("GRADOS_PPU", json_encode(array("14","15")));
+
+//GRADOS SECUNDARIA ADMISION
+defined('GRADOS_SECUNDARIA') OR define('GRADOS_SECUNDARIA', '13,14,15');
+
+//ROLES QUE ACCEDEN A MANTENIMIENTO
+define("ROLES_MANTE", json_encode(array ('1','8')));
+
+define("TIPO_ENCUESTA", json_encode(array("FAMILIA","CLIENTE")));
+
+//ESTADOS ECE
+define("ESTADOS_ECE", json_encode(array('EN INICIO','EN PROCESO', 'SATISFACTORIO')));
+define('ECE_INICIO' , 'EN INICIO');
+define('ECE_PROCESO', 'EN PROCESO');
+define('ECE_SATISF' , 'SATISFACTORIO');
+
+//ESTADOS EAI DE RASH
+define('EAI_INICIO' , '1');
+define('EAI_PROCESO', '2');
+define('EAI_SATISF' , '3');
+
+//EXCEL ECE
+define('CELDA_SECCION', 'A');
+define('CELDA_PATERNO', 'B');
+define('CELDA_MATERNO', 'C');
+define('CELDA_NOMBRES', 'D');
+define('CELDA_NIVEL_LOGRO_LECT', 'E');
+define('CELDA_MEDIDA_RASH_LECT', 'F');
+define('CELDA_NIVEL_LOGRO_MAT', 'G');
+define('CELDA_MEDIDA_RASH_MAT', 'H');
+//RUTAS
+define('EXCEL_PATH' , './uploads/general/excel/');
+define('EXCEL_PATH_BD' , 'uploads/general/excel/');
+define('EXCEL_MAX_SIZE' , 4096);
+
+//CONFIGURACIONES DE MEDIDA RASH / PROMEDIO
+define('EAI_MEDIDA_RASH_PROCESO', 'EAI Medida Rash En Proceso');
+define('EAI_MEDIDA_RASH_INICIO', 'EAI Medida Rash En Inicio');
+
+define('ECE_MEDIDA_RASH_PROCESO', 'ECE Medida Rash En Proceso');
+define('ECE_MEDIDA_RASH_INICIO', 'ECE Medida Rash En Inicio');
+//
+define('PROMEDIO_TERCIO_SUPERIOR', 'Promedio del Tercio Superior');
+define('PROMEDIO_ORDEN_MERITO', 'Promedio de Orden de Mï¿½rito');
+define('PROMEDIO_FINAL', 'Promedio Final');
+define('PROMEDIO_SD', 'Promedio Nota SD Docentes');
+//
+define("CONFIG_PROMEDIOS", 'Promedio');
+define("CONFIG_MEDIDAS_RASH", 'Medida Rash');
+
+defined('ECE_EVALUACION') OR define('ECE_EVALUACION', 'ECE');
+defined('EAI_EVALUACION') OR define('EAI_EVALUACION', 'EAI');
+
+//VARIABLES DE BUSQUEDA EXISTE(1) / NO EXISTE (0)
+define('EXISTE', '1');
+define('NO_EXISTE', '0');
+
+define('MINUTOS_DURACION_LINK', '6');
+//fin correo
+
+//CORREO RECURSOS HUMANOS A SOLICITUD DE PERSONAL
+define('CORREO_RECURSOS_HUMANOS', 'area.gtalento@nslm.edu.pe');
+
+//configuracion para subir foto
+define('WIDTH_REDIMENSIONAR_FOTO', 550);
+define('HEIGHT_REDIMENSIONAR_FOTO', 450);
+define('FOTO_PATH', './uploads/general/images/foto_perfil/');
+define('FOTO_MURAL_PATH', './uploads/general/images/foto_mural/');
+define('DOCUMENTO_MURAL_PATH', './uploads/general/documentos/');
+define('FOTO_PATH_BD', 'uploads/general/images/foto_perfil/');
+define('FOTO_PATH_TEMP', './uploads/general/images/foto_perfil/temp/');
+
+define('MAX_WIDTH_FOTO' , '4000');
+define('MAX_HEIGTH_FOTO', '4000');
+define('PESO_KBS_FOTO_PERS', 3072);
+
+define('base_rutas'  ,'');
+
+//ESTADO SOLICITUDES VACANTES
+define('SOLICITUD_SOLICITADO' , 'SOLICITADO');
+define('SOLICITUD_PENDIENTE'  , 'PENDIENTE');
+define('SOLICITUD_CONTRATADO' , 'CONTRATADO');
+define('SOLICITUD_ANULADO'    , 'ANULADO');
+
+//TIPO DE INCIDENCIAS
+define('INC_CLIMA_LABORAL', '1');
+define('INC_DESCANSO_MEDICO'  , '2');
+define('INC_DECLARACION', '3');
+
+//TIPO GRUPO COMBO
+define('GRUPO_PUESTOS'   , 2);
+define('GRUPO_INCIDENCIA', 3);
+
+//MIGRACION
+define("TIPOS_MIGRACION", json_encode(array ('AULA - ALUMNO','PERSONAL', 'MARCAJE', 'DOCENTES - CURSOS')));
+define('AULA_ALUMNO'  , 'AULA - ALUMNO');
+define('_PERSONAL_'   , 'PERSONAL');
+define('MARCAJE'      , 'MARCAJE');
+define('_DOCENTES_CURSOS' , 'DOCENTES - CURSOS');
+
+//MIGRACION m_horario
+define('RUTA_MIGRAR_MARCAJE_WINDOWS', 'C:\\xampp\\htdocs\\smiledu\\application\\models\\mf_mantenimiento\\migrar_horarios.bat');
+
+//TIPOS DE ARCHIVOS
+define('TIPO_IMAGEN',"IMG");
+define('TIPO_DOCUMENTO',"DOC");
+
+define('GOOGLE_CLIENT_ID', '468871290267-388bsha9nul8klm135q86jv8ag67b43e.apps.googleusercontent.com');
+define('GOOGLE_CLIENT_SECRET', '4Z9TzGb8ZsPo6vBANaXvR7DO');
+define('REDIRECT_URI', 'http://buhooweb.com/smiledu/');
+define('REDIRECT_URI_CALED_AGEDA_SPED', 'http://buhooweb.com/smiledu/sped/c_agenda_bypass_calendar/');
+define('REDIRECT_URI_LOGIN_PPFF', 'http://buhooweb.com/smiledu/Padres');
+//define('REDIRECT_URI_CALED_AGEDA_SPED', 'http://localhost/smiledu/sped/c_agenda_bypass_calendar/');
+
+//REDES LOGIN
+define('FACEBOOK', 'FACEBOOK');
+define('GOOGLE'  , 'GOOGLE');
+define('OUTLOOK' , 'OUTLOOK');
+
+//Facebook API
+define('APP_ID'    , '731548190304462');
+define('APP_PASS'  , '2a8d42934ea80700237d0019a679110a');
+
+//Outlook API
+define('OUTLOOK_CLIENT_ID'    , '65fd9773-c508-4b82-b5f0-0281fa046336');
+define('OUTLOOK_CLIENT_SECRET', '8LZu2xRR2Nmnj0Z9DgQvaHS');
+
+define("ADMINISION_INGRESO", "S");
+define("ADMINISION_NO_INGRESO", "N");
+
+define("CAPACITACION_PROGRAMADA" ,"PROGRAMADA");
+define("CAPACITACION_REALIZADA" ,"REALIZADA");
+
+define("TIENE_CERTIFICADO_ECFE", "S");
+
+//ID PERMISOS
+define('ID_PERMISO_ADMINISION'         , 22);
+define('ID_PERMISO_ALUMNO_EAI'         , 25);
+define('ID_PERMISO_ALUMNO_ECE'         , 26);
+define('ID_PERMISO_CALENDARIO'         , 5);
+define('ID_PERMISO_CAPACITACION'       , 7);
+define('ID_PERMISO_CERTI_INGLES_ALUMN' , 23);
+define('ID_PERMISO_CERTI_INGLES_DOC'   , 23);
+define('ID_PERMISO_COMPETENCIA'        , 20);
+define('ID_PERMISO_CONFIG_PUNTAJE'     , 35);
+define('ID_PERMISO_CONFIG_MEDIA_RUSH'  , 39);
+define('ID_PERMISO_GRADOS_PPU'         , 29);
+define('ID_PERMISO_HORARIO'            , 4);
+define('ID_PERMISO_SOLIC_PERSONAL'     , 41);
+define('ID_PERMISO_INCIDENCIA'         , 42);
+define('ID_PERMISO_MIGRACION'          , 30);
+define('ID_PERMISO_PERSONA_ROL'        , 28);
+define('ID_PERMISO_ROL_PERM_SIST'      , 27);
+define('ID_PERMISO_EXCEL_CORREOS'      , 31);
+define('ID_PERMISO_COMBO'              , 63);
+define('ID_PERMISO_MOVIMIENTOS'        , 57);
+define('ID_PERMISO_CAJA'               , 67);
+define('ID_PERMISO_BOLETAS'            , 68);
+define('ID_PERMISO_REPORTES'           , 69);
+define('ID_PERMISO_MIGRACION_PAGOS'    , 70);
+define('ID_PERMISO_CORREOS'            , 58);
+define('ID_PERMISO_CUADRO_MANDO'       , 59);
+define('ID_PERMISO_MIS_PAGOS'          , 66);
+define('ID_PERMISO_CONFIGURACION'      , 61);
+define('ID_PERMISO_REPORTES_MATRICULA' , 60);
+define('ID_PERMISO_MIS_EGRESOS'        , 85);
+
+//NOMBRES FOLDER MODULO
+defined('SPED_FOLDER')      OR define('SPED_FOLDER'      , 'sped');
+defined('MATRICULA_FOLDER') OR define('MATRICULA_FOLDER' , 'matricula');
+defined('NOTAS_FOLDER')     OR define('NOTAS_FOLDER'     , 'notas');
+defined('ADMISION_FOLDER')  OR define('ADMISION_FOLDER'  , 'admision');
+defined('PAGOS_FOLDER')     OR define('PAGOS_FOLDER'     , 'pagos');
+defined('RRHH_FOLDER')      OR define('RRHH_FOLDER'      , 'rrhh');
+defined('SENC_FOLDER')      OR define('SENC_FOLDER'      , 'senc');
+defined('BSC_FOLDER')      OR define('BSC_FOLDER'      , 'bsc');
+
+//ID ROL SESSION X MODULO
+defined('SPED_ROL_SESS')      OR define('SPED_ROL_SESS'      , 'id_rol_sped');
+defined('MATRICULA_ROL_SESS') OR define('MATRICULA_ROL_SESS' , 'id_rol_matricula');
+defined('PAGOS_ROL_SESS')     OR define('PAGOS_ROL_SESS'     , 'id_rol_pagos');
+defined('ADMISION_ROL_SESS')  OR define('ADMISION_ROL_SESS'  , 'id_rol_admision');
+defined('NOTAS_ROL_SESS')     OR define('NOTAS_ROL_SESS'     , 'id_rol_notas');
+defined('RRHH_ROL_SESS')      OR define('RRHH_ROL_SESS'      , 'id_rol_rrhh');
+defined('SENC_ROL_SESS')      OR define('SENC_ROL_SESS'      , 'id_rol_senc');
+defined('BSC_ROL_SESS')      OR define('BSC_ROL_SESS'      , 'id_rol_bsc');
+
+//TIPO DE DOCUMENTO
+defined('TIPO_DOC_CARNET_EXTRANJERO') OR define('TIPO_DOC_CARNET_EXTRANJERO', "1");
+defined('TIPO_DOC_DNI') OR define('TIPO_DOC_DNI', "2");
+
+//FLAG ESTUDIANTE
+defined('FLG_ESTUDIANTE') OR define('FLG_ESTUDIANTE', 1);
+
+//FLAG FAMILIAR
+defined('FLG_FAMILIAR') OR define('FLG_FAMILIAR', 0);
+
+//SEDES
+defined('ID_SEDE_AVANTGARD')  OR define('ID_SEDE_AVANTGARD' , 1);
+defined('ID_SEDE_ECOLOGICA')  OR define('ID_SEDE_ECOLOGICA' , 2);
+defined('ID_SEDE_INDUSTRIAL') OR define('ID_SEDE_INDUSTRIAL', 3);
+defined('ID_SEDE_INICIAL')    OR define('ID_SEDE_INICIAL'   , 4);
+defined('ID_SEDE_SUPERIOR')   OR define('ID_SEDE_SUPERIOR'  , 5);
+defined('ID_SEDE_CENTRAL')    OR define('ID_SEDE_CENTRAL'   , 6);
+defined('ID_SEDE_ROTATIVOS')  OR define('ID_SEDE_ROTATIVOS' , 7);
+
+defined('SEDES_NOT_IN') OR define('SEDES_NOT_IN', ID_SEDE_ROTATIVOS);
+
+//PAGOS
+defined('FLG_BECA')         OR define('FLG_BECA', 1);
+//ESTADOS COMPROMISOS
+define('ESTADO_PAGADO'     , 'PAGADO');
+define('ESTADO_POR_PAGAR'  , 'POR PAGAR');
+define('ESTADO_VENCIDO'    , 'VENCIDO');
+define('ESTADO_ANULADO'    , 'ANULADO');
+define('ESTADO_CREADO'     , 'CREADO');
+define('ESTADO_RETIRADO'   , 'RETIRADO');
+define('ESTADO_REPUESTO'   , 'REPUESTO');
+define('ESTADO_CANCELADO'  , 'CANCELADO');
+define('ESTADO_PERDIDO'    , 'PERDIDA');
+defined('FLG_VISA')  OR define('FLG_VISA'  , '1');
+defined('FLG_BANCO') OR define('FLG_BANCO' , '1');
+//CONCEPTOS ESTADO
+defined('FLG_ESTADO_ACTIVO')   OR define('FLG_ESTADO_ACTIVO', 'ACTIVO');
+defined('FLG_ESTADO_INACTIVO')   OR define('FLG_ESTADO_INACTIVO', 'INACTIVO');
+//CONCEPTOS ESPECIALES
+defined('CONCEPTO_SERV_ESCOLAR') OR define('CONCEPTO_SERV_ESCOLAR' , 1);
+defined('DEVOLUCIONES')          OR define('DEVOLUCIONES'          , 2);
+defined('CUOTA_INGRESO')         OR define('CUOTA_INGRESO'         , 3);
+defined('DEPOSITO')              OR define('DEPOSITO'              , 4);
+defined('PERDIDA')               OR define('PERDIDA'               , 5);
+defined('REPOSICION')            OR define('REPOSICION'            , 6);
+defined('SIN_INCIDENCIA')        OR define('SIN_INCIDENCIA'        , 7);
+defined('MOV_INGRESO')           OR define('MOV_INGRESO' , 'INGRESO');
+defined('MOV_EGRESO')            OR define('MOV_EGRESO'  , 'EGRESO');
+
+//ARRAY CONCEPTOS ESPECIALES
+defined('ARRAY_CONCEPTOS')       OR define('ARRAY_CONCEPTOS'  , json_encode(array(CONCEPTO_SERV_ESCOLAR,DEVOLUCIONES,CUOTA_INGRESO,DEPOSITO,PERDIDA,REPOSICION)));
+
+//ACCIONES
+defined('REGISTRAR')   OR define('REGISTRAR', 'REGISTRAR');
+
+//ESTADO DE UN ALUMNO - PASAR A SMILEDU
+defined('ALUMNO_DATOS_INCOMPLETOS') OR define('ALUMNO_DATOS_INCOMPLETOS', 'DATOS_INCOMPLETOS');
+defined('ALUMNO_PREREGISTRO')       OR define('ALUMNO_PREREGISTRO', 'PREREGISTRO');
+defined('ALUMNO_REGISTRADO')        OR define('ALUMNO_REGISTRADO', 'REGISTRADO');
+defined('ALUMNO_MATRICULABLE')      OR define('ALUMNO_MATRICULABLE', 'MATRICULABLE');
+defined('ALUMNO_MATRICULADO')       OR define('ALUMNO_MATRICULADO', 'MATRICULADO');
+defined('ALUMNO_PROM_PREREGISTRO')      OR define('ALUMNO_PROM_PREREGISTRO', 'PROM_PREREGISTRO');
+defined('ALUMNO_PROM_REGISTRO')       OR define('ALUMNO_PROM_REGISTRO', 'PROM_REGISTRO');
+
+define('ALUMNO_NOPPROMOVIDO', 'NOPPROMOVIDO');
+define('ALUMNO_PROMOVIDO', 'PROMOVIDO');
+define('ALUMNO_EGRESADO', 'EGRESADO');
+define('ALUMNO_RETIRADO', 'RETIRADO');
+define('ALUMNO_VERANO', 'VERANO');
+define('ALUMNO_NOPROMOVIDO_NIVELACION', 'NOPROMOVIDONIVELACION');
+
+//CANTIDAD MAXIMA CREADA
+defined('CANTIDAD_MAXIMA_COLABORADORES') OR define('CANTIDAD_MAXIMA_COLABORADORES', 70);
+defined('CANTIDAD_MAXIMA_ESTUDIANTES') OR define('CANTIDAD_MAXIMA_ESTUDIANTES', 800);
+
+//VALIDACION
+define('VALIDACION_1' , 1);
+
+//RUTA IMAGENES DE PERFIL
+defined('RUTA_IMG_PROFILE')        OR define('RUTA_IMG_PROFILE'    , 'http://'.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null).'/smiledu/uploads/images/foto_perfil/');
+defined('RUTA_FISICA_IMG_PROFILE') OR define('RUTA_FISICA_IMG_PROFILE', (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : null).'/smiledu/uploads/images/foto_perfil/');
+defined('FOTO_PROFILE_PATH')        OR define('FOTO_PROFILE_PATH', './uploads/images/foto_perfil/');
+
+//FLG DOCENTE
+defined('FLG_DOCENTE_ASIGNADO')    OR define ('FLG_DOCENTE_ASIGNADO'   , 1);
+defined('FLG_DOCENTE_DESACTIVADO') OR define ('FLG_DOCENTE_DESACTIVADO', 2);
+defined('FLG_DOCENTE_DESASIGNADO') OR define ('FLG_DOCENTE_DESASIGNADO', 0);
+
+//DOCENTES
+defined('DOCENTE_TITULAR')   OR define('DOCENTE_TITULAR', '1');
+defined('DOCENTE_SUPLENTE')  OR define('DOCENTE_SUPLENTE', '0');
+
+//ESTADO DEL CORREO
+defined('CORREO_PENDIENTE')   OR define('CORREO_PENDIENTE', 'PENDIENTE');
+
+//AREAS
+defined('ID_AREA_INGLES')            OR define('ID_AREA_INGLES', '6');
+defined('ID_AREA_TALLER_ARTISTICO')  OR define('ID_AREA_TALLER_ARTISTICO', '1');
+defined('ID_AREA_TALLER_DEPORTIVO')  OR define('ID_AREA_TALLER_DEPORTIVO', '2');
+defined('ID_AREA_MATEMATICA')        OR define('ID_AREA_MATEMATICA', '7');
+defined('ID_AREA_COMUNICACION')      OR define('ID_AREA_COMUNICACION', '5');
+defined('ID_AREA_CIENCIA')           OR define('ID_AREA_CIENCIA', '4');
+defined('ID_AREA_INFORMATICA')       OR define('ID_AREA_INFORMATICA', '9');
+defined('ID_AREA_SOCIALES')          OR define('ID_AREA_SOCIALES', '8');
+defined('ID_AREA_INICIAL')           OR define('ID_AREA_INICIAL', '13');
+
+//FLAG TIPO PENSION
+defined('FLG_MATRICULA')    OR define('FLG_MATRICULA'    , 1);
+defined('FLG_RATIFICACION') OR define('FLG_RATIFICACION' , 2);
+defined('FLG_CUOTA')        OR define('FLG_CUOTA'        , 3);
+
+//TIPO DE CRONOGRAMA
+defined('CRONO_SPORT_SUMMER')    OR define('CRONO_SPORT_SUMMER'    , '1');
+defined('ANIO_LECTIVO')          OR define('ANIO_LECTIVO'          , '2');
+defined('CRONO_CREATIVE_SUMMER') OR define('CRONO_CREATIVE_SUMMER' , '3');
+
+//FRECUENCIA DE MEDICIÓN
+define('NO_MEDIDO', 'N');
+define('SI_MEDIDO', 'S');

@@ -1,0 +1,124 @@
+@CHARSET "UTF-8";
+
+.list-chats {
+	padding-left: 0;
+	list-style: none;
+}
+
+.list-chats .chat {
+	position: relative;
+	min-height: 40px;
+	margin: 16px 0 0 0;
+	padding: 0 52px;
+	text-align: right;
+}
+
+.list-chats .chat:before, .list-chats .chat:after {
+	content: " ";
+	display: table;
+}
+
+.list-chats .chat:after {
+	clear: both;
+}
+
+.list-chats .chat-avatar {
+	position: absolute;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	margin: 0;
+	margin-right: 15px;
+	text-align: center;
+	border-radius: 999px;
+}
+
+.list-chats .chat-avatar img {
+	width: 100%;
+}
+
+.list-chats .chat-avatar .fa, .list-chats .chat-avatar .md {
+	line-height: 40px;
+	font-size: 18px;
+}
+
+.list-chats .chat-avatar .glyphicon {
+	line-height: 32px;
+	font-size: 16px;
+}
+
+.list-chats .chat-body {
+	position: relative;
+	display: inline-block;
+	float: right;
+	clear: both;
+	padding: 12px;
+	margin-bottom: 2px;
+	text-align: left;
+	color: #4CAF50;
+	background: #C8E6C9;
+	margin-right: 15px
+}
+
+.list-chats .chat-body small {
+	display: block;
+	margin-bottom: -4px;
+	opacity: 0.7;
+}
+
+.list-chats .chat-avatar+.chat-body:after {
+	position: absolute;
+	content: '';
+	z-index: 0;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	top: 0;
+	right: -12px;
+	border-width: 0 0 12px 12px;
+	border-color: transparent transparent transparent #C8E6C9;
+}
+
+.list-chats .chat-left .chat {
+	text-align: left;
+}
+
+.list-chats .chat-left .chat-avatar {
+	left: 0;
+	right: auto;
+}
+
+.list-chats .chat-left .chat-body {
+	float: left;
+	background-color: #FFFFFF;
+	color: black;
+}
+
+.list-chats .chat-left .chat-avatar+.chat-body:after {
+	top: 0;
+	left: -12px;
+	border-width: 0 12px 12px 0;
+	border-color: transparent #FFFFFF transparent transparent;
+}
+
+#modalVerMensajesBody {
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: 68vh;
+	background-color: #F2F3F3;
+	margin-top: 15px;
+}
+
+.css_pintar_tres_puntitos i{
+	color: #F44336 !important
+}
+
+.css_hay_evid,
+.css_hay_evid i{
+	color: #4CAF50
+}
+
+.css_hay_msjs,
+.css_hay_msjs i {
+	color: #4A148C
+}

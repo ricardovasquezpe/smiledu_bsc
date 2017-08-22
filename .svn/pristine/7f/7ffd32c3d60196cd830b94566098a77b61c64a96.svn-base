@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	width: 50%;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .nav-justified>li{
+	width: 49%;
+}
+
+.mdl-wizard .tab-pane .mdl-card-supporting__title{
+	display: block;	
+}	
+
+@media ( max-width : 860px){		
+	.mdl-wizard .form-wizard.form-wizard-horizontal .nav .title{
+		display: block;
+	}
+}
+
+#tableEgresos .mdl-card__supporting-text{
+	overflow:auto;
+}
+
+.mdl-wizard ul.nav.nav-pills>li:NTH-CHILD(1)>a span.step:AFTER{
+	font-family: 'Material Icons' !important;
+	content: "\eb20";
+}
+
+.mdl-wizard ul.nav.nav-pills>li:NTH-CHILD(2)>a span.step:AFTER{
+	font-family: 'Material Icons' !important;
+	content: "\eb21";
+}

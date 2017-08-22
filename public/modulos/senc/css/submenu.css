@@ -1,0 +1,453 @@
+@CHARSET "UTF-8";
+
+header {
+	background-color: #FF9800 !important;
+}
+
+header i {
+	color: #FFF !important;
+}
+
+header .mdl-layout__drawer-button i:BEFORE {
+	color: #FFFFFF;
+}
+
+header .mdl-section-head {
+	left: 155.67px;
+	border-left-color : #FFFFFF;
+	color : #FFFFFF;
+}
+
+@media ( max-width : 768px) {
+	header .mdl-section-head {
+		left: 0px;
+		top: -10.5px;
+	}
+}
+
+.mdl-card-fab .mdl-card__title {
+	background-color: #FF9800;
+}
+
+.modal .mdl-card-fab .mdl-card__title h2.mdl-card__title-text {
+	color: #ffffff;
+}
+
+.modal .mdl-card__actions button.mdl-button, .mdl-card-fab .mdl-card__actions button.mdl-button
+	{
+	color: #FF9800;
+}
+
+.modal .mdl-card__actions a.mdl-button--raised, .mdl-card-fab .mdl-card__actions a.mdl-button--raised,
+	.modal .mdl-card__actions button.mdl-button--raised, .mdl-card-fab .mdl-card__actions button.mdl-button--raised
+	{
+	background-color: #FF9800;
+}
+
+/* Botones */
+button.mdl-button, 
+a.mdl-button {
+	color: #FF9800;
+}
+
+.form-group .form-control ~ label:after, .form-group .form-control ~
+	.form-control-line:after {
+	background-color: #FF9800 !important;
+}
+
+/* Search */
+.mdl-header-input-group {
+	background-color: #00796B;
+}
+
+.mdl-header-input-group .mdl-icon i:BEFORE {
+	color: #FFFFFF
+}
+
+.mdl-header-input-group .mdl-textfield .mdl-textfield__label {
+	color: #FFFFFF;
+}
+
+/* Arbol de modulos */
+.mdl-layout .mdl-layout__drawer .mdl-layout-title img, .mdl-layout .mdl-layout__header-row .mdl-layout-title img
+	{
+	height: 37.5px;
+}
+
+.mdl-nav a.dont-three i:FIRST-CHILD {
+	top: 13.5px;
+}
+
+/* ADD MENU COLOR */
+.mdl-nav li.active a, .mdl-nav li.active a i {
+	color: #FF9800 !important;
+}
+
+/* Tabs */
+header .mdl-layout__tab {
+	color: #FFE0B2 !important
+}
+
+header .mdl-layout__tab.is-active {
+	color: #FFFFFF !important
+}
+
+header .mdl-layout__tab::after {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab .mdl-layout__tab-ripple-container .mdl-ripple {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab-bar {
+	background-color: #FF9800;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+	background-color: #FFFFFF;
+}
+
+.mdl-tabs__tab .mdl-tabs__ripple-container .mdl-ripple, .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after
+	{
+	background-color: #FF9800
+}
+
+/* Combo box */
+.bs-searchbox input.form-control, .bs-searchbox input.form-control:hover,
+	.bs-searchbox input.form-control:active, .bs-searchbox input.form-control:focus
+	{
+	border-bottom-color: #FF9800;
+	color: #FF9800;
+}
+
+.dropdown-menu>.active>a .text, .dropdown-menu>.active>a:focus .text, .dropdown-menu>.active>a:hover .text,
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover
+	{
+	background-color: #FF9800;
+}
+
+/* Inputs and Label mdl */
+.mdl-textfield__label:after {
+	background-color: #FF9800 !important;
+}
+
+/* GROUPS INPUTS */
+.mdl-button-group .mdl-btn .mdl-button.active {
+	background-color: #FF9800;
+}
+
+.mdl-button-group .mdl-textfield .mdl-textfield__label:AFTER {
+	bottom: 20px
+}
+
+/* Checkbox and option toggle */
+.mdl-radio.is-checked .mdl-radio__outer-circle, .mdl-checkbox.is-checked .mdl-checkbox__box-outline
+	{
+	border-color: #FF9800;
+}
+
+.mdl-radio__inner-circle, .mdl-switch.is-checked .mdl-switch__thumb,
+	.mdl-switch__ripple-container .mdl-ripple,
+	.mdl-checkbox__ripple-container .mdl-ripple, .mdl-checkbox.is-checked .mdl-checkbox__tick-outline
+	{
+	background-color: #FF9800;
+}
+
+.mdl-radio__ripple-container .mdl-ripple, .mdl-switch.is-checked .mdl-switch__track
+	{
+	background-color: #FFE0B2;
+}
+
+/* CALENDAR */
+.cal-day-today span[data-cal-date] {
+	color: #FF9800 !important
+}
+
+.cal-event-list, .cal-event-list:HOVER {
+	background-color: #FFE0B2 !important;
+}
+
+.event {
+	background-color: #FF9800;
+}
+
+.event-important {
+	border: 1px solid #F44336 !important;
+	background-color: #F44336;	
+}
+
+.event-warning {
+	border: 1px solid #FFEB3B !important;
+	background-color: #FFEB3B;	
+}
+
+.event-info {
+	border: 1px solid #FF9800 !important;
+	background-color: #FF9800;	
+}
+
+.event-inverse {
+	border: 1px solid #424242 !important;
+	background-color: #424242;	
+}
+
+.event-success {
+	border: 1px solid #FF9800 !important;
+	background-color: #FF9800;	
+}
+
+.event-special {
+	background-color: #FFE0B2 !important;
+	border: 1px solid #FFE0B2 !important
+}
+
+/* Items asignados */
+.mdl-assign {
+	background-color: #FFE0B2;
+}
+
+.mdl-assign .text {
+	color: #FF9800;
+}
+
+.mdl-assign .option button i {
+	color: #FF9800;
+}
+
+/* Filtros para asistencia */
+.mdl-filter ul.nav.nav-pills li {
+	border-color: #FF9800;
+}
+
+.mdl-filter ul.nav.nav-pills li.active {
+	background-color: #FF9800;
+}
+
+.mdl-filter ul.nav.nav-pills li a {
+	color: #FF9800;
+}
+
+.mdl-filter ul.nav.nav-pills li a i {
+	color: #FF9800
+}
+
+.mdl-filter ul.nav.nav-pills li a:focus, .mdl-filter ul.nav.nav-pills li a:hover
+	{
+	background-color: #FF9800;
+}
+
+/* Fab position */
+.mfb-component--br .mfb-component__button--main {
+	background-color: #FF9800 !important;
+}
+.mfb-component--br button.mfb-component__button--child i {
+	color: #FF9800 !important;
+}
+
+/* Modal select */
+.mobileSelect-savebtn, .mobileSelect-container .list-container .mobileSelect-control.selected
+	{
+	background-color: #FF9800 !important;
+}
+
+/* Text field */
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+	color: #FF9800
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label:BEFORE {
+	background-color: #FF9800
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #FF9800
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #FFE0B2
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #FF9800;
+}
+
+.dtp-content line[stroke="#2196F3"] {
+	stroke: #FF9800;
+}
+
+.dtp-content circle[fill="#2196F3"] {
+	fill: #FF9800;
+}
+
+/* BUTTON */
+.mdl-button--raised, 
+.mdl-button--raised:HOVER {
+	background-color: #FF9800;
+}
+
+@keyframes loader { 
+	0% {
+		border-top-color: #FF9800;
+	}
+	50% {
+		border-top-color: #FF9800;
+		border-right-color: #FF9800;
+	}
+	75% {
+		border-top-color: #FF9800;
+    	border-bottom-color: #FF9800;
+		border-right-color: #FF9800;
+	}
+	100% {
+		border-top-color: #FF9800;
+		border-bottom-color: #FF9800;
+		border-left-color: #FF9800;
+		border-right-color: #FF9800;
+	}
+}
+
+.label i {
+	font-size: 14px;
+	position: relative;
+	top: 1.5px;
+	margin-right: 2.5px;
+	color: #FFFFFF;
+}
+
+.mdl-textfield__input:FOCUS {
+	outline: none;
+}
+
+/* RADIOS LABEL COLORS */
+.mdl-radio.radio-danger .mdl-radio__outer-circle {
+	border-color: #F44336
+}
+
+.mdl-radio.radio-danger .mdl-radio__inner-circle {
+	background-color: #F44336
+}
+
+.mdl-radio.radio-danger .mdl-radio__ripple-container .mdl-ripple {
+	background-color: #FFCDD2
+}
+
+.mdl-radio.radio-warning .mdl-radio__outer-circle {
+	border-color: #FFC107
+}
+
+.mdl-radio.radio-warning .mdl-radio__inner-circle {
+	background-color: #FFC107
+}
+
+.mdl-radio.radio-warning .mdl-radio__ripple-container .mdl-ripple {
+	background-color: #FFE082
+}
+
+/* CALENDAR  */
+.mdl-calendar .cal-day-today {
+	background-color: #FFE0B2;
+}
+
+.mdl-calendar .mdl-card__menu button.mdl-button.active, .mdl-calendar .mdl-card__menu a.mdl-button.active
+	{
+	color: #FF9800
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #FF9800
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #FFE0B2
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #FF9800;
+}
+
+.dtp-content line[stroke="#2196F3"] {
+	stroke: #FF9800;
+}
+
+.dtp-content circle[fill="#2196F3"] {
+	fill: #FF9800;
+}
+
+/* Wizard*/
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress .progress-bar-primary{
+	background-color: #FF9800;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .form-wizard-nav .progress{
+	width: 70%;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.active .step, 
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li:hover .step{
+    border-color: #FF9800;
+    color: #FF9800;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.active .title,
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li:hover .title{
+    color: #FF9800;		
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.complete .step{
+    border-color: #FF9800;
+    background-color: #FF9800;
+}
+
+.mdl-wizard .form-wizard.form-wizard-horizontal .nav li.complete .title{
+	color: #FF9800
+}
+
+/* ENCUESTAS */
+table span.label {
+    padding: 5px 10px;
+    color: #FFF;
+}
+
+.label-success-light {
+    background-color: #8BC34A;
+}
+
+/*  LOADING */
+.mdl-spinner.is-active .mdl-spinner__layer-4,
+.mdl-spinner.is-active .mdl-spinner__layer-3,
+.mdl-spinner.is-active .mdl-spinner__layer-2,
+.mdl-spinner.is-active .mdl-spinner__layer-1{
+	border-color: #FF9800 !important;
+}
+
+a.mdl-button.mdl-save__load.mdl-save__load__loading[disabled],
+button.mdl-button.mdl-save__load.mdl-save__load__loading[disabled]{
+	background-color: #FF9800  !important;
+}
+
+.form-group{
+	margin-bottom: 15px;
+    text-align: left;
+    padding-left: 35px;
+}
+
+.form-group label{
+	padding-right:10px;
+}
+.mdl-menu__container.is-upgraded.is-visible{
+	right:35px;
+}
+
+/* PERFIL */
+.box-header{
+	background: #FF9800;
+}

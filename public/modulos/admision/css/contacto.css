@@ -1,0 +1,30 @@
+@CHARSET "ISO-8859-1";
+
+select#selectTipoLlamada ~ .bootstrap-select ul li a span.text:BEFORE {
+ 	content: " ";
+    background-color: transparent;
+    padding: 0px 8px;
+    margin-right: 5px;
+    font-family: 'Material Icons';
+}
+   
+select#selectTipoLlamada ~ .bootstrap-select ul li:NTH-CHILD(2) a span.text:BEFORE {
+    content: "\e9a7";
+}
+
+select#selectTipoLlamada ~ .bootstrap-select ul li:NTH-CHILD(3) a span.text:BEFORE {
+    content: "\e9a3";
+}
+
+select#selectTipoLlamada ~ .bootstrap-select ul li:NTH-CHILD(4) a span.text:BEFORE {
+    content: "\e9a5";
+}
+
+select#selectTipoLlamada ~ .bootstrap-select ul li:NTH-CHILD(5) a span.text:BEFORE{
+	content: "\ebe1";
+}
+
+.highlight {
+	background-color: #FFFF88;
+	color: black;
+}

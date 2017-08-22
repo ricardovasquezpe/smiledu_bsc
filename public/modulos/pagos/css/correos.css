@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+button[data-id="selectTipo"] ~ .dropdown-menu ul li a,
+button[data-id="selectTipoEdit"] ~ .dropdown-menu ul li a {
+	padding: 3px 10px
+}
+
+button[data-id="selectTipo"] ~ .dropdown-menu ul li a span.text:BEFORE,
+button[data-id="selectTipoEdit"] ~ .dropdown-menu ul li a span.text:BEFORE {
+	content: " ";
+	background-color: transparent;
+	padding: 0px 8px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+button[data-id="selectTipo"] ~ .dropdown-menu ul li:NTH-CHILD(2) a span.text:BEFORE,
+button[data-id="selectTipoEdit"] ~ .dropdown-menu ul li:NTH-CHILD(2) a span.text:BEFORE {
+	background-color: #FF3D00;
+}
+
+button[data-id="selectTipo"] ~ .dropdown-menu ul li:NTH-CHILD(3) a span.text:BEFORE,
+button[data-id="selectTipoEdit"] ~ .dropdown-menu ul li:NTH-CHILD(3) a span.text:BEFORE {
+	background-color: #009688;
+}
+
+button[data-id="selectTipo"] ~ .dropdown-menu ul li:NTH-CHILD(4) a span.text:BEFORE,
+button[data-id="selectTipoEdit"] ~ .dropdown-menu ul li:NTH-CHILD(4) a span.text:BEFORE	{
+	background-color: #FFCA28;
+}

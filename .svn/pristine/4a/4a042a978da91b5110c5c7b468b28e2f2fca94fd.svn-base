@@ -1,0 +1,279 @@
+function init(){
+	initCalendarDaysMinToday('fechaAgendarContacto');
+    initButtonCalendarHours('horaAgendarContacto');
+    initCalendarDays('fechaBuscarContacto');
+    $("#tbBusquedaContactoFiltro").bootstrapTable({});
+    console.log('jxxxx');
+}
+
+function abrirModalFiltrarContacto(){
+	setearInput("buscarContacto", null);
+	$("#cont_busqueda_contacto").html(null);
+	modal("modalBuscarContacto");
+}
+
+function buscarContacto(){
+	nombre = $("#buscarContacto").val();
+	if(nombre.length != 0){
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				data : {nombre : nombre},
+				url  : 'c_evaluar_rapido/busquedaContactos',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					$("#cont_busqueda_contacto").html(data.tabla);
+					$("#tbBusquedaContacto").bootstrapTable({});
+					$(document).ready(function(){
+		        	    $('[data-toggle="tooltip"]').tooltip(); 
+		            });
+				}catch(err){
+					location.reload();
+				}
+			});
+		});
+	}else{
+		$("#cont_busqueda_contacto").html(null);
+	}
+}
+
+var cons_contacto = null;
+function abrirModalAgendarContacto(contacto){
+	cons_contacto = contacto;
+	setearInput("fechaAgendarContacto", null);
+    setearInput("horaAgendarContacto", null);
+	modal("modalAgendarContacto");
+}
+function abrirModalConfirmarQuitar(contacto){
+	cons_contacto = contacto;
+	modal("modalQuitarContacto");
+}
+
+function agendarContacto(){
+	Pace.restart();
+	Pace.track(function() {
+		fecha = $("#fechaAgendarContacto").val();
+		hora  = $("#horaAgendarContacto").val();
+		$.ajax({
+			data : {contacto : cons_contacto,
+				    fecha    : fecha,
+				    hora     : hora,
+					fecha_ubic       : $_fecha},
+			url  : 'c_evaluar_rapido/agendarContacto',
+			type : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					$("#cont_tabla_princ").html(data.tabla);
+					modal("modalAgendarContacto");
+				}
+				msj("success", data.msj, null);
+			}catch(err){
+				location.reload();
+			}
+		});
+	});
+}
+
+function goToEvaluacion(contacto){
+	$.ajax({
+		data : {contacto : contacto},
+		url  : 'c_evaluar_rapido/evaluarContacto',
+		type : 'POST'
+	}).done(function(data) {
+		data = JSON.parse(data);
+		window.location.href = data.url;
+	});
+}
+function goToMensaje(contacto){
+	$.ajax({
+		data : {contacto : contacto},
+		url  : 'c_evaluar_rapido/evaluarContacto',
+		type : 'POST'
+	}).done(function(data) {
+		data = JSON.parse(data);
+		window.location.href = data.url;
+	});
+}
+
+function abrirModalFiltrar(){
+	modal("modalBuscarContactoDia");
+}
+
+function buscarContactoFiltroDia(){
+	Pace.restart();
+	Pace.track(function() {
+		nombre = $("#buscarContactoFiltrar").val();
+		fecha  = $("#fechaBuscarContacto").val();
+		if(nombre.length + fecha.length != 0){
+			$.ajax({
+				data : {fecha    : fecha,
+					    nombre   : nombre},
+				url  : 'c_evaluar_rapido/buscarContactoDia',
+				type : 'POST'
+			}).done(function(data) {
+				try{
+					data = JSON.parse(data);
+					$("#cont_tabla_princ").html(data.tabla);
+					$("#cont_imagen_magic").css("display", "none");
+					$("#cont_search_not_found").css("display", "none");
+					$("#cont_general_invitados").css("display", "block");
+					$("#tbBusquedaContactoFiltro").bootstrapTable({});
+					$("#title_invitados").html("Invitados ("+data.weekDay+" - "+data.fecha+")");
+					$_fecha = data.fecha;
+				}catch(err){
+					location.reload();
+				}
+			});
+		}else{
+			$("#cont_imagen_magic").css("display", "block");
+			$("#cont_search_not_found").css("display", "none");
+			$("#cont_tabla_princ").html(null);
+			$("#cont_general_invitados").css("display", "none");
+		}
+	});
+}
+
+function abrirModalPasarMatricula(contacto){
+	cons_contacto = contacto;
+	modal("modalMigrarMatricula");
+}
+
+function ingresarAMatricula(){
+	Pace.restart();
+	Pace.track(function() {
+		nombre = $("#buscarContactoFiltrar").val();
+		fecha  = $("#fechaBuscarContacto").val();
+		$.ajax({
+			data : { contacto : cons_contacto,
+					 fecha    : fecha,
+					 nombre   : nombre},
+			url  : 'c_evaluar_rapido/procesoMatricula',
+			type : 'POST'
+		})
+		.done(function(data) {
+			try {
+				data = JSON.parse(data);
+				if(data.error == 0){
+					if(data.count > 0){
+						$("#cont_tabla_princ").html(data.tabla);
+						$("#tbBusquedaContactoFiltro").bootstrapTable({});
+						$("#cont_imagen_magic").css("display", "none");
+						$("#cont_search_not_found").css("display", "none");
+						$("#cont_general_invitados").css("display", "block");
+					}else{
+						$("#cont_imagen_magic").css("display", "none");
+						$("#cont_search_not_found").css("display", "block");
+						$("#cont_tabla_princ").html(null);
+						$("#cont_general_invitados").css("display", "none");
+					}
+					modal('modalMigrarMatricula');
+				}
+				msj('success', data.msj, null);
+			} catch(err) {
+				location.reload();
+			}
+		});
+	});
+}
+
+function contactosHoy(){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url  : 'c_evaluar_rapido/contactosHoy',
+			type : 'POST'
+		}).done(function(data) {
+			data = JSON.parse(data);
+			$("#cont_tabla_princ").html(data.tabla);
+			$("#cont_imagen_magic").css("display", "none");
+			$("#cont_search_not_found").css("display", "none");
+			$("#cont_general_invitados").css("display", "block");
+			$("#tbBusquedaContactoFiltro").bootstrapTable({});
+			$("#title_invitados").html("Invitados ("+data.weekDay+" - "+data.fecha+")");
+			$_fecha = data.fecha;
+			setearInput("buscarContactoFiltrar", null);
+			setearInput("fechaBuscarContacto", null);
+		});
+	});
+}
+
+function verDiagnosticoTabla(idContaco, nombreContact){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : { contacto : idContaco },
+			url  : 'c_evaluar_rapido/resumenDiagnosticos',
+			type : 'POST'
+		})
+		.done(function(data) {
+			try {
+				data = JSON.parse(data);
+				$("#cont_tb_resumen_diagnostico").html(data.tabla);
+				$("#tbResumenDiagnostico").bootstrapTable({});
+				$("#cont_tb_diagnostico_subdirector").html(data.tablaSubdirector);
+				$("#tbDiagnosticoSubdirector").bootstrapTable({});
+				$("#tituloResumenDiag").html("Resumen Diagn/u00F3stico: "+nombreContact);
+				modal("modalResumenDiag");
+			} catch(err) {
+				location.reload();
+			}
+		});
+	});
+}
+
+function leftRightDia(tipo) {
+	if(!$_fecha) {
+		return;
+	}
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url  : 'c_evaluar_rapido/contactosDireccion',
+			data : { fecha    : $_fecha,
+				     tipo     : tipo},
+			type : 'POST'
+		}).done(function(data) {
+			data = JSON.parse(data);
+			$("#cont_tabla_princ").html(data.tabla);
+			$("#cont_imagen_magic").css("display", "none");
+			$("#cont_search_not_found").css("display", "none");
+			$("#cont_general_invitados").css("display", "block");
+			$("#tbBusquedaContactoFiltro").bootstrapTable({});
+			$("#title_invitados").html("Invitados ("+data.weekDay+" - "+data.fecha+")");
+			$_fecha = data.fecha;
+			setearInput("buscarContactoFiltrar", null);
+			setearInput("fechaBuscarContacto", data.fecha);
+		});
+	});
+}
+
+function mostrarObservacionEntrevista(observacion){
+	$("#observacionEntrevista").html(observacion);
+	modal("modalObservacion");
+}
+
+function quitarContacto(){
+	addLoadingButton('botonAE');
+	if(cons_contacto != null){
+		observacion = $("#observacionContactoQuitado").val();
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evaluar_rapido/quitarContacto',
+			data    : {idcontacto  : cons_contacto,
+					   observacion : observacion,
+					   fecha       : $_fecha},
+			'async' : true
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#cont_tabla_princ").html(data.tabla);
+				modal("modalQuitarContacto");
+			}
+			msj('success', data.msj, null);
+		});
+	}
+}

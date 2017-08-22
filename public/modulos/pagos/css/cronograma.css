@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+header .mdl-layout__drawer-button {
+	display: none !important;
+}
+
+header a.mdl-button__return {
+	display: block;
+	z-index: 9;
+}
+.ocultar{
+	display:none!important;
+}
+.opacity_delete{
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+
+@media only screen and (min-width:412px) and (max-width: 5000px){
+.modal-sm {
+    width: 340px;
+}
+}
+.floating-label{
+	padding:0;
+}

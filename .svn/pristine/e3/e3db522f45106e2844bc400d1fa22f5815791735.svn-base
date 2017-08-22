@@ -1,0 +1,629 @@
+<?php //@PENDIENTE
+class M_migracion extends  CI_Model{
+    function __construct(){
+        parent::__construct();
+    }
+    
+ 	function getDatosBBVA($sedes) {
+ 		$sql="	 SELECT TRIM(REPLACE((to_char(
+ 		                (CASE WHEN dc.fecha_descuento >= current_date THEN (m.monto - m.descuento_acumulado) ELSE m.monto END)
+ 		                ,'0000000000000.99')),'.','')) AS monto, 
+ 						m._id_persona,
+						/*CASE WHEN(m._id_concepto = 1)
+ 		                     THEN to_char(dc.fecha_vencimiento    , 'YYYYMMDD')
+                             ELSE to_char(m.fecha_vencimiento_aux , 'YYYYMMDD')
+                        END AS fecha_vencimiento,*/
+ 		                to_char(m.fecha_vencimiento_aux , 'YYYYMMDD') fecha_vencimiento,
+ 						CONCAT((SELECT EXTRACT (YEAR FROM now()))+1,'1231') AS fecha_bloqueo,
+ 						--to_char(dc.fecha_vencimiento, 'MM') AS periodo,
+ 		                '01' periodo,
+ 						INITCAP(TRANSLATE(
+ 		                                   (CASE WHEN(m._id_concepto = 1) 
+ 		                                         THEN dc.desc_detalle_crono 
+ 		                                         ELSE co.desc_concepto 
+ 		                                    END), 
+ 		                                    '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 
+ 		                                    'aeiouAEIOUaeiouAEIOUnN'
+ 		                               ) 
+ 		                       ) as desc_detalle_crono,
+                        (SELECT TRIM(
+ 		                            REPLACE(
+ 		                                       (to_char(SUM(m.monto),'0000000000000.99'))
+ 		                                        ,'.'
+ 		                                        ,''
+ 		                                   )
+ 		                            )
+                          FROM pagos.movimiento          m,
+                               pagos.cronograma          c,
+                               pagos.detalle_cronograma dc
+                         WHERE m.estado                 IN('".ESTADO_VENCIDO."','".ESTADO_POR_PAGAR."')
+                           AND m.tipo_movimiento        = '".MOV_INGRESO."'
+                           AND m._id_concepto           IN(".CONCEPTO_SERV_ESCOLAR.",".CUOTA_INGRESO.")
+                           AND m._id_detalle_cronograma = dc.id_detalle_cronograma
+                           AND dc._id_cronograma        = c.id_cronograma
+                           AND c._id_sede               IN(2)
+                           AND c._id_sede               IN ? ) total,
+ 		                UPPER(
+                              TRANSLATE(
+                                         CONCAT(p.ape_pate_pers,' ', p.ape_mate_pers,' ',p.nom_persona), 
+                                         '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 
+                                          'aeiouAEIOUaeiouAEIOUnN'
+                                       ) 
+                             ) as nombres,
+                        m.monto as monto_aux
+			 	   FROM pagos.movimiento m
+				        LEFT JOIN pagos.detalle_cronograma dc ON(m._id_detalle_cronograma = dc.id_detalle_cronograma)
+                        LEFT JOIN pagos.cronograma          c ON(dc._id_cronograma        = c.id_cronograma AND c._id_tipo_cronograma = ".ANIO_LECTIVO."),
+ 		                persona            p,
+ 		                pagos.concepto co,
+ 		                sima.detalle_alumno da
+				  WHERE m.estado           IN('".ESTADO_VENCIDO."','".ESTADO_POR_PAGAR."')
+				    AND m.tipo_movimiento  = '".MOV_INGRESO."'
+				    AND m._id_concepto     IN(".CONCEPTO_SERV_ESCOLAR.",".CUOTA_INGRESO.")
+				    AND m._id_persona      = p.nid_persona
+				    AND co.id_concepto     = m._id_concepto
+				    AND da.nid_persona     = p.nid_persona
+				    AND m.id_movimiento <> 20122
+				    AND (CASE WHEN co.id_concepto = 3
+				              THEN 1 = 1
+				              ELSE c.year >= 2015 AND c._id_sede IN(2) --@PENDIENTE
+				         END)
+				    AND (da.id_sede_ingreso       IN ?
+					     OR da.id_sede_ratificacion  IN ? )
+			   ORDER BY p.ape_pate_pers,p.ape_mate_pers,p.nom_persona, fecha_vencimiento";
+		$result   = $this->db->query($sql, array($sedes, $sedes,$sedes));_logLastQuery();
+		$num_rows = $result->num_rows();
+		return array($result->result(), $num_rows); 	
+ 	}
+ 	
+    function getDataSiscont($sedes,$mes,$year) {
+        $sql = "SELECT to_char(d.fecha_registro,'DD/MM/YY') fecha_registro,
+                       CONCAT(d.nro_serie,'-',d.nro_documento) correlativo,
+                       trim(to_char(m._id_persona,'999999999')) _id_persona,
+                       CASE WHEN(d.flg_anulado = '1') THEN 'COMPROBANTE ANULADO'
+                                                    ELSE ''
+                       END AS info_anulado,
+                       CASE WHEN(d.flg_anulado = '1') THEN '0000000000.00'
+                                                    ELSE trim(to_char(m.monto,'0000000000D99'))
+                       END AS monto,
+                       '000003' aux_monto,
+                       CASE WHEN(d.flg_anulado = '1') THEN '  '
+					                                ELSE dc.desc_detalle_crono
+                       END AS desc_detalle_crono,
+                       d._id_sede,
+                       d.estado,
+                       '00000000000' flg_cod_alumn,
+                       d._id_movimiento,
+                       d.tipo_documento,
+                       d.nro_documento,
+                       d.nro_serie,
+                       CASE WHEN(d.flg_anulado = '1')
+                            THEN CONCAT(UPPER(CONCAT(p.ape_pate_pers,' ',p.ape_mate_pers)), ' ', INITCAP(p.nom_persona))
+                            --THEN 'COMPROBANTE ANULADO' 
+                            ELSE CONCAT(UPPER(CONCAT(p.ape_pate_pers,' ',p.ape_mate_pers)), ' ', INITCAP(p.nom_persona))
+                       END AS estudiante,
+                       da.cod_alumno_temp,
+                       d.flg_anulado
+                  FROM pagos.documento           d,
+                       pagos.movimiento          m,
+                       pagos.detalle_cronograma dc,
+                       persona                   p,
+                       sima.detalle_alumno      da
+                 WHERE d.tipo_documento                               <> '".DOC_RECIBO."'
+                   AND (SELECT EXTRACT (MONTH FROM d.fecha_registro)) =  ?
+                   AND (SELECT EXTRACT (YEAR  FROM d.fecha_registro)) =  ?  
+                   AND d._id_movimiento                               =  m.id_movimiento
+                   AND m._id_persona                                  =  p.nid_persona
+                   AND p.nid_persona                                  =  da.nid_persona
+                   AND m._id_detalle_cronograma                       =  dc.id_detalle_cronograma
+                   AND d._id_sede                                     IN ?
+              ORDER BY m._id_persona,d._id_sede,d.nro_documento";
+        $result = $this->db->query($sql,array($mes,$year,$sedes));
+        return $result->result();
+    }
+    
+    function getAllEmpresas() {
+        $sql = "SELECT e.id_empresa,
+                       e.desc_empresa,
+                       (SELECT string_agg( s.desc_sede ,', ') 
+                          FROM public.empresa_x_sede es,
+                               public.sede s
+                         WHERE s.nid_sede     = es._id_sede
+                           AND es._id_empresa = e.id_empresa) sedes,
+                       (SELECT string_agg( trim( to_char( s.nid_sede , '999999')),',')  
+                          FROM public.empresa_x_sede es,
+                               public.sede s
+                         WHERE s.nid_sede     = es._id_sede
+                           AND es._id_empresa = e.id_empresa) ids,
+                       (SELECT CONCAT( desc_banco ,'|' , id_banco) 
+                          FROM pagos.banco b,
+                               pagos.audi_banco ab
+                         WHERE ab._id_empresa = e.id_empresa
+                           AND ab.accion      =  'IMPORTAR'
+                           AND ab._id_banco   = b.id_banco
+                         GROUP BY fecha_migracion,
+                                  id_banco
+                         ORDER BY fecha_migracion DESC
+                          LIMIT 1) last_import,
+                       (SELECT CONCAT( desc_banco , '|' , id_banco) 
+                          FROM pagos.banco b,
+                               pagos.audi_banco ab
+                         WHERE ab._id_empresa = e.id_empresa
+                           AND ab.accion      =  'EXPORTAR'
+                           AND ab._id_banco = b.id_banco
+                      GROUP BY fecha_migracion,
+                               id_banco
+                      ORDER BY fecha_migracion desc
+                         LIMIT 1) last_export
+                  FROM empresa e";
+        $result = $this->db->query($sql);
+        return $result->result();
+    }
+    
+    function getDataMigracionBanco($sede) {
+        $sql = "SELECT m._id_persona,
+                       /*CASE WHEN(m._id_concepto = 1) THEN to_char(dc.fecha_vencimiento,'YYYYMMDD') 
+                                                     ELSE to_char(m.fecha_vencimiento_aux,'YYYYMMDD')
+                       END AS fecha_vencimiento,*/
+                       to_char(m.fecha_vencimiento_aux,'YYYYMMDD') fecha_vencimiento,
+                       'SOL' moneda,
+                       '01' moneda_comercio,
+                       trim(replace((to_char(
+                       (CASE WHEN dc.fecha_descuento >= current_date THEN (m.monto - m.descuento_acumulado) ELSE m.monto END)
+                       ,'00000000D99')),'.','')) AS monto,
+                       trim(replace((to_char(m.monto,'000000000000D99')),'.','')) AS monto_comercio,
+                       CASE WHEN(m._id_concepto = 1) THEN dc.desc_detalle_crono
+                                                     ELSE co.desc_concepto
+                       END AS desc_detalle_crono,
+                       to_char(m.fecha_registro,'YYYYMMDD') fecha_emision,
+                       trim(replace(to_char((SELECT SUM(m2.monto) 
+                                              FROM pagos.movimiento m2
+                                             WHERE m2.estado IN('POR PAGAR' , 'VENCIDO')
+                                               AND m2._id_detalle_cronograma IN(SELECT id_detalle_cronograma
+                                                							      FROM pagos.detalle_cronograma dc2,
+                                                								   pagos.cronograma c2
+                                                							     WHERE c2._id_sede IN(2)
+                                                                                   AND c2._id_sede IN ?
+                                                							       AND c2.id_cronograma = dc2._id_cronograma)),'000000000000D99'),'.','')) total,
+        			   
+		        		/*CASE WHEN (da.id_sede_ingreso = 2) THEN '0'
+						     WHEN (dc.flg_tipo = '3') THEN 0
+						     ELSE '1'
+			            END AS flg_mora,*/
+                        '0' flg_mora,
+		        		CASE WHEN (da.id_sede_ingreso = 2) THEN '0005'
+						     WHEN (da.id_sede_ingreso = 3) THEN '0002'
+						     WHEN (da.id_sede_ingreso = 4) THEN '0003'
+						     WHEN (da.id_sede_ingreso = 5) THEN '0004'
+						     WHEN (da.id_sede_ingreso = 6) THEN '0006'
+						     ELSE '0001'
+					    END AS cod_servicio,
+                        INITCAP( translate (p.nom_persona, '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 'aeiouAEIOUaeiouAEIOUnN') ) as nom_persona,
+			            UPPER( translate (p.ape_pate_pers, '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 'aeiouAEIOUaeiouAEIOUnN') ) as ape_pate_pers,
+			            UPPER( translate (p.ape_mate_pers, '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 'aeiouAEIOUaeiouAEIOUnN') ) as ape_mate_pers,
+                        da.cod_alumno_temp
+                  FROM pagos.movimiento m
+                       LEFT JOIN pagos.detalle_cronograma dc ON(m._id_detalle_cronograma = dc.id_detalle_cronograma
+                                                            AND m._id_detalle_cronograma IN (SELECT id_detalle_cronograma
+                                            											       FROM pagos.detalle_cronograma dc2,
+                                            												        pagos.cronograma c2
+                                            											      WHERE c2._id_sede IN(2)
+                                                                                                AND c2._id_sede IN ?
+                                            											        AND c2.id_cronograma = dc2._id_cronograma))
+                       LEFT JOIN pagos.cronograma          c ON(dc._id_cronograma = c.id_cronograma AND c._id_tipo_cronograma = ".ANIO_LECTIVO."),
+                       pagos.concepto           co,
+                       sima.detalle_alumno      da,
+                       persona                   p
+                 WHERE m.estado IN('POR PAGAR' , 'VENCIDO')
+                   AND da.nid_persona           = m._id_persona
+                   AND m._id_concepto          IN(1,3)
+                   AND co.id_concepto           = m._id_concepto
+                   AND (CASE WHEN co.id_concepto = 3
+				             THEN 1 = 1
+				             ELSE c.year >= 2015 AND c._id_sede IN(2) --@PENDIENTE
+				        END)
+                   AND p.nid_persona            = da.nid_persona
+                   AND m.id_movimiento <> 20122 --ESTUDIANTE CON PAGO A CUENTA 
+              ORDER BY m._id_persona,fecha_vencimiento";
+        $result = $this->db->query($sql,array($sede,$sede));
+        return $result->result();
+    }
+    
+    function getCorrelativoByBanco($id_banco, $idEmpresa) {
+    	$sql = "SELECT COUNT(1) as cont
+				  FROM pagos.audi_banco
+				 WHERE _id_banco   = ?
+				   AND _id_empresa = ?
+				   AND fecha_migracion::timestamp::date = current_date";
+    	$result = $this->db->query($sql,array($id_banco, $idEmpresa));
+    	return $result->row()->cont;
+    }
+    
+    function insertAudiMigracion($table,$arrayInsert) {
+    	$data['error'] = EXIT_ERROR;
+    	$data['msj']   = null;
+    	$this->db->trans_begin();
+    	try{
+    		$this->db->insert('pagos.'.$table, $arrayInsert);
+    		if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+    			throw new Exception("Vuelva a Intentar");
+    		}
+    		$data['error'] = EXIT_SUCCESS;
+    		$data['msj']   = "En breve se descargar· el archivo";
+    		$this->db->trans_commit();
+    	}catch (Exception $e){
+    		$data['msj']   = $e->getMessage();
+    		$this->db->trans_rollback();
+    	}
+    	return $data;
+    }
+    
+    function getLastMigracionByBancoSede($idBanco,$sede,$accion, $fechaIni, $fechaFin) {
+        $sql = "SELECT to_char(fecha_migracion,'DD/MM/YYYY HH24:MI:SS') fecha,
+                       audi_pers_regi persona
+                  FROM pagos.audi_banco
+                 WHERE _id_banco   = ?
+                   AND _id_empresa = ?
+                   AND accion      = ?
+                   AND CASE WHEN (? IS NOT NULL AND ? IS NOT NULL)
+                            THEN (fecha_migracion::date >= ? AND fecha_migracion::date <= ? )
+                            ELSE 1 = 1
+                        END
+              ORDER BY fecha_migracion DESC 
+                 LIMIT 1";
+        $result = $this->db->query($sql,array($idBanco,$sede,$accion, $fechaIni, $fechaFin, $fechaIni, $fechaFin));
+        return $result->row_array();    
+    }
+    
+    function getLastBanco($accion, $idEmpresa) {
+    	$sql = "SELECT CASE WHEN (max(b.desc_banco) IS NOT NULL) THEN (max(b.desc_banco))
+        				                                         ELSE '-'
+                       END desc_banco,
+    	               id_banco
+                  FROM pagos.banco b,
+                       pagos.audi_banco ab
+                 WHERE ab._id_empresa = ?
+                   AND ab.accion      =  ?
+                   AND ab._id_banco = b.id_banco
+                 GROUP BY fecha_migracion,id_banco
+                 ORDER BY fecha_migracion desc
+                  LIMIT 1";
+    	$result = $this->db->query($sql,array($idEmpresa,$accion));
+    	return $result->row_array();
+    }
+    
+    function getLastExportacionByEmpresa($idEmpresa) {
+        $sql = "SELECT max(to_char(audi_fec_regi,'DD/MM/YYYY HH24:MI:SS')) fecha,
+                       max(audi_pers_regi) persona
+                  FROM pagos.audi_contabilidad
+                 WHERE _id_empresa = ?";
+        $result = $this->db->query($sql,array($idEmpresa));
+        return $result->row_array();
+    }
+    
+    function getCorrelativoByEmpresa($empresa) {
+        $sql = "SELECT (COUNT(1) + 1) correlativo
+                  FROM pagos.audi_contabilidad
+                 WHERE _id_empresa = ?";
+        $result = $this->db->query($sql,array($empresa));
+        return $result->row()->correlativo;
+    }
+    
+    function getSedeByAlumno($codAlumno, $nameAlumno = null) {
+    	$sql = "SELECT p.nid_persona,
+    	               p.cod_alumno,
+    	               da.id_sede_ingreso sede_actual,
+    	               CASE WHEN da.id_sede_ratificacion IS NOT NULL 
+    	                    THEN CONCAT(da.id_sede_ingreso::text,',',da.id_sede_ratificacion::text)
+    	                    ELSE da.id_sede_ingreso::text
+    	               END AS nid_sede
+				  FROM persona p,
+    	               sima.detalle_alumno da
+				 WHERE unaccent(UPPER( TRIM( REPLACE(regexp_replace(CONCAT(p.ape_pate_pers, ' ', p.ape_mate_pers, ' ', p.nom_persona), 's+', ' ', 'g'), '\"','' ) ) ) )
+				       LIKE CONCAT('%', unaccent(UPPER( TRIM( REPLACE(regexp_replace(?, '\s+', ' ', 'g'), '\"','') ) ) ), '%' )
+				   AND da.cod_alumno_temp LIKE ?
+    	           AND da.nid_persona = p.nid_persona
+			      LIMIT 1";
+    	$result = $this->db->query($sql, array($nameAlumno, '%'.$codAlumno.'%'));
+    	return $result->row_array();
+    }
+    
+    function getMovimientoByAlumno($idPersona, $idSede, $detalleCronograma, $year) {
+    	$sql = "SELECT m.id_movimiento,
+    	               m.estado,
+    	               m.flg_lugar_pago
+				  FROM pagos.movimiento          m,
+				       pagos.detalle_cronograma dc,
+				       pagos.cronograma c
+				 WHERE m._id_persona                = ?
+				   AND m.tipo_movimiento            = '".MOV_INGRESO."'
+				   AND dc.id_detalle_cronograma     = m._id_detalle_cronograma
+				   AND c.id_cronograma              = dc._id_cronograma
+				   AND c._id_sede                   IN ?
+				   --AND c.year                       = ?
+				   AND dc.id_detalle_cronograma     IN ?";
+    	$result = $this->db->query($sql,array($idPersona, $idSede, $year, $detalleCronograma));
+    	return $result->row_array();
+    }
+    
+    function updateMigracion($arrayMov, $arrayAudi/*, $arrayDoc, $arrayCorrelativo*/, $arrayAudiBanco, $duplicadosGeneral,$arrayUpdDetaAlu) {
+    	$data['error'] = EXIT_ERROR;
+    	$data['msj']   = null;
+    	$this->db->trans_begin();
+    	try{    	    
+	    	$this->db->update_batch('pagos.movimiento', $arrayMov, 'id_movimiento');
+	    	$this->db->affected_rows();
+	    	if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($arrayMov)) { 
+	    		throw new Exception('No se pudo actualizar los registros');
+	    	}
+// 	    	$this->db->insert_batch('pagos.documento', $arrayDoc);
+// 	    	$this->db->affected_rows();
+// 	    	if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($arrayDoc)) {
+// 	    		throw new Exception('No se pudo registrar 1');
+// 	    	}
+	    	$this->db->insert_batch('pagos.audi_movimiento', $arrayAudi);
+	    	$this->db->affected_rows();
+	    	if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($arrayAudi)) { 
+	    		throw new Exception('No se pudo registrar 2');
+	    	}
+	    	if(count($duplicadosGeneral) > 0){
+	    	    $this->db->insert_batch('pagos.banco_duplicados', $duplicadosGeneral);
+	    	    $this->db->affected_rows();
+	    	    if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($duplicadosGeneral)) { 
+	    	        throw new Exception('No se pudo registrar 1');
+	    	    }   
+	    	}
+// 	    	foreach ($arrayCorrelativo as $arrayCorre){
+// 		    	if($arrayCorre['accion'] == 'INSERT'){
+// 		    		unset($arrayCorre['accion']);
+// 		    		$this->db->insert('pagos.correlativo',$arrayCorre);
+// 		    		if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != 1) {
+// 		    			throw new Exception('No se pudo registrar 3');
+// 		    		}
+// 		    	} else{
+// 		    		$this->db->where('tipo_movimiento' , $arrayCorre['tipo_movimiento']);
+// 		    		$this->db->where('_id_sede'        , $arrayCorre['_id_sede']);
+// 		    		$this->db->where('tipo_documento'  , $arrayCorre['tipo_documento']);
+// 		    		unset($arrayCorre['accion']);
+// 		    		unset($arrayCorre['_id_sede']);
+// 		    		unset($arrayCorre['tipo_documento']);
+// 		    		unset($arrayCorre['tipo_movimiento']);
+// 		    		$this->db->update('pagos.correlativo',$arrayCorre);
+// 		    		if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != 1) {
+// 		    			throw new Exception('No se pudo actualizar los registros');
+// 		    		}
+// 		    	}
+// 	    	}
+	    	$this->db->insert('pagos.audi_banco', $arrayAudiBanco);
+	    	if($this->db->affected_rows() != 1 || $this->db->trans_status() == FALSE){
+	    		throw new Exception("No se pudo registrar 4");
+	    	}
+	    	if(count($arrayUpdDetaAlu) > 0){
+	    	    $this->db->update_batch('sima.detalle_alumno', $arrayUpdDetaAlu, 'nid_persona');
+    	    	if ($this->db->trans_status() === FALSE  || $this->db->affected_rows() != count($arrayUpdDetaAlu)) { 
+    	    		throw new Exception('No se pudo actualizar los registros');
+    	    	}
+	    	}
+	    	$data['error'] = EXIT_SUCCESS;
+	    	$data['msj']   = "Transaccion Exitosa";
+	    	$this->db->trans_commit();
+    	}catch (Exception $e){
+    		$data['msj']   = $e->getMessage();
+    		$this->db->trans_rollback();
+    	}
+    	return $data;
+    }
+    
+    function getDatosSCOTIA($id_sede) {
+    	$sql="   SELECT replace((to_char(m.monto,'0000000000000D99')),'.','') AS monto, 
+						m._id_persona, 
+						dc.desc_detalle_crono, 
+						to_char(dc.fecha_vencimiento,'YYYYMMDD') AS fecha_vencimiento,
+						upper ( translate (dc.desc_detalle_crono, '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 'aeiouAEIOUaeiouAEIOUnN') ) as desc_detalle_crono,  
+						(SELECT replace((to_char(sum(m.monto),'000000000000000D99')),'.','') AS monto
+						   FROM pagos.movimiento m,
+								pagos.detalle_cronograma dc,
+								pagos.cronograma c
+						  WHERE m.estado                 IN('".ESTADO_VENCIDO."','".ESTADO_POR_PAGAR."')
+							AND m.tipo_movimiento = 'INGRESO'
+							AND m._id_concepto = 1
+							AND m._id_detalle_cronograma = dc.id_detalle_cronograma
+							AND dc._id_cronograma = c.id_cronograma
+							AND c._id_sede = ?) as total
+					FROM  pagos.movimiento m,
+						  pagos.detalle_cronograma dc,
+						  pagos.cronograma c
+					WHERE m.estado                 IN('".ESTADO_VENCIDO."','".ESTADO_POR_PAGAR."')
+					  AND m.tipo_movimiento        = 'INGRESO'
+					  AND m._id_concepto           = 1
+					  AND m._id_detalle_cronograma = dc.id_detalle_cronograma
+					  AND dc._id_cronograma        = c.id_cronograma
+					  AND c._id_sede               = ?
+				 ORDER BY m._id_persona, dc.id_detalle_cronograma";
+    	$result = $this->db->query($sql,array($id_sede, $id_sede));
+		$num_rows = $result->num_rows();
+		return array($result->result(), $num_rows); 	
+    }
+    
+    function getCuotaByFecha($fecha, $idSede, $year) {
+    	$sql="   SELECT string_agg(dc.id_detalle_cronograma::text,',') id_detalle_cronograma
+				   FROM pagos.detalle_cronograma dc,
+				        pagos.cronograma c
+				  WHERE c._id_sede           IN ?
+					--AND c.year               = ?
+					AND c.id_cronograma      = dc._id_cronograma
+					AND (dc.fecha_vencimiento = ? OR dc.fecha_descuento = ?)";
+    	$result = $this->db->query($sql,array($idSede, $year, $fecha, $fecha));
+    	return ($result->num_rows() == 0) ? null : $result->row()->id_detalle_cronograma;
+    }
+    function getCodClase($idEmpresa){
+    	$sql="SELECT CASE WHEN (1 = ?) THEN '907'
+				    WHEN (2 = ?) THEN '908'
+				    WHEN (3 = ?) THEN '000'
+				    ELSE '-1'
+			       END AS cod_clase";
+    	$result = $this->db->query($sql,array($idEmpresa, $idEmpresa, $idEmpresa));
+		return $result->result_array();
+    }
+    
+    function getDatosBCP($id_sede) {
+    	$sql="   SELECT trim(replace((to_char(
+    	                (CASE WHEN dc.fecha_descuento >= current_date THEN (m.monto - m.descuento_acumulado) ELSE m.monto END)
+    	                ,'0000000000000D99')),'.','')) AS monto,  
+    	                trim(replace((to_char(0,'0000000000000D99')),'.','')) AS mora,
+    	                --replace((to_char(m.mora_acumulada,'0000000D99')),'.','') AS mora,
+						m._id_persona,
+    	                da.cod_alumno_temp,
+						CASE WHEN(m._id_concepto = 1) THEN dc.desc_detalle_crono
+                                                     ELSE co.desc_concepto
+                        END AS desc_detalle_crono,
+						/*CASE WHEN(m._id_concepto = 1) THEN to_char(dc.fecha_vencimiento,'YYYYMMDD') 
+                                                     ELSE to_char(m.fecha_vencimiento_aux,'YYYYMMDD')
+                        END AS fecha_vencimiento,*/
+    	                to_char(m.fecha_vencimiento_aux,'YYYYMMDD') fecha_vencimiento, 
+						to_char(current_date,'YYYYMMDD') AS fecha_actual,
+						(SELECT replace((to_char(sum(m.monto),'0000000000000D99')),'.','')
+						   FROM pagos.movimiento m,
+								pagos.detalle_cronograma dc,
+								pagos.cronograma c
+						  WHERE m.estado                 IN('".ESTADO_VENCIDO."','".ESTADO_POR_PAGAR."')
+							AND m.tipo_movimiento        = '".MOV_INGRESO."'
+							AND m._id_concepto           = ".CONCEPTO_SERV_ESCOLAR."
+							AND m._id_detalle_cronograma = dc.id_detalle_cronograma
+							AND dc._id_cronograma        = c.id_cronograma
+							AND c._id_sede               IN ?) as total, 
+						p.cod_alumno,
+					    upper ( translate (CONCAT(UPPER(p.ape_pate_pers),' ',UPPER(p.ape_mate_pers),' ',INITCAP(p.nom_persona)), '·ÈÌÛ˙¡…Õ”⁄‰ÎÔˆ¸ƒÀœ÷‹Ò—', 'aeiouAEIOUaeiouAEIOUnN') ) as nombre_completo
+				   FROM pagos.movimiento m
+						LEFT JOIN pagos.detalle_cronograma dc ON(m._id_detalle_cronograma = dc.id_detalle_cronograma)
+				        LEFT JOIN pagos.cronograma          c ON(dc._id_cronograma        = c.id_cronograma AND c._id_tipo_cronograma = ".ANIO_LECTIVO."),
+						persona p,
+					    sima.detalle_alumno da,
+						pagos.concepto co
+				  WHERE m.estado                 IN('".ESTADO_VENCIDO."','".ESTADO_POR_PAGAR."')
+					AND m.tipo_movimiento        = '".MOV_INGRESO."'
+					AND (CASE WHEN co.id_concepto = 3
+				             THEN 1 = 1
+				             ELSE c.year >= 2015 AND c._id_sede IN(2)
+				        END)
+					AND m._id_concepto           IN(1,3)
+					AND (da.id_sede_ingreso       IN ?
+					     OR da.id_sede_ratificacion  IN ? )
+					AND da.nid_persona           = m._id_persona
+					AND m._id_concepto           = co.id_concepto
+					AND m.id_movimiento NOT IN(20122,22458)
+					AND p.nid_persona            = m._id_persona
+			   ORDER BY m._id_persona, fecha_vencimiento"; 
+    	$result = $this->db->query($sql,array($id_sede, $id_sede,$id_sede));
+    	$num_rows = $result->num_rows();
+    	return array($result->result(), $num_rows);
+    }
+    
+    function getAllBancosActivosBySede($sedes) {
+    	$sql="SELECT _id_banco,
+    	             abvr,
+    	             desc_banco
+				FROM pagos.sede_x_banco sb,
+				     pagos.banco b
+			   WHERE sb._id_sede  IN ?
+				 AND sb._id_banco = b.id_banco
+    	    GROUP BY _id_banco,abvr,desc_banco";
+    	$result = $this->db->query($sql,array($sedes));
+    	return $result->result();
+    }
+    
+    function getMovCuotaIngresoByAlumno($fecVen,$codAlumno){
+        $sql = "SELECT m.id_movimiento,
+                       m.estado,
+                       m.flg_lugar_pago
+                  FROM pagos.movimiento     m,
+                       sima.detalle_alumno da
+                 WHERE m._id_concepto          = '".CUOTA_INGRESO."'
+                   AND m.fecha_vencimiento_aux = ?
+                   AND da.nid_persona          = m._id_persona
+                   AND da.cod_alumno_temp      = ?";
+        $result = $this->db->query($sql,array($fecVen,$codAlumno));
+        return $result->row_array();
+    }
+    
+    function flgUpdateDetalleAlumno($idPersona,$idMov){
+        $sql = "SELECT COUNT(1) count,
+                       MAX(da.estado) estado,
+                       MAX(dc.flg_tipo) flg_tipo
+                  FROM sima.detalle_alumno da,
+                       pagos.movimiento     m,
+                       pagos.detalle_cronograma dc
+                 WHERE da.nid_persona           = ?
+                   AND da.estado                IN('PREREGISTRO','PROM_PREREGISTRO')
+                   AND dc.flg_tipo              IN('1','2')
+                   AND dc.id_detalle_cronograma IN (SELECT _id_detalle_cronograma
+                                                      FROM pagos.movimiento
+                                                     WHERE id_movimiento = ?
+                                                       AND _id_concepto  = ".CONCEPTO_SERV_ESCOLAR.")
+                   AND m.id_movimiento = ?
+                   AND m._id_detalle_cronograma = dc.id_detalle_cronograma";
+        $result = $this->db->query($sql, array($idPersona,$idMov,$idMov));
+        return $result->row_array();
+    }
+    
+    function getMovimientosUpdMigracion($movimientos){
+        $sql = "SELECT row_number() OVER() as row_num,
+                       s.desc_sede,
+                       CONCAT(p.ape_pate_pers,' ',p.ape_mate_pers,' ',p.nom_persona) nombre_completo,
+                       CASE WHEN(c.id_concepto = 1)
+                            THEN dc.desc_detalle_crono
+                            ELSE c.desc_concepto
+                       END AS desc_cuota,
+                       m.monto,
+                       m.monto_final,
+                       m.mora_acumulada,
+                       /*CASE WHEN(c.id_concepto = 1)
+                            THEN to_char(dc.fecha_vencimiento,'DD/MM/YYYY')
+                            ELSE to_char(m.fecha_vencimiento_aux,'DD/MM/YYYY')
+                       END AS fecha_vencimiento,*/
+                       to_char(dc.fecha_vencimiento,'DD/MM/YYYY') fecha_vencimiento, 
+                       CASE WHEN(m.estado = 'PAGADO' AND m.flg_lugar_pago = '".FLG_BANCO."') 
+                                 THEN '<button class=\"mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Ya subiste un archivo con este registro y no se actualizar&aacute;\">
+                                     <i class=\"mdi mdi-info\"></i>
+                                 </button>'
+                            WHEN(m.estado = 'PAGADO' AND m.flg_lugar_pago = '".FLG_COLEGIO."') 
+                                 THEN '<button class=\"mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Este compromiso ya fue subido y se registrar&aacute; como duplicado\">
+                                     <i class=\"mdi mdi-warning\"></i>
+                                 </button>'
+                            ELSE null
+                       END AS info
+                  FROM pagos.concepto            c,
+                       persona                   p,
+                       sima.detalle_alumno      da,
+                       sede                      s,
+                       pagos.movimiento          m
+                       LEFT JOIN pagos.detalle_cronograma dc ON(dc.id_detalle_cronograma = m._id_detalle_cronograma)
+                 WHERE m.id_movimiento    IN ?
+                   AND m.tipo_movimiento  =  'INGRESO'
+                   AND c.id_concepto      IN (1,3)
+                   AND m._id_concepto     =  c.id_concepto
+                   AND p.nid_persona      =  m._id_persona
+                   AND da.nid_persona     =  p.nid_persona
+                   AND da.id_sede_ingreso =  s.nid_sede";
+        $result = $this->db->query($sql, array($movimientos));
+        return $result->result();
+    }
+    
+    function getBancosMasUsados($fechaIni, $fechaFin) {
+        $sql = "SELECT count(1) as count_bancos,
+                       b.id_banco,
+                       b.abvr
+                  FROM pagos.banco       b,
+                       pagos.movimiento  m
+                 WHERE m._id_banco_pago = b.id_banco
+                   AND m.flg_lugar_pago = '1'
+                   AND b.estado         = '".ESTADO_ACTIVO."'
+                   AND id_banco        IN (SELECT id_banco
+                                             FROM pagos.banco
+                                            WHERE estado = '".FLG_ESTADO."')
+                   AND (m.fecha_pago::date >= ? AND m.fecha_pago::date <= ? )
+              GROUP BY b.id_banco, b.abvr";
+        $result = $this->db->query($sql, array($fechaIni, $fechaFin));
+        return $result->result();
+    }
+}

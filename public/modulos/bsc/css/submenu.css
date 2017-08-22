@@ -1,0 +1,501 @@
+@CHARSET "UTF-8";
+
+header {
+	background-color: #607D8B !important;
+}
+
+header i {
+	color: #FFF !important;
+}
+
+header .mdl-layout__drawer-button i:BEFORE {
+	color: #FFFFFF;
+}
+
+header .mdl-section-head {
+	left: 230.67px;
+	border-left-color : #FFFFFF;
+	color: #FFFFFF;
+}
+
+@media ( max-width : 768px) {
+	header .mdl-section-head {
+		left: 0px;
+		top: -10.5px;
+		width: 150px
+	}
+}
+
+.mdl-card-fab .mdl-card__title {
+	background-color: #607D8B;
+}
+
+.modal .mdl-card__actions button.mdl-button, .mdl-card-fab .mdl-card__actions button.mdl-button
+	{
+	color: #607D8B;
+}
+
+.modal .mdl-card__actions a.mdl-button--raised, .mdl-card-fab .mdl-card__actions a.mdl-button--raised,
+	.modal .mdl-card__actions button.mdl-button--raised, .mdl-card-fab .mdl-card__actions button.mdl-button--raised
+	{
+	background-color: #607D8B;
+}
+
+/* Botones */
+button.mdl-button, 
+a.mdl-button {
+	color: #607D8B;
+}
+
+.form-group .form-control ~ label:after, .form-group .form-control ~
+	.form-control-line:after {
+	background-color: #607D8B !important;
+}
+
+/* Search */
+.mdl-header-input-group {
+	background-color: #78909C;
+}
+
+.mdl-header-input-group .mdl-icon i:BEFORE {
+	color: #FFFFFF
+}
+
+.mdl-header-input-group .mdl-textfield .mdl-textfield__label {
+	color: #FFFFFF;
+}
+
+/* Arbol de modulos */
+.mdl-layout .mdl-layout__drawer .mdl-layout-title img, .mdl-layout .mdl-layout__header-row .mdl-layout-title img
+	{
+	height: 37.5px;
+}
+
+.mdl-nav a.dont-three i:FIRST-CHILD {
+	top: 13.5px;
+}
+
+/* ADD MENU COLOR */
+.mdl-nav li.active a, .mdl-nav li.active a i {
+	color: #607D8B !important;
+}
+
+/* Tabs */
+header .mdl-layout__tab {
+	color: rgba(255, 255, 255, .6) !important
+}
+
+header .mdl-layout__tab.is-active {
+	color: #FFFFFF !important
+}
+
+header .mdl-layout__tab::after {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab .mdl-layout__tab-ripple-container .mdl-ripple {
+	background-color: #FFFFFF !important;
+}
+
+header .mdl-layout__tab-bar {
+	background-color: #607D8B;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+	color: #FFFFFF !important;
+}
+
+header .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+	background-color: #FFFFFF;
+}
+
+.mdl-tabs__tab .mdl-tabs__ripple-container .mdl-ripple, .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after
+	{
+	background-color: #607D8B
+}
+
+/* Combo box */
+.bs-searchbox input.form-control, .bs-searchbox input.form-control:hover,
+	.bs-searchbox input.form-control:active, .bs-searchbox input.form-control:focus
+	{
+	border-bottom-color: #607D8B;
+	color: #607D8B;
+}
+
+.dropdown-menu>.active>a .text, .dropdown-menu>.active>a:focus .text, .dropdown-menu>.active>a:hover .text,
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover
+	{
+	background-color: #607D8B;
+}
+
+/* Inputs and Label mdl */
+.mdl-textfield__label:after {
+	background-color: #607D8B !important;
+}
+
+/* GROUPS INPUTS */
+.mdl-button-group .mdl-btn .mdl-button.active {
+	background-color: #607D8B;
+}
+
+.mdl-button-group .mdl-textfield .mdl-textfield__label:AFTER {
+	bottom: 20px
+}
+
+/* Checkbox and option toggle */
+.mdl-radio.is-checked .mdl-radio__outer-circle, .mdl-checkbox.is-checked .mdl-checkbox__box-outline
+	{
+	border-color: #607D8B;
+}
+
+.mdl-radio__inner-circle, .mdl-switch.is-checked .mdl-switch__thumb,
+	.mdl-switch__ripple-container .mdl-ripple,
+	.mdl-checkbox__ripple-container .mdl-ripple, .mdl-checkbox.is-checked .mdl-checkbox__tick-outline
+	{
+	background-color: #607D8B;
+}
+
+.mdl-radio__ripple-container .mdl-ripple, .mdl-switch.is-checked .mdl-switch__track
+	{
+	background-color: #BBDEFB;
+}
+
+/* CALENDAR */
+.cal-day-today span[data-cal-date] {
+	color: #607D8B
+}
+
+.cal-event-list, .cal-event-list:HOVER {
+	background-color: #BBDEFB !important;
+}
+
+.event {
+	background-color: #607D8B;
+}
+
+.event-important {
+	border: 1px solid #607D8B !important
+}
+
+.event-warning {
+	border: 1px solid #FFEB3B !important
+}
+
+.event-info {
+	border: 1px solid #607D8B !important
+}
+
+.event-inverse {
+	border: 1px solid #424242 !important
+}
+
+.event-success {
+	border: 1px solid #607D8B !important
+}
+
+.event-special {
+	background-color: #BBDEFB !important;
+	border: 1px solid #607D8B !important
+}
+
+/* Items asignados */
+.mdl-assign {
+	background-color: #A5D6A7;
+}
+
+.mdl-assign .text {
+	color: #607D8B;
+}
+
+.mdl-assign .option button i {
+	color: #607D8B;
+}
+
+/* Filtros para asistencia */
+.mdl-filter ul.nav.nav-pills li {
+	border-color: #607D8B;
+}
+
+.mdl-filter ul.nav.nav-pills li a {
+	color: #607D8B;
+}
+
+.mdl-filter ul.nav.nav-pills li.active {
+	background-color: #607D8B;
+	color: #FFFFFF;
+}
+
+.mdl-filter ul.nav.nav-pills li.active a,
+.mdl-filter ul.nav.nav-pills li.active a i{
+	color: #FFFFFF;
+}
+
+.mdl-filter ul.nav.nav-pills li a i {
+	color: #FFFFFF;
+}
+
+.mdl-filter ul.nav.nav-pills li a:focus, .mdl-filter ul.nav.nav-pills li a:hover{
+	background-color: #607D8B;
+}
+
+/* FAB COLOR */
+.mfb-component--br .mfb-component__button--main {
+	background-color: #607D8B !important;
+}
+
+.mfb-component--br .mfb-component__button--child i.mfb-component__child-icon
+	{
+	color: #607D8B !important;
+}
+
+/* Modal select */
+.mobileSelect-savebtn, .mobileSelect-container .list-container .mobileSelect-control.selected
+	{
+	background-color: #607D8B !important;
+}
+
+/* Text field */
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+	color: #607D8B
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label:BEFORE {
+	background-color: #607D8B
+}
+
+/* DateTimePicker */
+.dtp-date-view {
+	background-color: #607D8B
+}
+
+header.dtp-header .dtp-actual-year {
+	color: #A5D6A7
+}
+
+.dtp .dtp-actual-meridien a.selected, .dtp table.dtp-picker-days tr>td>a.selected,
+	.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #607D8B;
+}
+
+.dtp-content line[stroke="#607D8B"] {
+	stroke: #607D8B;
+}
+
+.dtp-content circle[fill="#607D8B"] {
+	fill: #607D8B;
+}
+
+/* BUTTON */
+.mdl-button--raised, 
+.mdl-button--raised:HOVER {
+	background-color: #607D8B;
+}
+
+@keyframes loader { 
+	0% {
+		border-top-color: #607D8B;
+	}
+	50% {
+		border-top-color: #607D8B;
+		border-right-color: #607D8B;
+	}
+	75% {
+		border-top-color: #607D8B;
+    	border-bottom-color: #607D8B;
+		border-right-color: #607D8B;
+	}
+	100% {
+		border-top-color: #607D8B;
+		border-bottom-color: #607D8B;
+		border-left-color: #607D8B;
+		border-right-color: #607D8B;
+	}
+}
+
+.label i {
+	font-size: 14px;
+	position: relative;
+	top: 1.5px;
+	margin-right: 2.5px;
+	color: #FFFFFF;
+}
+
+/* RADIOS LABEL COLORS */
+.mdl-radio.radio-danger .mdl-radio__outer-circle {
+	border-color: #F44336
+}
+
+.mdl-radio.radio-danger .mdl-radio__inner-circle {
+	background-color: #F44336
+}
+
+.mdl-radio.radio-danger .mdl-radio__ripple-container .mdl-ripple {
+	background-color: #FFCDD2
+}
+
+.mdl-radio.radio-warning .mdl-radio__outer-circle {
+	border-color: #FFC107
+}
+
+.mdl-radio.radio-warning .mdl-radio__inner-circle {
+	background-color: #FFC107
+}
+
+.mdl-radio.radio-warning .mdl-radio__ripple-container .mdl-ripple {
+	background-color: #FFE082
+}
+
+/* CALENDAR */
+.mdl-calendar .cal-day-today {
+	background-color: #BBDEFB;
+}
+
+.mdl-calendar .mdl-card__menu button.mdl-button.active, .mdl-calendar .mdl-card__menu a.mdl-button.active
+	{
+	color: #607D8B
+}
+
+/* FAVORITE */
+.mdl-favorite i{
+	color: #757575 !important;
+}
+
+.mdl-favorite.mdl-disabled i{
+	color: #FFD740 !important;
+}
+
+/* BREADCRUMB */
+.breadcrumb li.active{
+	font-weight: bold;
+}
+
+.highcharts-series.highcharts-tracker path{
+	stroke: transparent !important;
+}
+
+.highcharts-xaxis-labels text,
+.highcharts-yaxis-labels text{
+	color: #959595 !important;
+	fill: #959595 !important;
+	font-size: 10px !important;
+}
+
+/*--  Quitar la transparencia de los input con hover  ---*/
+#contTbLineas .mdl-textfield::after,
+#contTbObjetivos .mdl-textfield::after{
+	background-image: none;
+}
+
+#contTbLineas  .mdl-textfield__label, 
+#contTbLineas  .mdl-textfield--floating-label.is-dirty .mdl-textfield__label,
+#contTbObjetivos  .mdl-textfield__label, 
+#contTbObjetivos  .mdl-textfield--floating-label.is-dirty .mdl-textfield__label{
+	visibility: hidden !important;
+}
+
+/*--  Alinear el icono del menu cuando tienen dos lineas de contenido  --*/
+.mdl-navigation.mdl-nav ul li a i.mdi-assignment_ind{
+	top:15px;
+}
+
+.mdl-card__actions.respons a p{
+	color: #BDBDBD;
+}
+
+.mdl-card__actions.ingresar button{
+	width: 100% !important;
+	margin: 0;
+}
+
+.desc_linea{
+	height: 30px;
+}
+
+#condInd {
+	padding-top: 30px;
+	display: block;
+}
+
+.timeline-label h2{
+	font-size:16px;
+}
+
+/*  LOADING */
+.mdl-spinner.is-active .mdl-spinner__layer-4,
+.mdl-spinner.is-active .mdl-spinner__layer-3,
+.mdl-spinner.is-active .mdl-spinner__layer-2,
+.mdl-spinner.is-active .mdl-spinner__layer-1{
+	border-color: #607D8B !important;
+}
+
+a.mdl-button.mdl-save__load.mdl-save__load__loading[disabled],
+button.mdl-button.mdl-save__load.mdl-save__load__loading[disabled]{
+	background-color: #607D8B  !important;
+}
+
+#infoHistorial.mdl-card{
+	z-index:0;
+}
+
+.fixed-table-toolbar .pull-left.search{
+	width: calc( 100% - 110px );
+}
+
+.mdi-search:before,
+.mdi-clear:before,
+.mdi-view_column:before{
+	position: relative;
+	left: 4px;
+	top:1.5px;
+}
+
+.mdi-trending_down{
+	vertical-align: middle;	
+}
+
+.highcharts-axis path{
+	stroke:inherit !important;
+}
+
+.highlight{
+	background-color: #FFCA28;
+	color: #757575;
+}
+
+.mdl-card.mdl-indicator .mdl-card__title .mdl-graphic .icon-cup{
+	width: 118px; 
+	margin-top: 11px; 
+}
+
+.mdl-button--raised:focus:not(:active){
+	box-shadow:none;
+	background-color: #607D8B;
+}
+
+.btn-group>.btn:first-child{
+	bottom: 3px;
+}
+
+.mdl-indicator .mdl-card__supporting-text h4{
+	text-overflow:inherit !important;
+}
+
+/* DISEÑO DE LA IMAGEN DEL INDICADOR */
+#modalViewResponsable .mdl-card__actions {
+	text-align: center;
+}
+
+#modalViewResponsable img#img_repsonsable {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+/* PERFIL */
+.box-header{
+	background: #607D8B;
+}
+
+.mdl-header-input-group .mdl-textfield__input{
+	color:#FFFFFF;
+}

@@ -1,0 +1,964 @@
+function init() {
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+	    $('.selectButton').selectpicker('mobile');
+	} else {
+		$('.selectButton').selectpicker();
+	}
+	
+	$('.tree').treegrid({
+		initialState: 'collapsed',
+		treeColumn: 1,
+        expanderExpandedClass : 'mdi mdi-keyboard_arrow_up',
+        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+    });
+
+	//$('#tbEventos').hide();
+	showTableHideCalendar();
+	setearCombo("selectTourEventoCrear", null);
+	$("#selectTourEventoCrear").attr('disabled', true);
+	$("#selectTourEventoCrear").selectpicker('refresh');
+	$(":input").inputmask();
+	
+	initCalendarDaysMinToday('fechaEventoCrear');
+	initButtonCalendarDaysMinToday('fechaEventoCrear');
+    initButtonCalendarHours('horaFinEventoCrear');
+    initButtonCalendarHours('horaInicioEventoCrear');
+    initMaskInputs('fechaEventoCrear');       
+	initLimitInputs('observacionEventoCrear','observacionEventoAnulado');
+	initButtonLoad('botonF','botonCE','botonAE','botonEE', 'botonDA');
+}
+
+function showCalendarHideTable() {
+	$('#tbEventos').hide();
+	$('#card-event').addClass('mdl-calendar').removeClass('mdl-event');
+	$('#calendar').show();
+	$('#calendarText').css('display' , 'block');
+}
+
+function showTableHideCalendar() {
+	$('#card-event').addClass('mdl-event').removeClass('mdl-calendar');
+	$('#fechaCalendar').text('Eventos');
+	$('#calendar').hide();
+	$('#tbEventos').show();
+}
+//list-unstyled
+function initCalendario(eventos){
+	eventos = JSON.parse(eventos);
+	var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+	                  "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"];
+    var d = new Date();
+    var mes = monthNames[d.getMonth()];
+    var anio = d.getFullYear();
+	var calendar = $("#calendar").calendar({
+   	   events_source: eventos,
+       language: 'es-ES',
+       tmpl_path: "../public/general/plugins/bootstrap-calendar-master/tmpls/",
+       modal : "#modalDetalleEvento",
+       ruta_js_metodo : 'public/js/jslogic/jsevento.js',
+       funcion_name : 'getDetalleEvento',
+       onAfterViewLoad: function(view) {
+//			$('#fechaCalendar').text(this.getTitle());
+    	    $('#calendarText').text(' '+mes +' '+anio);
+			$('button.mdl-button, li.mdl-menu__item').removeClass('active');
+			$('button.mdl-button[data-calendar-view="' + view + '"], li.mdl-menu__item[data-calendar-view="' + view + '"]').addClass('active');
+		}
+    });
+	$('button.mdl-button[data-calendar-nav], li.mdl-menu__item[data-calendar-nav]').each(function() {
+		var $this = $(this);
+		$this.click(function() {
+			calendar.navigate($this.data('calendar-nav'));
+		});
+	});
+
+	$('button.mdl-button[data-calendar-view], li.mdl-menu__item[data-calendar-view]').each(function() {
+		var $this = $(this);
+		$this.click(function() {
+			calendar.view($this.data('calendar-view'));
+		});  
+    });
+}
+
+function getDetalleEvento(modalId, aTag, events_sources) {
+	var idevento = aTag.data('event-id');
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			data : { idevento : idevento },
+			url  : 'c_evento/getDetalleEvento',
+			type : 'POST'
+		})
+		.done(function(data) {
+			try {
+				data = JSON.parse(data);
+				setearInput("nombreEventoDetalle", data.nombreEvento);
+				setearInput("fechaEventoDetalle", data.fechaEvento);
+				setearInput("observacionEventoDetalle", data.obsEvento);
+				modal("modalDetalleEvento");
+					
+			} catch(err) {
+				location.reload();
+			}
+		});
+	});
+}
+
+function selectTipoEventoCrearEvento(){
+	addLoadingButton('botonCE');
+	tipoEvento = $("#selectTipoEventoCrear").val();
+	if(tipoEvento.length != 0){
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/cambiarTipoEvento',
+			data    : {tipoEvento : tipoEvento},
+			'async' : true
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.res == 1){ //DRA MASIVO
+				stopLoadingButton('botonCE');
+				$("#selectSedeCrear").attr('disabled', true);
+				$("#selectSedeCrear").selectpicker('refresh');
+				$("#selectTourEventoCrear").prop('disabled', false);
+				$("#selectTourEventoCrear").selectpicker('refresh');
+				disableEnableInput("fechaEventoCrear", false);	
+				disableEnableInput("horaInicioEventoCrear", false);
+				disableEnableInput("horaFinEventoCrear", false);
+			}else if(data.res == 2) {//TOUR
+				stopLoadingButton('botonCE');
+				$("#selectTourEventoCrear").prop('disabled', true);
+				$("#selectTourEventoCrear").selectpicker('refresh');
+				$("#selectSedeCrear").prop('disabled', true);
+				$("#selectSedeCrear").selectpicker('refresh');
+				disableEnableInput("fechaEventoCrear", false);	
+				disableEnableInput("horaInicioEventoCrear", false);
+				disableEnableInput("horaFinEventoCrear", false);
+			}else if(data.res == 3){//DRA-SEDE Y DRA-VERANO
+				stopLoadingButton('botonCE');
+				$("#selectSedeCrear").prop('disabled', false);
+				$("#selectSedeCrear").selectpicker('refresh');
+				$("#selectTourEventoCrear").prop('disabled', true);
+				$("#selectTourEventoCrear").selectpicker('refresh');
+				disableEnableInput("fechaEventoCrear", true);
+				disableEnableInput("horaInicioEventoCrear", true);
+				disableEnableInput("horaFinEventoCrear", true);
+			}else{ //CHARLA
+				stopLoadingButton('botonCE');
+				$("#selectSedeCrear").attr('disabled', false);
+				$("#selectSedeCrear").selectpicker('refresh');
+				$("#selectTourEventoCrear").prop('disabled', false);
+				$("#selectTourEventoCrear").selectpicker('refresh');
+				disableEnableInput("fechaEventoCrear", false);	
+				disableEnableInput("horaInicioEventoCrear", false);
+				disableEnableInput("horaFinEventoCrear", false);
+			}
+		});
+	}else{
+		stopLoadingButton('botonCE');
+		setearCombo("selectTourEventoCrear", null);
+		$("#selectTourEventoCrear").attr('disabled', true);
+		$("#selectTourEventoCrear").selectpicker('refresh');
+	}
+} 
+
+function abrirModalCrearEvento(fecha){
+	setearCombo("selectTipoEventoCrear", null);
+	setearCombo("selectSedeCrear", null);
+	setearInput("nombreEventoCrear", null);
+	setearInput("yearEventoCrear", null);
+	setearInput("fechaEventoCrear", fecha);
+	if(fecha != null){
+		$("#fechaEventoCrear").prop('disabled', true);
+	}else{
+		$("#fechaEventoCrear").prop('disabled', false);
+	}
+	setearInput("horaInicioEventoCrear", null);
+	setearInput("horaFinEventoCrear", null);
+	setearInput("observacionEventoCrear", null);
+	setearCombo("selectTourEventoCrear", null);
+	//$("#selectTourEventoCrear").attr('disabled', true);
+	$("#selectTourEventoCrear").selectpicker('refresh');
+	modal('modalCrearEvento');
+	
+}
+
+function crearEvento(){
+	addLoadingButton('botonCE');
+	tipoEvento   = $("#selectTipoEventoCrear").val();
+	sedeEvento   = $("#selectSedeCrear").val();
+	nombreEvento = $("#nombreEventoCrear").val();
+	yearCampana  = $("#yearEventoCrear").val();
+	fechaEvento  = $("#fechaEventoCrear").val();
+	obsEvento    = $("#observacionEventoCrear").val();
+	tourEvento   = $("#selectTourEventoCrear").val();
+	horaInicio   = $("#horaInicioEventoCrear").val();
+	horaFin      = $("#horaFinEventoCrear").val();
+	
+	tipoEventoFiltro = $("#selectTipoEventoFiltro").val();
+	yearEvento       = $("#selectYearFiltro").val();
+	estadoEvento     = $("#selectEstadoFiltro").val();
+	nombreEventoFiltro     = $("#selectNombreEventoFiltro").val(); 
+	
+	if(tipoEvento.length != 0 && nombreEvento.length != 0 && yearCampana.length != 0){
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/crearEvento',
+			data    : {tipoEvento   : tipoEvento,
+				       sedeEvento   : sedeEvento,
+				       nombreEvento : nombreEvento,
+				       fechaEvento  : fechaEvento,
+				       observacion  : obsEvento,
+				       tourEnlazado : tourEvento,
+				       horaInicio   : horaInicio,
+				       horaFin      : horaFin,
+				       yearCampana  : yearCampana,
+				       tipoEventoFiltro : tipoEventoFiltro,
+				       yearEvento : yearEvento,
+				       estado : estadoEvento,
+				       nombreEventoFiltro : nombreEventoFiltro},
+			'async' : true
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#tbEventos").html(data.tablaEventos);
+				initCalendario(data.eventosCalendario);
+				$('.tree').treegrid({
+					initialState: 'collapsed',
+					treeColumn: 1,
+			        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+			        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+			    });
+				if(data.flg_tour == 1){
+					setCombo("selectTourEventoCrear", data.comboTourCampanaActual, "Enlazar a tour");
+				}
+				componentHandler.upgradeAllRegistered();
+				modal('modalCrearEvento');
+				stopLoadingButton('botonCE');
+				msj('success', data.msj, null);
+			}else{
+				stopLoadingButton('botonCE');
+				msj('warning', data.msj, null);
+			}
+		});
+	}else{
+		stopLoadingButton('botonCE');
+		msj('warning', "Faltan algunos campos", null);
+	}
+}
+
+cons_row_evento = null;
+cons_id_evento  = null;
+function abrirModalAsistencia(data_evento, row_evento){
+	$("#cont_table_asistencia_invitados").html(null);
+	$("#cont_table_asistencia_otros").html(null);
+	setearInput("buscarContactoAsistencia", null);
+	$('a[href="#otros"]').removeClass("is-active");
+    $('#otros').removeClass("is-active");
+	$('a[href="#invitados"]').addClass("is-active");
+	$('#invitados').addClass("is-active");
+	setearInput("buscarContactoListaAsistencia", null);
+	$("#cont_teacher_empty9").css("display", "block");
+	cons_row_evento = row_evento;
+	cons_id_evento  = data_evento;
+	modal("modalAsistenciaEvento");
+}
+
+function buscarContactoAsistencia(){
+	valorBusqueda = $("#buscarContactoAsistencia").val();
+	if((valorBusqueda == "")) {
+		$('#cont_table_asistencia_otros').html(null);
+		$('#cont_teacher_empty10').css('display', 'block');
+	}
+	if((valorBusqueda != null && valorBusqueda.length < 1)){
+	} else{
+		if(valorBusqueda.trim().length >= 3){
+			$.ajax({	
+				type    : 'POST',
+				'url'   : 'c_evento/buscarContactoAsistencia',
+				data    : {nombrecontacto : valorBusqueda,
+						   idevento       : cons_id_evento},
+				'async' : false
+			}).done(function(data){
+				data = JSON.parse(data);
+				if(data.count > 0){
+					$("#cont_table_asistencia_otros").html(data.tablaAsistenciaOtros);
+					componentHandler.upgradeAllRegistered();
+					$('#treeAsistenciaEvento_1').treegrid({
+						initialState: 'expanded',
+						treeColumn: 1,
+				        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+				        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+				    });
+					$('#cont_teacher_empty10').css('display', 'none');
+				}else{
+					$("#cont_table_asistencia_otros").html(null);
+					$('#cont_teacher_empty10').css('display', 'block');
+				}
+			});
+		}else{
+			$("#cont_table_asistencia_otros").html(null);
+		}
+	}
+}
+
+function agregarListaInvitado(dataContacto){
+	if(dataContacto != null){
+		valorBusqueda = $("#buscarContactoAsistencia").val();
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/agregarALista',
+			data    : {idcontacto  	  : dataContacto,
+					   idevento       : cons_id_evento,
+					   nombrecontacto : valorBusqueda},
+			'async' : false
+		}).done(function(data){
+			data = JSON.parse(data);
+			$("#cont_table_asistencia_invitados").html(data.tablaAsistencia);
+			$("#cont_table_asistencia_otros").html(data.tablaAsistenciaOtros);
+			$("#asistencia"+cons_row_evento).text(data.countAsistencia);
+			componentHandler.upgradeAllRegistered();
+			$('#treeAsistenciaEvento_1').treegrid({
+				initialState: 'expanded',
+				treeColumn: 1,
+		        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+		        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+		    });
+			
+			$('#treeAsistenciaEvento').treegrid({
+				initialState: 'expanded',
+				treeColumn: 1,
+		        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+		        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+		    });
+			msj('success', data.msj, null);
+		});
+	}
+}
+
+function abrirModalConfirmAnular(dataevento, cantEnl){
+	cons_id_evento  = dataevento;
+	/*if(cantEnl > 0){
+		$("#notaAnularEvento").css('display', 'block');
+	}else{
+		$("#notaAnularEvento").css('display', 'none');
+	}*/
+	modal("modalConfirmaAnular");
+}
+
+function anularEvento(){
+	addLoadingButton('botonAE');
+	if(cons_id_evento != null){
+		observacion = $("#observacionEventoAnulado").val();
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/anularEvento',
+			data    : {idevento    : cons_id_evento,
+					   observacion : observacion},
+			'async' : true
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#tbEventos").html(data.tablaEventos);
+				$('.tree').treegrid({
+					initialState: 'collapsed',
+					treeColumn: 1,
+			        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+			        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+			    });
+				componentHandler.upgradeAllRegistered();
+				modal("modalConfirmaAnular");
+				stopLoadingButton('botonAE');
+				msj('success', data.msj, null);
+			}else{
+				stopLoadingButton('botonAE');
+				msj('warning', data.msj, null);
+			}
+		});
+	}
+}
+
+function abrirConfirmEliminarEvento(dataevento, cantEnl){
+	cons_id_evento  = dataevento;
+	if(cantEnl > 0){
+		$("#notaEliminarEvento").css('display', 'block');
+	}else{
+		$("#notaEliminarEvento").css('display', 'none');
+	}
+	modal("modalConfirmaEliminar");
+}
+
+function eliminarEvento(){
+	addLoadingButton('botonEE');
+	if(cons_id_evento != null){
+		tipoEventoFiltro = $("#selectTipoEventoFiltro").val();
+		yearEvento       = $("#selectYearFiltro").val();
+		estadoEvento     = $("#selectEstadoFiltro").val();
+		nombreEvento     = $("#selectNombreEventoFiltro").val(); 
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/eliminarEvento',
+			data    : {idevento         : cons_id_evento,
+				       tipoEvento       : tipoEventoFiltro,
+			           yearEvento       : yearEvento,
+			           estado           : estadoEvento,
+			           nombreEvento     : nombreEvento},
+			'async' : true
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#tbEventos").html(data.tablaEventos);
+				$('.tree').treegrid({
+					initialState: 'collapsed',
+					treeColumn: 1,
+			        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+			        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+			    });
+				componentHandler.upgradeAllRegistered();
+				modal("modalConfirmaEliminar");
+				msj('success', data.msj, null);
+				stopLoadingButton('btnEE');
+				
+			}else{
+				msj('warning', data.msj, null);
+				stopLoadingButton('botonEE');
+			}
+		});
+	}
+}
+
+function verContactosPorOpcion(dataEvento, dataOpcion, titulo){
+	if(dataEvento != null && dataOpcion != null){
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/contactosEventoOpcion',
+			data    : {idevento : dataEvento,
+					   opcion   : dataOpcion},
+			'async' : false
+		}).done(function(data){
+			data = JSON.parse(data);
+			$("#cont_contactos_evento").html(data.invitados);
+			$("#tituloDetalleContactoEvento").text("Detalle contactos: ");
+			$("#tituloDetalleContactoEvento").append(titulo);
+			$('#treeDetalleEvento').treegrid({
+				initialState: 'collapsed',
+				treeColumn: 1,
+		        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+		        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+		    });
+			if(data.count > 0){
+				$("#cont_teacher_empty7").css("display", "none");
+			}else{
+				$("#cont_teacher_empty7").css("display", "block");
+			}
+			modal("modalDetalleContactoEvento");
+		});
+	}
+}
+
+var invitadosAsistentesGlobal = null;
+var cons_evento_elegido = null;
+function verInvitadosAsistieron(dataEvento){
+	if(dataEvento != null){
+		$.ajax({	
+			type    : 'POST',
+			'url'   : 'c_evento/invitadosAsistieron',
+			data    : {idevento : dataEvento},
+			'async' : false
+		}).done(function(data){
+			data = JSON.parse(data);
+			invitadosAsistentesGlobal = data.invitadosAsistieron;
+			$("#cont_invitados_asistieron").html(data.invitadosAsistieron);
+			$('#treeInvitadosAsistieron').treegrid({
+				initialState: 'collapsed',
+				treeColumn: 1,
+		        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+		        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+		    });
+			componentHandler.upgradeAllRegistered();
+			cons_evento_elegido = dataEvento;
+			if(data.count > 0){
+				$("#cont_teacher_empty8").css("display", "none");
+			}else{
+				$("#cont_teacher_empty8").css("display", "block");
+			}
+			setearInput('searchAsistente', '');
+			modal("modalDetalleInvitadosAsistieron");
+		});
+	}
+}
+
+function selectTipoEventoYearFiltro(){
+	addLoadingButton('botonF');
+	nombreEvento = $("#selectNombreEventoFiltro").val(); 
+	tipoEvento = $("#selectTipoEventoFiltro").val();
+	yearEvento = $("#selectYearFiltro").val();
+	estadoEvento = $("#selectEstadoFiltro").val();
+	$.ajax({	
+		type    : 'POST',
+		'url'   : 'c_evento/filtrarEventos',
+		data    : {nombreEvento : nombreEvento,
+				   tipoEvento   : tipoEvento,
+			       yearEvento   : yearEvento,
+			       estado       : estadoEvento},
+		'async' : true
+	}).done(function(data){
+		data = JSON.parse(data);
+		$("#tbEventos").html(data.tablaEventos);
+		$('.tree').treegrid({
+			initialState: 'collapsed',
+			treeColumn: 1,
+	        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+	        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+	    });
+		if(data.count == 0){
+			$("#cont_search_not_found_eventos").css("display", "block");
+		}else{
+			$("#cont_search_not_found_eventos").css("display", "none");
+		}
+		$(document).ready(function(){
+	  	       $('[data-toggle="tooltip"]').tooltip();
+	      });
+		stopLoadingButton('botonF');
+		initCalendario(data.eventosCalendario);
+		componentHandler.upgradeAllRegistered();
+	});
+}
+function goToDetalleEvento(dataEvento, dataOpcion){
+	$.ajax({	
+		type    : 'POST',
+		'url'   : 'c_evento/goToDetalleEvento',
+		data    : {idevento      : dataEvento,
+			       opciondetalle : dataOpcion},
+		'async' : false
+	}).done(function(data){
+		window.location.href = 'c_detalle_evento';
+	});
+}
+
+function goToEvaluacion(dataEvento, liObj) {
+	var idEvent = liObj.data('event');
+	$.ajax({	
+		type    : 'POST',
+		'url'   : 'c_evento/goToViewProgreso',
+		data    : { idevento : dataEvento,
+			        idEvent  : idEvent }
+	}).done(function(data){
+		data = JSON.parse(data);
+		/*if(data.error == 0){
+			window.location.href = 'c_evaluacion';
+		}else{
+			modal("modalProgresoEva");
+			//msj('success', data.msj, null);
+		}*/
+		window.location.href = 'c_evaluacion';
+	});
+}
+
+function goToEvaluacionFlash(dataEvento, liObj) {
+	var idEvent = liObj.data('event');
+	$.ajax({	
+		type    : 'POST',
+		'url'   : 'c_evento/goToEvaluar',
+		data    : { idevento : dataEvento,
+			        idEvent  : idEvent }
+	}).done(function(data){
+		data = JSON.parse(data);
+		window.location.href = 'c_evaluar_rapido';
+	});
+}
+
+cons_evento_finalizar = null;
+function abrirConfirmFinalizarEvento(idevento){
+	modal("modalConfirmFinalizarEvento");
+	cons_evento_finalizar = idevento;
+}
+
+function finalizarEvento(){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/finalizarEvento',
+			data   : {idevento : cons_evento_finalizar},
+			type   : 'POST'
+		}).done(function(data) {
+			try{
+				data = JSON.parse(data);
+				if(data.error == 0){
+					//CARGAR TABLA NUEVAMENTE
+					$("#tbEventos").html(data.tablaEventos);
+					$('.tree').treegrid({
+						initialState: 'collapsed',
+						treeColumn: 1,
+				        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+				        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+				    });
+					$(document).ready(function(){
+		         	       $('[data-toggle="tooltip"]').tooltip();
+		             });
+					componentHandler.upgradeAllRegistered();
+					modal("modalConfirmFinalizarEvento");
+				}
+			}catch(err){
+				location.reload();
+			}
+		});
+	});
+}
+
+function getPdf(tipo, idevento){
+	path = null;
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/downloadPdf',
+			data   : {tipo     : tipo,
+				      idevento : idevento},
+			type   : 'POST'
+		}).done(function(data){
+			path = data;
+			window.open(data, '_blank');
+		})
+		.always(function(jqXHR, textStatus, jqXHR2) {
+			 setTimeout(function(){
+				 borrar(path);
+				}, 1500);
+		});
+	});
+}
+
+function borrar(path){
+	$.ajax({
+		data : { ruta : path },
+	    url: "c_evento/borrarPDF",
+	    async : false,
+	    type: 'POST'
+	})
+	.done(function(data) {
+	});
+}
+
+function buscarContactoListaAsistencia(){
+	var busqueda = $("#buscarContactoListaAsistencia").val();
+	if((busqueda == "" && busqueda.length < 1)) {
+		$('#cont_teacher_empty9').css('display', 'block');
+		$('#buscarContactoListaAsistencia').html(null);
+	} else {
+		$('#cont_teacher_empty9').css('display','none');
+	}
+	if((busqueda != null && busqueda.length < 1)){
+	} else{
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				url    : 'c_evento/contactosBusquedaLista',
+				data   : {busqueda : busqueda,
+					      evento   : cons_id_evento},
+				type   : 'POST'
+			}).done(function(data){
+				data = JSON.parse(data);
+				if(data.count == 0){
+					$('#cont_teacher_empty9').css('display', 'block');
+					$("#cont_table_asistencia_invitados").html(null);
+				}else{
+					$('#cont_teacher_empty9').css('display', 'none');
+					$("#cont_table_asistencia_invitados").html(data.tabla);
+					$('#treeAsistenciaEvento').treegrid({
+						initialState: 'collapsed',
+						treeColumn: 1,
+				        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+				        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+				    });
+				}
+				componentHandler.upgradeAllRegistered();
+			});
+		});
+	}
+}
+
+var cons_evento_asistencia = null;
+function abrirModalEditarAsistenciaFamiliaDRA(contacto, evento){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/traerAsistenciaFamiliaDRA',
+			data   : {contacto : contacto,
+				      evento   : evento},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			$("#cont_table_editar_asistencia_familia_dra").html(data.tablaFamilia);
+			cons_evento_asistencia = evento;
+			$("#tbEditarAsistenciaFamiliaDRA").bootstrapTable({});
+			componentHandler.upgradeAllRegistered();
+			$("#buttonEditarAsistenciaFamDRA").attr("onclick", "guardarAsistenciaFamiliaDRA()");
+			modal("modalEditarAsistenciaFamDRA");
+		});
+	});
+}
+
+function abrirModalPasarAsistenciaFamiliaDRA(contacto, evento){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/traerFamiliaDRA',
+			data   : {contacto : contacto,
+				      evento   : evento},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			$("#cont_table_editar_asistencia_familia_dra").html(data.tablaFamilia);
+			cons_evento_asistencia = evento;
+			$("#tbEditarAsistenciaFamiliaDRA").bootstrapTable({});
+			componentHandler.upgradeAllRegistered();
+			$("#buttonEditarAsistenciaFamDRA").attr("onclick", "guardarAsistenciaPasarFamiliaDRA()");
+			modal("modalEditarAsistenciaFamDRA");
+		});
+	});
+}
+
+function guardarAsistenciaFamiliaDRA(){
+	Pace.restart();
+	Pace.track(function() {
+		var json = {};
+		var asistencias = [];
+		json.asistencia = asistencias;
+		$('.checkAsistenciaFam').each(function(i, obj) {
+			valcheck = 0;
+			if($(this).is(":checked")){
+				valcheck = 1;
+			}
+			var asistencia    = {"cont" : $(this).attr("attr-cont"),
+    		                     "val"  : valcheck,
+    		                     "tipo" : $(this).attr("attr-tipo")};			
+			json.asistencia.push(asistencia);
+		});
+		var jsonStringAsistencia = JSON.stringify(json);
+		$.ajax({
+			url    : 'c_evento/guardarAsistenciaDRA',
+			data   : {contactos : jsonStringAsistencia,
+				      evento    : cons_evento_asistencia},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#asistencia"+cons_row_evento).text(data.countAsistencia);
+				modal("modalEditarAsistenciaFamDRA");
+			}
+			msj("success", data.msj, null);
+		});
+	});
+}
+
+function guardarAsistenciaPasarFamiliaDRA(){
+	Pace.restart();
+	Pace.track(function() {
+		var json = {};
+		var asistencias = [];
+		json.asistencia = asistencias;
+		$('.checkAsistenciaFam').each(function(i, obj) {
+			valcheck = 0;
+			if($(this).is(":checked")){
+				valcheck = 1;
+			}
+			var asistencia    = {"cont" : $(this).attr("attr-cont"),
+    		                     "val"  : valcheck,
+    		                     "tipo" : $(this).attr("attr-tipo")};			
+			json.asistencia.push(asistencia);
+		});
+		var jsonStringAsistencia = JSON.stringify(json);
+		$.ajax({
+			url    : 'c_evento/guardarAsistenciaPasarDRA',
+			data   : {contactos : jsonStringAsistencia,
+				      evento    : cons_evento_asistencia},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				$("#asistencia"+cons_row_evento).text(data.countAsistencia);
+				buscarContactoAsistencia()
+				modal("modalEditarAsistenciaFamDRA");
+			}
+			msj("success", data.msj, null);
+		});
+	});
+}
+
+function activeDesactiveSearchLista(){
+	var namecontLista = $("#buscarContactoListaAsistencia").val();
+	if($.trim(namecontLista).length>=3){
+		$('#btnBuscarLista').attr('disabled', false);
+		$('#btnBuscarLista').addClass('mdl-button--raised');
+	} else{
+		$("#cont_table_asistencia_invitados").html(null);
+		$('#btnBuscarLista').attr('disabled', true);
+		$('#btnBuscarLista').removeClass('mdl-button--raised');
+	}
+}
+
+function activeDesactiveSearchContacto(){
+	var namecont = $("#buscarContactoAsistencia").val();
+	if($.trim(namecont).length>=3){
+		$('#btnBuscarContactoLista').attr('disabled', false);
+		$('#btnBuscarContactoLista').addClass('mdl-button--raised');
+	} else{
+		$("#cont_table_asistencia_otros").html(null);
+		$('#btnBuscarContactoLista').attr('disabled', true);
+		$('#btnBuscarContactoLista').removeClass('mdl-button--raised');
+	}
+}
+
+function activeDesactiveSearchEventoFiltro(){
+	var namecont = $("#selectNombreEventoFiltro").val();
+	if($.trim(namecont).length>=3){
+		$('#btnBuscarEventoFiltro').attr('disabled', false);
+		$('#btnBuscarEventoFiltro').addClass('mdl-button--raised');
+	} else{
+		$("#tbEventos").html(null);
+		$('#btnBuscarEventoFiltro').attr('disabled', true);
+		$('#btnBuscarEventoFiltro').removeClass('mdl-button--raised');
+	}
+}
+
+var cons_contacto_invitar = null;
+var cons_opcion_invitar   = null;
+var cons_element_invitar  = null
+function invitarDra(evento, opc, contacto, element){
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/getEventosDraInvitar',
+			data   : {evento   : evento,
+				      contacto : contacto},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			cons_contacto_invitar = contacto;
+			cons_opcion_invitar   = opc;
+			cons_element_invitar  = element;
+			setCombo("selectEventoDraInvitar", data.evaluaciones, "DRA");
+			setCombo("selectHorarioDraInvitar", null, "Horario");
+			setearInput("correoContactoDraInvitar", data.correo);
+			modal("modalElegirEventoDraInvitar");
+		});
+	});
+}
+
+function getHorariosByEvento(){
+	var evento  = $("#selectEventoDraInvitar").val();
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/getHorariosEventos',
+			data   : {evento : evento},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			setCombo("selectHorarioDraInvitar", data.horarios, "Horario");
+		});
+	});
+}
+
+function guardarInvitacionContacto(){
+	var evento  = $("#selectEventoDraInvitar").val();
+	var horario = $("#selectHorarioDraInvitar").val();
+	var correo  = $("#correoContactoDraInvitar").val();
+	if(evento.length == 0){
+		/*$($("[name="+$(cons_element_invitar).attr("name")+"]")).parent().removeClass("is-checked");
+		$($("[name="+$(cons_element_invitar).attr("name")+"]")).prop('checked', false);*/
+		//modal("modalElegirEventoDraInvitar");
+		return;
+	}
+	Pace.restart();
+	Pace.track(function() {
+		$.ajax({
+			url    : 'c_evento/invitarContactoDra',
+			data   : {evento   : evento,
+				      contacto : cons_contacto_invitar,
+				      opcion   : cons_opcion_invitar,
+				      horario  : horario,
+				      correo   : correo},
+			type   : 'POST'
+		}).done(function(data){
+			data = JSON.parse(data);
+			if(data.error == 0){
+				modal("modalElegirEventoDraInvitar");	
+			}else{
+				/*$($("[name="+$(cons_element_invitar).attr("name")+"]")).parent().removeClass("is-checked");
+				$($("[name="+$(cons_element_invitar).attr("name")+"]")).prop('checked', false);
+				modal("modalElegirEventoDraInvitar");*/
+			}
+			msj('success', data.msj, null);
+		});
+	});
+}
+
+function cerrarInvitacionContaco(){
+	$($("[name="+$(cons_element_invitar).attr("name")+"]")).parent().removeClass("is-checked");
+	$($("[name="+$(cons_element_invitar).attr("name")+"]")).prop('checked', false);
+	modal("modalElegirEventoDraInvitar");
+}
+
+function getAllAsistentes() {
+	var filtro = $('#searchAsistente').val().trim();
+	if((filtro == "" && filtro.length < 1)) {
+		$('#cont_teacher_empty8').css('display', 'block');
+		$('#cont_invitados_asistieron').html(invitadosAsistentesGlobal);
+	} else {
+		$('#cont_teacher_empty8').css('display','none');
+	}
+	if((filtro != null && filtro.length < 1)){
+	} else{
+		addLoadingButton('botonDA');
+		Pace.restart();
+		Pace.track(function() {
+			$.ajax({
+				data  : {filtro : filtro,
+						 evento : cons_evento_elegido},
+				url   : 'c_evento/getAllAsistentes',
+				type  : 'POST',
+				async : true
+			})
+			.done(function(data){
+				data = JSON.parse(data);
+				if(data.datos == 0) {
+					$('#cont_teacher_empty8').css('display', 'block');
+					stopLoadingButton('botonDA');
+				}
+				$("#cont_invitados_asistieron").html(data.invitadosAsistieron);
+				$('#treeInvitadosAsistieron').treegrid({
+					initialState: 'expanded',
+					treeColumn: 1,
+			        expanderExpandedClass: 'mdi mdi-keyboard_arrow_up',
+			        expanderCollapsedClass: 'mdi mdi-keyboard_arrow_down'
+			    });
+				componentHandler.upgradeAllRegistered();
+				stopLoadingButton('botonDA');
+			});
+		});
+	}
+}
+
+function activeDesactivesearchAsistentes() {
+	var namecont = $("#searchAsistente").val();
+	if($.trim(namecont).length>=1){
+		$('#btnBuscarAsistentes').attr('disabled', false);
+		$('#btnBuscarAsistentes').addClass('mdl-button--raised');
+	} else{
+		$("#cont_invitados_asistieron").html(null);
+		$('#btnBuscarAsistentes').attr('disabled', true);
+		$('#btnBuscarAsistentes').removeClass('mdl-button--raised');
+	}
+}
+
+function goToRegistro(){
+	window.location.href = 'registro';
+}
+/*cons_check_hijo = null;
+
+function cerrarModalAsistenciaPadres(){
+	if(){
+		
+	}
+	$(cons_check_hijo).prop('checked', false);
+	$(cons_check_hijo).parent().removeClass("is-checked");
+	componentHandler.upgradeAllRegistered();
+	msj('success', data.msj, null);
+}*/
