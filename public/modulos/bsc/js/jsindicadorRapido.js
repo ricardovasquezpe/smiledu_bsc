@@ -129,6 +129,7 @@ function editarValorZonaRiesgoIndicador(){
 		            	$('.linEst'+posicion).html('<img class="icon-cup" src="'+window.location.origin+'/bsc/public/files/images/indicador/icon_cup.png">');
 		            }else{
 		            	 initGauge(porcentaje,posicion,amarillo,verde,colorVerde,'#F4DC51',colorRojo,Number(inicioG),Number(finG));
+		            	 $('.linEst'+posicion).css("margin-bottom", "auto");
 		            }
 		            
 		  	        $('#barra'+posicion).css('background-color',$('.linEst'+posicion).attr('data-cBack'));

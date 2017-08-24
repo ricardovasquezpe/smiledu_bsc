@@ -167,7 +167,7 @@ class C_categoria extends CI_Controller {
 	        $idCategoria   = _simpleDecryptInt(_post('idCategoria'));
 	        $valorAmarillo = _post('valor');
 	        $valorMeta     = _post('meta');
-	        $posicion      = _getSesion('posicion');
+	        $posicion      = _post('pos');
 	        $idCont        = _getSesion('idCont');
 	        if(strlen($valorAmarillo) == 0 || strlen($valorMeta) == 0) {
 	            throw new Exception('Ingrese los valores');

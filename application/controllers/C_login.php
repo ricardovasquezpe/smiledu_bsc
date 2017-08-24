@@ -116,7 +116,7 @@ class C_login extends CI_Controller {
                 	                  "id_sede_trabajo" => $varia['id_sede_control'],
                 	                  "font_size"       => ($varia['font_size'] != null ) ? $varia['font_size'] : null,
                 	                  "nombre_completo" => $varia['nom_persona'].' '.$varia['ape_pate_pers'].' '.$varia['ape_mate_pers'],
-                	                  "foto_usuario"    => $varia['foto_persona'],
+                	                  "foto_usuario"    => base_url().'public/general/files/images/profile/nouser.svg',
                 	                  "roles"           => $roles);
 	                if($remember == '1') {
 	                    $password = _simple_encrypt($password);
