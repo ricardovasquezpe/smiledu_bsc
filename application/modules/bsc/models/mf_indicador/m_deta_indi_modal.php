@@ -480,7 +480,7 @@ class M_deta_indi_modal extends  CI_Model{
         $sql = "  SELECT fm.fecha_medicion
                     FROM bsc.frecuencia_medicion fm
                    WHERE fm.__id_indicador = ?
-                ORDER BY fm.nro_medicion DESC  LIMIT 1";
+                ORDER BY fm.nro_medicion ASC  LIMIT 1";
         $result = $this->db->query($sql,array($idIndicador));
         $data   = $result->row_array();
         return $data;

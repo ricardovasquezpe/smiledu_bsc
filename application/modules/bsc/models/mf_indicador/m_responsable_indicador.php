@@ -16,7 +16,7 @@ class M_responsable_indicador extends  CI_Model{
                        WHERE r2.nid_rol = pr2.nid_rol 
                          AND pr2.nid_persona = p.nid_persona 
                          AND pr2.flg_acti = '1') roles,
-                       (SELECT CONCAT(p.ape_pate_pers, ' ',p.ape_mate_pers, ', ' ,p.nom_persona)
+                       (SELECT CONCAT(p1.ape_pate_pers, ' ',p1.ape_mate_pers, ', ' ,p1.nom_persona)
                           FROM persona p1
                          WHERE p1.nid_persona = ir.audi_id_usua) nombre_asignador,
                        audi_fec_regi

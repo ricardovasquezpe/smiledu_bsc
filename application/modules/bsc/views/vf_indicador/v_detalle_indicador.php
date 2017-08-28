@@ -257,7 +257,7 @@
 			                            </button>
 		                            </div>
     				                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="fechaMedicion" name="fechaMedicion" maxlength="10" onchange="validateAllInput(this);">        
+                                        <input class="mdl-textfield__input" type="text" id="fechaMedicion" name="fechaMedicion" maxlength="10">        
                                         <label class="mdl-textfield__label" for="fechaMedicion">Fecha de medici&oacute;n</label>    
                                         <span class="mdl-textfield__error"></span>                        
                                     </div>

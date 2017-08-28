@@ -123,7 +123,7 @@ public function __construct(){
                 }
             } else {
                 if($fechaActual >= $fecha_medicion) {
-                    throw new Exception('La fecha debe ser mayor a la ultimas');
+                    throw new Exception('La fecha debe ser mayor que la fecha actual');
                 }
             }
             $insert = array('__id_indicador'  => $idIndicador ,

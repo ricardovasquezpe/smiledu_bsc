@@ -769,7 +769,7 @@ function grabarNuevaMedicion(){
 					$('#contTbFrecuencias').html(data.tabla);
 					$('#numeroMedicion').val(data.lastMedicion);
 			  		$('#tb_frecuencias').bootstrapTable({ });
-			  		initXEditable();
+			  		//initXEditable();
 			  		abrirCerrarModal('modalAddFrecuencia');
 			  		stopLoadingButton('botonNM');
 			  		mostrarNotificacion('success' , data.msj , 'Registró');			  		
@@ -783,7 +783,7 @@ function grabarNuevaMedicion(){
 	} else{
 		if(!isDate(fechaMedicion)){
 			stopLoadingButton('botonNM');
-			mostrarNotificacion('warning' , 'Ingrese una fecha validaa' , 'Ojo');
+			mostrarNotificacion('warning' , 'Ingrese una fecha valida' , 'Ojo');
 		} else{
 			stopLoadingButton('botonNM');
 			mostrarNotificacion('warning' , 'No deben haber campos vacios' , 'Ojo');

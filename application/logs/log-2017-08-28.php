@@ -1,4 +1,6 @@
-ERROR - 2017-08-24 13:11:18 -->  - SELECT desc_linea_estrategica,
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2017-08-28 12:51:21 -->  - SELECT desc_linea_estrategica,
                        _id_linea_estrategica,
                        info_linea_estrategica,
                         flg_amarillo,
@@ -74,7 +76,7 @@ ERROR - 2017-08-24 13:11:18 -->  - SELECT desc_linea_estrategica,
                 FROM bsc.linea_estrategica le
                WHERE flg_acti = 1
                 ORDER BY _id_linea_estrategica
-ERROR - 2017-08-24 13:11:22 -->  - SELECT COUNT(1) AS cant
+ERROR - 2017-08-28 12:51:25 -->  - SELECT COUNT(1) AS cant
                 FROM   bsc.categoria c,
                        bsc.categoria_x_indicador ci,
                        bsc.indicador ind
@@ -82,7 +84,7 @@ ERROR - 2017-08-24 13:11:22 -->  - SELECT COUNT(1) AS cant
                        AND ci.__id_categoria = c.id_categoria
                        AND ci.__id_indicador = ind._id_indicador
                        AND ind.cod_indi IS NOT NULL
-ERROR - 2017-08-24 13:11:22 -->  - SELECT COUNT(1) AS cant
+ERROR - 2017-08-28 12:51:25 -->  - SELECT COUNT(1) AS cant
                 FROM   bsc.categoria c,
                        bsc.categoria_x_indicador ci,
                        bsc.indicador ind
@@ -90,7 +92,7 @@ ERROR - 2017-08-24 13:11:22 -->  - SELECT COUNT(1) AS cant
                        AND ci.__id_categoria = c.id_categoria
                        AND ci.__id_indicador = ind._id_indicador
                        AND ind.cod_indi IS NOT NULL
-ERROR - 2017-08-24 13:11:22 -->  - SELECT COUNT(1) AS cant
+ERROR - 2017-08-28 12:51:25 -->  - SELECT COUNT(1) AS cant
                 FROM   bsc.categoria c,
                        bsc.categoria_x_indicador ci,
                        bsc.indicador ind
@@ -98,9 +100,39 @@ ERROR - 2017-08-24 13:11:22 -->  - SELECT COUNT(1) AS cant
                        AND ci.__id_categoria = c.id_categoria
                        AND ci.__id_indicador = ind._id_indicador
                        AND ind.cod_indi IS NOT NULL
-ERROR - 2017-08-24 13:14:25 --> ID_INDICADOR: 3
-ERROR - 2017-08-24 13:14:25 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
-ERROR - 2017-08-24 13:15:05 -->  - SELECT desc_linea_estrategica,
+ERROR - 2017-08-28 12:51:40 --> ID_INDICADOR: 102
+ERROR - 2017-08-28 12:51:41 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:51:48 --> ID_INDICADOR: 102
+ERROR - 2017-08-28 12:51:48 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:51:57 --> ID_INDICADOR: 102
+ERROR - 2017-08-28 12:51:57 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:53:16 --> ID_INDICADOR: 102
+ERROR - 2017-08-28 12:53:17 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:55:11 --> ID_INDICADOR: 102
+ERROR - 2017-08-28 12:55:12 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:55:57 --> ID_INDICADOR: 102
+ERROR - 2017-08-28 12:55:58 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:59:02 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 12:59:06 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:59:25 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 12:59:28 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 12:59:57 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:00:00 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:00:27 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:00:30 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:00:32 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:00:36 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:00:46 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:00:50 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:02:41 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:02:45 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:02:59 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:03:02 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:06:23 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:06:26 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:07:07 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:07:10 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:08:40 -->  - SELECT desc_linea_estrategica,
                        _id_linea_estrategica,
                        info_linea_estrategica,
                         flg_amarillo,
@@ -176,7 +208,9 @@ ERROR - 2017-08-24 13:15:05 -->  - SELECT desc_linea_estrategica,
                 FROM bsc.linea_estrategica le
                WHERE flg_acti = 1
                 ORDER BY _id_linea_estrategica
-ERROR - 2017-08-24 13:16:33 -->  - SELECT desc_linea_estrategica,
+ERROR - 2017-08-28 13:11:40 --> Severity: Warning --> unlink(c:/wamp64/tmp\smiledud3039f0418b57c77641649ed0417dc829c9fef47): Permission denied C:\wamp64\www\smiledu\system\libraries\Session\drivers\Session_files_driver.php 311
+ERROR - 2017-08-28 13:11:40 --> Severity: Warning --> session_destroy(): Session object destruction failed C:\wamp64\www\smiledu\system\libraries\Session\Session.php 628
+ERROR - 2017-08-28 13:12:00 -->  - SELECT desc_linea_estrategica,
                        _id_linea_estrategica,
                        info_linea_estrategica,
                         flg_amarillo,
@@ -252,6 +286,32 @@ ERROR - 2017-08-24 13:16:33 -->  - SELECT desc_linea_estrategica,
                 FROM bsc.linea_estrategica le
                WHERE flg_acti = 1
                 ORDER BY _id_linea_estrategica
-ERROR - 2017-08-24 13:18:11 --> 50||90
-ERROR - 2017-08-24 13:30:56 --> ID_INDICADOR: 1
-ERROR - 2017-08-24 13:30:56 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:12:05 -->  - SELECT COUNT(1) AS cant
+                FROM   bsc.categoria c,
+                       bsc.categoria_x_indicador ci,
+                       bsc.indicador ind
+                WHERE  c.__id_objetivo = '1'
+                       AND ci.__id_categoria = c.id_categoria
+                       AND ci.__id_indicador = ind._id_indicador
+                       AND ind.cod_indi IS NOT NULL
+ERROR - 2017-08-28 13:12:05 -->  - SELECT COUNT(1) AS cant
+                FROM   bsc.categoria c,
+                       bsc.categoria_x_indicador ci,
+                       bsc.indicador ind
+                WHERE  c.__id_objetivo = '2'
+                       AND ci.__id_categoria = c.id_categoria
+                       AND ci.__id_indicador = ind._id_indicador
+                       AND ind.cod_indi IS NOT NULL
+ERROR - 2017-08-28 13:12:05 -->  - SELECT COUNT(1) AS cant
+                FROM   bsc.categoria c,
+                       bsc.categoria_x_indicador ci,
+                       bsc.indicador ind
+                WHERE  c.__id_objetivo = '10'
+                       AND ci.__id_categoria = c.id_categoria
+                       AND ci.__id_indicador = ind._id_indicador
+                       AND ind.cod_indi IS NOT NULL
+ERROR - 2017-08-28 13:12:12 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:12:15 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:13:09 --> ID_INDICADOR: 2
+ERROR - 2017-08-28 13:13:12 --> Severity: Error --> Class 'MongoClient' not found C:\wamp64\www\smiledu\application\modules\bsc\models\mf_grafico\m_grafico.php 10
+ERROR - 2017-08-28 13:13:14 --> 404 Page Not Found: ../modules/bsc/controllers/cf_indicador//index
